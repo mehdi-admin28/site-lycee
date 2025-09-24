@@ -1,0 +1,180 @@
+{% extends "base01.html" %}
+
+{% block title01 %}
+    {% if langue == "fr" %}Pub - admin
+    {% elif langue == "en" %}Ads - admin
+    {% elif langue == "ar" %}إعلان - مشرف
+    {% endif %}
+{% endblock title01 %}
+
+{% block body01 %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+{% block pub312 %}{% endblock pub312 %}
+
+<div class="pub-container">
+
+{% if is_auth %}
+    {% if is_admin == "admin" %}
+
+        {% if pub %}
+
+        <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="quelform" value="toutrefuserpub">
+            <button type="submit" class="submit-btn" style="margin:2rem 0;background:#dc3545;">
+                {% if langue == "fr" %}<i class="fas fa-times-circle"></i> Refuser toute pub
+                {% elif langue == "en" %}<i class="fas fa-times-circle"></i> Reject all adds
+                {% elif langue == "ar" %}<i class="fas fa-times-circle"></i> رفض جميع الاعلانات
+                {% endif %}
+            </button>
+        </form>
+
+            {% for i in pub %}
+            <div class="pub-card">
+                <div class="pub-header">
+                    <div class="pub-info">
+                        <span class="pub-label">
+                            {% if langue == "fr" %}Nom complet
+                            {% elif langue == "en" %}Full name
+                            {% elif langue == "ar" %}الاسم الكامل
+                            {% endif %}
+                        </span>
+                        <p class="pub-content">{{i.nom_complet}}</p>
+                    </div>
+                    
+                    {% if i.dcr == "oui" %}
+                    <div class="pub-status status-accepted">
+                        <i class="fas fa-check-circle"></i> 
+                        {% if langue == "fr" %}Pub acceptée
+                        {% elif langue == "en" %}Ad accepted
+                        {% elif langue == "ar" %}تم قبول الإعلان
+                        {% endif %}
+                    </div>
+                    {% else %}
+                    <div class="pub-status status-pending">
+                        <i class="fas fa-clock"></i> 
+                        {% if langue == "fr" %}En attente
+                        {% elif langue == "en" %}Pending
+                        {% elif langue == "ar" %}قيد الانتظار
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <span class="pub-label">
+                    {% if langue == "fr" %}Publicité
+                    {% elif langue == "en" %}Advertisement
+                    {% elif langue == "ar" %}الإعلان
+                    {% endif %}
+                </span>
+                <img src="{{ i.pub.url }}" alt="
+                    {% if langue == 'fr' %}Publicité {{i.nom_complet}}
+                    {% elif langue == 'en' %}Advertisement {{i.nom_complet}}
+                    {% elif langue == 'ar' %}إعلان {{i.nom_complet}}
+                    {% endif %}" class="pub-image">
+                
+                <span class="pub-label">
+                    {% if langue == "fr" %}Message de la demande
+                    {% elif langue == "en" %}Request message
+                    {% elif langue == "ar" %}رسالة الطلب
+                    {% endif %}
+                </span>
+                <p class="pub-content">{{i.message}}</p>
+
+                <div class="pub-actions">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="quelform" value="accepter_pub">
+                        <input type="hidden" name="idg" value="{{i.id}}">
+                        <button type="submit" class="pub-btn pub-btn-accept">
+                            <i class="fas fa-check"></i> 
+                            {% if langue == "fr" %}Accepter
+                            {% elif langue == "en" %}Accept
+                            {% elif langue == "ar" %}قبول
+                            {% endif %}
+                        </button>
+                    </form>
+
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="quelform" value="refuser_pub">
+                        <input type="hidden" name="idg" value="{{i.id}}">
+                        <button type="submit" class="pub-btn pub-btn-refuse">
+                            <i class="fas fa-times"></i> 
+                            {% if langue == "fr" %}Refuser
+                            {% elif langue == "en" %}Refuse
+                            {% elif langue == "ar" %}رفض
+                            {% endif %}
+                        </button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="pub-message">
+                <i class="fas fa-ad"></i>
+                <h3>
+                    {% if langue == "fr" %}Aucune publicité en attente
+                    {% elif langue == "en" %}No pending advertisements
+                    {% elif langue == "ar" %}لا توجد إعلانات قيد الانتظار
+                    {% endif %}
+                </h3>
+                <p>
+                    {% if langue == "fr" %}Il n'y a actuellement aucune demande de publicité à traiter.
+                    {% elif langue == "en" %}There are currently no advertisement requests to process.
+                    {% elif langue == "ar" %}لا توجد حاليًا أي طلبات إعلانات للمعالجة.
+                    {% endif %}
+                </p>
+            </div>
+        {% endif %}
+
+    {% else %}
+        <div class="access-message">
+            <i class="fas fa-user-shield"></i>
+            <h1>
+                {% if langue == "fr" %}Accès réservé
+                {% elif langue == "en" %}Restricted access
+                {% elif langue == "ar" %}وصول مقصور
+                {% endif %}
+            </h1>
+            <p>
+                {% if langue == "fr" %}Vous n'êtes pas administrateur. Cette page permet de gérer les demandes de publicité soumises par les utilisateurs inscrits (élèves, producteurs ou administrateurs).
+                {% elif langue == "en" %}You are not an administrator. This page allows you to manage advertisement requests submitted by registered users (students, producers or administrators).
+                {% elif langue == "ar" %}أنت لست مسؤولاً. تتيح هذه الصفحة إدارة طلبات الإعلانات المقدمة من المستخدمين المسجلين (الطلاب أو المنتجين أو المسؤولين).
+                {% endif %}
+            </p>
+            <p>
+                {% if langue == "fr" %}Le service de publicité est payant et nécessite une validation manuelle par un administrateur.
+                {% elif langue == "en" %}The advertising service is paid and requires manual validation by an administrator.
+                {% elif langue == "ar" %}خدمة الإعلانات مدفوعة وتتطلب التحقق يدويًا من قبل المسؤول.
+                {% endif %}
+            </p>
+        </div>
+    {% endif %}
+{% else %}
+    <div class="access-message">
+        <i class="fas fa-lock"></i>
+        <h1>
+            {% if langue == "fr" %}Connexion requise
+            {% elif langue == "en" %}Login required
+            {% elif langue == "ar" %}مطلوب تسجيل الدخول
+            {% endif %}
+        </h1>
+        <p>
+            {% if langue == "fr" %}Vous devez être connecté pour accéder à cette page. Cette interface permet aux administrateurs de valider ou refuser les demandes de publicité soumises par les utilisateurs inscrits.
+            {% elif langue == "en" %}You must be logged in to access this page. This interface allows administrators to validate or refuse advertisement requests submitted by registered users.
+            {% elif langue == "ar" %}يجب عليك تسجيل الدخول للوصول إلى هذه الصفحة. تتيح هذه الواجهة للمسؤولين التحقق من صحة طلبات الإعلانات أو رفضها التي يقدمها المستخدمون المسجلون.
+            {% endif %}
+        </p>
+        <p>
+            {% if langue == "fr" %}Le service de publicité est payant et nécessite une validation manuelle par un administrateur.
+            {% elif langue == "en" %}The advertising service is paid and requires manual validation by an administrator.
+            {% elif langue == "ar" %}خدمة الإعلانات مدفوعة وتتطلب التحقق يدويًا من قبل المسؤول.
+            {% endif %}
+        </p>
+    </div>
+{% endif %}
+</div>
+
+{% endblock body01 %}

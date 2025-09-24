@@ -1,0 +1,246 @@
+{% extends "base01.html" %}
+
+{% block title01 %}
+  {% if langue == "fr" %}Contactez-nous{% elif langue == "en" %}Contact-us{% elif langue == "ar" %}اتصل بنا{% endif %}
+{% endblock title01 %}
+
+{% block pub312 %}{% endblock pub312 %}
+{% block javascriptmemeplace %}{% endblock javascriptmemeplace %}
+
+{% block body01 %}
+
+  <div class="contact-container">
+
+  {% if limite == "max" %}
+  <div class="limit-message">
+    <i class="fas fa-exclamation-triangle"></i>
+    {% if langue == "fr" %}La limite de 50 messages de contact a été atteinte.
+    {% elif langue == "en" %}The limit of 50 contact messages has been reached.
+    {% elif langue == "ar" %}تم بلوغ الحد الأقصى لعدد 50 رسالة اتصال.
+    {% endif %}
+  </div>
+  {% else %}
+
+    {% if error == "error" %}
+    <div class="alert error">
+      <i class="fas fa-times-circle"></i>
+      {% if langue == "fr" %}Erreur : le nom complet doit contenir uniquement des lettres, ou bien le numéro doit contenir uniquement des chiffres.
+      {% elif langue == "en" %}Error: full name must contain only letters, or the phone number must contain only digits.
+      {% elif langue == "ar" %}خطأ: يجب أن يحتوي الاسم الكامل على أحرف فقط، أو أن الرقم يجب أن يحتوي على أرقام فقط.
+      {% endif %}
+    </div>
+    {% elif error == "cbon" %}
+    <div class="alert success">
+      <i class="fas fa-check-circle"></i>
+      {% if langue == "fr" %}Votre message a été envoyé avec succès.
+      {% elif langue == "en" %}Your message has been sent successfully.
+      {% elif langue == "ar" %}تم إرسال رسالتك بنجاح.
+      {% endif %}
+    </div>
+    {% endif %}
+
+    <p class="intro-text">
+      <i class="fas fa-user-tie"></i>
+      {% if langue == "fr" %}Ce formulaire permet d’envoyer un message au directeur. Veuillez être responsable dans vos propos.
+      {% elif langue == "en" %}This form allows you to send a message to the principal. Please be responsible in your words.
+      {% elif langue == "ar" %}هذا النموذج يتيح لك إرسال رسالة إلى المدير. يرجى أن تكون مسؤولاً فيما ترسله.
+      {% endif %}
+    </p>
+
+    <!-- Formulaire directeur -->
+    <form method="POST" class="contact-form">
+      {% csrf_token %}
+      <input type="hidden" name="quelform" value="directeur">
+      <input type="text" name="nom" placeholder="{% if langue == 'fr' %}Nom{% elif langue == 'en' %}Last name{% elif langue == 'ar' %}اللقب{% endif %}" required>
+      <input type="text" name="prenom" placeholder="{% if langue == 'fr' %}Prénom{% elif langue == 'en' %}First name{% elif langue == 'ar' %}الاسم{% endif %}" required>
+      <input type="text" name="numero" placeholder="{% if langue == 'fr' %}Numéro{% elif langue == 'en' %}Phone number{% elif langue == 'ar' %}الرقم{% endif %}" required>
+      <textarea name="message" placeholder="{% if langue == 'fr' %}Votre message...{% elif langue == 'en' %}Your message...{% elif langue == 'ar' %}رسالتك...{% endif %}" required></textarea>
+      <button type="submit"><i class="fas fa-paper-plane"></i> {% if langue == "fr" %}Envoyer{% elif langue == "en" %}Send{% elif langue == "ar" %}إرسال{% endif %}</button>
+    </form>
+
+    <p class="intro-text">
+      <i class="fas fa-code"></i>
+      {% if langue == "fr" %}Envoyer un message au développeur backend (Django, Python, HTML).
+      {% elif langue == "en" %}Send a message to the backend developer (Django, Python, HTML).
+      {% elif langue == "ar" %}أرسل رسالة إلى مطور الباك-إند (Django, Python, HTML).
+      {% endif %}
+    </p>
+
+    <!-- Formulaire Mehdi -->
+    <form method="POST" class="contact-form">
+      {% csrf_token %}
+      <input type="hidden" name="quelform" value="mehdi">
+      <input type="text" name="nom" placeholder="{% if langue == 'fr' %}Nom{% elif langue == 'en' %}Last name{% elif langue == 'ar' %}اللقب{% endif %}" required>
+      <input type="text" name="prenom" placeholder="{% if langue == 'fr' %}Prénom{% elif langue == 'en' %}First name{% elif langue == 'ar' %}الاسم{% endif %}" required>
+      <input type="text" name="numero" placeholder="{% if langue == 'fr' %}Numéro{% elif langue == 'en' %}Phone number{% elif langue == 'ar' %}الرقم{% endif %}" required>
+      <textarea name="message" placeholder="{% if langue == 'fr' %}Votre message...{% elif langue == 'en' %}Your message...{% elif langue == 'ar' %}رسالتك...{% endif %}" required></textarea>
+      <button type="submit"><i class="fas fa-paper-plane"></i> {% if langue == "fr" %}Envoyer{% elif langue == "en" %}Send{% elif langue == "ar" %}إرسال{% endif %}</button>
+    </form>
+
+    <p class="intro-text">
+      <i class="fas fa-paint-brush"></i>
+      {% if langue == "fr" %}Envoyer un message au développeur frontend (HTML, CSS, design).
+      {% elif langue == "en" %}Send a message to the frontend developer (HTML, CSS, design).
+      {% elif langue == "ar" %}أرسل رسالة إلى مطور الواجهة الأمامية (HTML, CSS, التصميم).
+      {% endif %}
+    </p>
+
+    <!-- Formulaire Samy -->
+    <form method="POST" class="contact-form">
+      {% csrf_token %}
+      <input type="hidden" name="quelform" value="samy">
+      <input type="text" name="nom" placeholder="{% if langue == 'fr' %}Nom{% elif langue == 'en' %}Last name{% elif langue == 'ar' %}اللقب{% endif %}" required>
+      <input type="text" name="prenom" placeholder="{% if langue == 'fr' %}Prénom{% elif langue == 'en' %}First name{% elif langue == 'ar' %}الاسم{% endif %}" required>
+      <input type="text" name="numero" placeholder="{% if langue == 'fr' %}Numéro{% elif langue == 'en' %}Phone number{% elif langue == 'ar' %}الرقم{% endif %}" required>
+      <textarea name="message" placeholder="{% if langue == 'fr' %}Votre message...{% elif langue == 'en' %}Your message...{% elif langue == 'ar' %}رسالتك...{% endif %}" required></textarea>
+      <button type="submit"><i class="fas fa-paper-plane"></i> {% if langue == "fr" %}Envoyer{% elif langue == "en" %}Send{% elif langue == "ar" %}إرسال{% endif %}</button>
+    </form>
+
+  {% endif %}
+  </div>
+
+<style>
+.contact-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 15px; /* empêche de toucher les bords */
+}
+
+.limit-message {
+  background: #dc3545;
+  color: white;
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin: 15px 0;
+  text-align: center;
+}
+
+.alert {
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.alert.error {
+  background: #f8d7da;
+  color: #842029;
+}
+.alert.success {
+  background: #d1e7dd;
+  color: #0f5132;
+}
+
+.intro-text {
+  background: #f8f9fa;
+  border-left: 4px solid #243749;
+  padding: 10px 14px;
+  margin: 15px 0;
+  border-radius: 6px;
+  color: #444;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.contact-form {
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px 0;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 0.95rem;
+}
+
+.contact-form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.contact-form button {
+  background: #243749;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.contact-form button:hover {
+  background: #1a2a3d;
+  transform: scale(1.02);
+}
+
+@media (max-width: 768px) {
+  .contact-form {
+    padding: 15px;
+  }
+  .intro-text {
+    font-size: 0.9rem;
+  }
+}
+</style>
+
+{% endblock body01 %}
+
+
+<!--
+    {% if is_auth %}
+
+        {% if is_admin == "admin" %}
+       
+        {% else %}
+        <div class="access-message">
+            <i class="fas fa-user-shield"></i>
+            <h1>
+                {% if langue == "fr" %}Accès réservé aux administrateurs
+                {% elif langue == "en" %}Access restricted to administrators
+                {% elif langue == "ar" %}الوصول مقصور على المسؤولين
+                {% endif %}
+            </h1>
+            <p>
+                {% if langue == "fr" %}Cette page permet de gerer les message de contact.
+                {% elif langue == "en" %}This page allows ro manage contact request.
+                {% elif langue == "ar" %}
+                {% endif %}
+            </p>
+        </div>
+        {% endif %}
+
+    {% else %}
+    <div class="access-message">
+        <i class="fas fa-lock"></i>
+        <h1>
+            {% if langue == "fr" %}Connexion requise
+            {% elif langue == "en" %}Login required
+            {% elif langue == "ar" %}مطلوب تسجيل الدخول
+            {% endif %}
+        </h1>
+        <p>
+            {% if langue == "fr" %}Vous devez être connecté pour accéder à cette page. Cette interface permet aux administrateurs ge gerer les contacts.
+            {% elif langue == "en" %}You must be logged in to access this page. This interface allows administrators to manage message_contacts of the institution.
+            {% elif langue == "ar" %}يجب عليك تسجيل الدخول للوصول إلى هذه الصفحة. تتيح هذه الواجهة للمسؤولين إدارة... 
+            {% endif %}
+        </p>
+    </div>
+    {% endif %}
+  -->

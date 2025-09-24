@@ -1,0 +1,178 @@
+{% extends "base01.html" %}
+
+{% block title01 %}
+    {% if langue == "fr" %}Demande de certificat reçu
+    {% elif langue == "en" %}Certificate Request Received
+    {% elif langue == "ar" %}تم استلام طلب الشهادة
+    {% endif %}
+{% endblock title01 %}
+
+{% block pub312 %}{% endblock pub312 %}
+{% block body01 %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<div class="certif-container">
+{% if is_auth %}
+    {% if is_admin == "admin" %}
+
+        {% if vide == "oui" %}
+            <div class="certif-message">
+                <i class="fas fa-folder-open"></i>
+                <h1>
+                    {% if langue == "fr" %}Aucune demande de certificat
+                    {% elif langue == "en" %}No certificate request
+                    {% elif langue == "ar" %}لا توجد طلبات شهادات
+                    {% endif %}
+                </h1>
+                <p>
+                    {% if langue == "fr" %}Il n'y a actuellement aucune demande de certificat d'absence.
+                    {% elif langue == "en" %}There are currently no absence certificate requests.
+                    {% elif langue == "ar" %}لا توجد حالياً أي طلبات للحصول على شهادات غياب.
+                    {% endif %}
+                </p>
+            </div>
+        {% else %}
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="quelform" value="suppr tout les certificats">
+                <button type="submit"><i class="fas fa-trash"></i> 
+                    {% if langue == "fr" %}Vider toutes les demandes
+                    {% elif langue == "en" %}Clear all requests
+                    {% elif langue == "ar" %}مسح جميع الطلبات
+                    {% endif %}
+                </button>
+            </form>
+
+            {% for i in certificat %}
+                {% if i.dcr == "oui" %}
+                    <div class="certif-card">
+                        <h1><i class="fas fa-check-circle" style="color:green;"></i> 
+                            {% if langue == "fr" %}Demande acceptée
+                            {% elif langue == "en" %}Request accepted
+                            {% elif langue == "ar" %}تم قبول الطلب
+                            {% endif %}
+                        </h1>
+                        <p><strong>
+                            {% if langue == "fr" %}Données :
+                            {% elif langue == "en" %}Data:
+                            {% elif langue == "ar" %}البيانات:
+                            {% endif %}
+                        </strong> {{i.nom}} - {{i.prenom}} - {{i.heure}} - {{i.motif}}</p>
+                    </div>
+                {% elif i.dcr == "non" %}
+                    <div class="certif-card">
+                        <h1><i class="fas fa-times-circle" style="color:red;"></i> 
+                            {% if langue == "fr" %}Demande refusée
+                            {% elif langue == "en" %}Request denied
+                            {% elif langue == "ar" %}تم رفض الطلب
+                            {% endif %}
+                        </h1>
+                        <p><strong>
+                            {% if langue == "fr" %}Données :
+                            {% elif langue == "en" %}Data:
+                            {% elif langue == "ar" %}البيانات:
+                            {% endif %}
+                        </strong> {{i.nom}} - {{i.prenom}} - {{i.heure}} - {{i.motif}}</p>
+                    </div>
+                {% else %}
+                    <div class="certif-card">
+                        <label>
+                            {% if langue == "fr" %}Nom :
+                            {% elif langue == "en" %}Last name:
+                            {% elif langue == "ar" %}الاسم:
+                            {% endif %}
+                        </label>
+                        <p>{{i.nom}}</p>
+                        
+                        <label>
+                            {% if langue == "fr" %}Prénom :
+                            {% elif langue == "en" %}First name:
+                            {% elif langue == "ar" %}الكنية:
+                            {% endif %}
+                        </label>
+                        <p>{{i.prenom}}</p>
+                        
+                        <label>
+                            {% if langue == "fr" %}Moment de l'absence :
+                            {% elif langue == "en" %}Time of absence:
+                            {% elif langue == "ar" %}وقت الغياب:
+                            {% endif %}
+                        </label>
+                        <p>{{i.heure}}</p>
+                        
+                        <label>
+                            {% if langue == "fr" %}Motif :
+                            {% elif langue == "en" %}Reason:
+                            {% elif langue == "ar" %}السبب:
+                            {% endif %}
+                        </label>
+                        <p>{{i.motif}}</p>
+
+                        <div class="certif-actions">
+                            <form method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="quelform" value="accepter certificat">
+                                <input type="hidden" name="n" value="{{i.id}}">
+                                <button type="submit" style="background: #28a745;"><i class="fas fa-check"></i> 
+                                    {% if langue == "fr" %}Accepter
+                                    {% elif langue == "en" %}Accept
+                                    {% elif langue == "ar" %}قبول
+                                    {% endif %}
+                                </button>
+                            </form>
+                            <form method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="quelform" value="refuser certificat">
+                                <input type="hidden" name="n" value="{{i.id}}">
+                                <button type="submit"><i class="fas fa-times"></i> 
+                                    {% if langue == "fr" %}Refuser
+                                    {% elif langue == "en" %}Refuse
+                                    {% elif langue == "ar" %}رفض
+                                    {% endif %}
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+    {% else %}
+        <div class="access-message">
+            <i class="fas fa-user-shield"></i>
+            <h1>
+                {% if langue == "fr" %}Accès refusé
+                {% elif langue == "en" %}Access denied
+                {% elif langue == "ar" %}تم رفض الوصول
+                {% endif %}
+            </h1>
+            <p>
+                {% if langue == "fr" %}Vous n'êtes pas administrateur.<br>
+                Cette page est réservée aux responsables.
+                {% elif langue == "en" %}You are not an administrator.<br>
+                This page is reserved for managers.
+                {% elif langue == "ar" %}أنت لست مسؤولاً.<br>
+                هذه الصفحة مخصصة للمسؤولين فقط.
+                {% endif %}
+            </p>
+        </div>
+    {% endif %}
+{% else %}
+    <div class="access-message">
+        <i class="fas fa-lock"></i>
+        <h1>
+            {% if langue == "fr" %}Connexion requise
+            {% elif langue == "en" %}Login required
+            {% elif langue == "ar" %}مطلوب تسجيل الدخول
+            {% endif %}
+        </h1>
+        <p>
+            {% if langue == "fr" %}Connectez-vous en tant qu'administrateur pour gérer les certificats.
+            {% elif langue == "en" %}Log in as administrator to manage certificates.
+            {% elif langue == "ar" %}سجل الدخول كمسؤول لإدارة الشهادات.
+            {% endif %}
+        </p>
+    </div>
+{% endif %}
+</div>
+{% endblock body01 %}

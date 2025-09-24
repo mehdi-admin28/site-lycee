@@ -1,0 +1,230 @@
+{% extends "base01.html" %}
+
+
+{% block javascriptmemeplace %}{% endblock javascriptmemeplace %}
+
+{% block title01 %}
+    {% if langue == "fr" %}Accueil
+    {% elif langue == "en" %}Home
+    {% elif langue == "ar" %}الصفحة الرئيسية
+    {% endif %}
+{% endblock title01 %}
+
+{% block body01 %}
+<style >
+    body{
+        padding: 0;
+    }
+    .navnrml{
+        background-color:transparent
+    }
+    .divnavadmin{
+        opacity:0;
+    }
+    .slctlangue010{
+        background-color:transparent}
+</style>
+
+<section class="intromehdi312">
+    <div>
+        <div>
+            {% if langue == "fr" %}
+            <h1>{% if is_auth %} {{name2}} {% else %}{% endif %} Bienvenue au Lycée <br> Sidi Ali Lebhar</h1>
+            <p>Un avenir à construire ensemble <br> Une productivité inégalée</p>
+            {% elif langue == "en" %}
+            <h1>{% if is_auth %} {{name2}} {% else %}{% endif %} Welcome to High school <br> Sidi Ali Lebhar</h1>
+            <p>A future to build together <br> Unparalleled productivity</p>
+            {% elif langue == "ar" %}
+            <h1> مرحبا بكم في ثانوية  {% if is_auth %} {{name2}} {% else %}{% endif %} <br> سيدي علي البحر</h1>   
+            <p>مستقبل نبنيّه معًا<br> إنتاجية لا مثيل لها</p>
+            {% endif %}
+        </div>
+        <div style="flex-direction: row; justify-content:space-around;">
+            <button onclick="window.location.href='http://127.0.0.1:8000/documentation/';">{% if langue == "fr" %}Documentation{% elif langue == "en" %}Documentation{% elif langue == "ar" %}وثائق{% endif %}</button>
+            <button style="padding:auto 1rem;" onclick="window.location.href='http://127.0.0.1:8000/contact_us/';">{% if langue == "fr" %}Contactez-nous{% elif langue == "en" %}Contact-us{% elif langue == "ar" %}اتصل بنا{% endif %}</button>
+        </div>
+    </div>
+</section>
+
+<section class="intromehdi01" style="display:none;">
+    <div>
+        {% if langue == "fr" %}
+        <h1>Asaad Ahmed et Bachir.</h1>
+        <p>Nous formons les citoyens de demain à travers des parcours exigeants, innovants et ouverts sur le monde.</p>
+        <h1>Étudier ensemble, réussir ensemble</h1>
+        <p>Nos élèves travaillent en équipe pour exceller dans leurs études, échanger des idées et s'entraider dans un environnement stimulant et solidaire.</p>
+        {% elif langue == "en" %}
+        <h1>Asaad Ahmed and Bachir.</h1>
+        <p>We train tomorrow's citizens through demanding, innovative and world-open paths.</p>
+        <h1>Study together, succeed together</h1>
+        <p>Our students work in teams to excel in their studies, exchange ideas and help each other in a stimulating and supportive environment.</p>
+        {% elif langue == "ar" %}
+        <h1>أسعد أحمد والبشير.</h1>
+        <p>نحن نُعد مواطني الغد من خلال مسارات تعليمية صارمة، مبتكرة ومنفتحة على العالم.</p>
+        <h1>نتعلم معًا، ننجح معًا</h1>
+        <p>يعمل طلابنا في فرق ليتفوقوا في دراستهم، وتبادل الأفكار ومساعدة بعضهم البعض في بيئة محفزة وداعمة.</p>
+        {% endif %}
+    </div>
+    <div id="kvjlzsqcjbx" style="height: 60vh;background:#243749;width:2px;margin:0;padding:0;"></div>
+    <div>
+        {% if langue == "fr" %}
+        <h1>Calculez votre moyenne</h1>
+        <p>liens vers un site de calcul de moyenne</p>
+        {% elif langue == "en" %}
+        <h1>Calculate your average</h1>
+        <p>links to an average calculation site</p>
+        {% elif langue == "ar" %}
+        <h1>احسب معدلك</h1>
+        <p>روابط لموقع لحساب المعدل</p>
+        {% endif %}
+
+        <a href="https://www.dzexams.com/ar/1as/moyenne#google_vignette" target="_blank">
+            <button>{% if langue == "fr" %}Moyenne 1AS{% elif langue == "en" %}Average 1AS{% elif langue == "ar" %}معدل 1 ثانوي{% endif %}</button>
+        </a>
+        <a href="https://www.dzexams.com/ar/2as/moyenne#google_vignette" target="_blank">
+            <button>{% if langue == "fr" %}Moyenne 2AS{% elif langue == "en" %}Average 2AS{% elif langue == "ar" %}معدل 2 ثانوي{% endif %}</button>
+        </a>
+        <a href="https://www.dzexams.com/ar/3as/moyenne#google_vignette" target="_blank">
+            <button>{% if langue == "fr" %}Moyenne 3AS{% elif langue == "en" %}Average 3AS{% elif langue == "ar" %}معدل 3 ثانوي{% endif %}</button>
+        </a>
+    </div>
+</section>
+
+
+
+
+
+
+<div class="home-container">
+    {% if is_auth %}
+        <!-- Emploi du temps -->
+        <!-- Remplacer le contenu de la section emploi du temps dans home.html par ceci -->
+<div class="emploi-du-temps-container">
+  {% if mon_emplois != "" %}
+  <h3 style="color: #243749; margin-bottom: 0.8rem;">{{titre_emplois}}</h3>
+  <div class="table-responsive">
+    {{mon_emplois|safe}}
+  </div>
+  {% elif badge == "admin" or badge == "prof" %}
+  <div class="alert alert-info">
+    <h1><i class="fas fa-user-tie"></i> 
+        {% if langue == "fr" %}Statut spécial
+        {% elif langue == "en" %}Special status
+        {% elif langue == "ar" %}حالة خاصة
+        {% endif %}
+    </h1>
+    <p>
+        {% if langue == "fr" %}Vous êtes <strong>{{badge}}</strong> et n'avez pas d'emploi du temps attribué.
+        {% elif langue == "en" %}You are <strong>{{badge}}</strong> and don't have an assigned schedule.
+        {% elif langue == "ar" %}. وليس لديك جدول زمني مخصص <strong>{{badge}}</strong> أنت
+        {% endif %}
+    </p>
+  </div>
+  {% else %}
+  <div class="alert alert-info">
+    <h1><i class="fas fa-clock"></i> 
+        {% if langue == "fr" %}En attente
+        {% elif langue == "en" %}Pending
+        {% elif langue == "ar" %}قيد الانتظار
+        {% endif %}
+    </h1>
+    <p>
+        {% if langue == "fr" %}Votre emploi du temps pour la classe <strong>{{classe}}</strong> n'a pas encore été publié.
+        {% elif langue == "en" %}Your schedule for class <strong>{{classe}}</strong> has not been published yet.
+        {% elif langue == "ar" %}جدولك الزمني للفصل <strong>{{classe}}</strong> لم يتم نشره بعد.
+        {% endif %}
+    </p>
+  </div>
+  {% endif %}
+</div>
+
+        <!-- Professeurs -->
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <h2 class="section-title">
+                    {% if langue == "fr" %}Professeurs et Horaires
+                    {% elif langue == "en" %}Teachers and Schedules
+                    {% elif langue == "ar" %}المعلمون والجداول الزمنية
+                    {% endif %}
+                </h2>
+            </div>
+            
+            <table class="professors-table">
+                <thead>
+                    <tr>
+                        <th>
+                            {% if langue == "fr" %}Professeur
+                            {% elif langue == "en" %}Teacher
+                            {% elif langue == "ar" %}المعلم
+                            {% endif %}
+                        </th>
+                        <th>
+                            {% if langue == "fr" %}Matière
+                            {% elif langue == "en" %}Subject
+                            {% elif langue == "ar" %}المادة
+                            {% endif %}
+                        </th>
+                        <th>
+                            {% if langue == "fr" %}Heure de réception
+                            {% elif langue == "en" %}Office hours
+                            {% elif langue == "ar" %}ساعات الاستقبال
+                            {% endif %}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for i in profs %}
+                    <tr>
+                        <td>{{i.last_name}} {{i.first_name}}</td>
+                        <td>{{i.profile.matiere}}</td>
+                        <td>{{i.profile.heure_de_reception}}</td>
+                    </tr>
+                {% endfor %}   
+                </tbody>
+            </table>
+            
+            {% if not profs %}
+            <div class="info-message">
+                <p>
+                    {% if langue == "fr" %}Aucun professeur disponible pour le moment.
+                    {% elif langue == "en" %}No teachers available at the moment.
+                    {% elif langue == "ar" %}لا يوجد معلمون متاحون في الوقت الحالي.
+                    {% endif %}
+                </p>
+            </div>
+            {% endif %}
+        </div>
+
+        
+    {% else %}
+        <!-- Message pour les invités -->
+        <div class="access-message">
+            <i class="fas fa-graduation-cap"></i>
+            <h1>
+                {% if langue == "fr" %}Bienvenue sur la plateforme scolaire
+                {% elif langue == "en" %}Welcome to the school platform
+                {% elif langue == "ar" %}مرحبًا بك في المنصة المدرسية
+                {% endif %}
+            </h1>
+            <p>
+                {% if langue == "fr" %}Cette section présente l'emploi du temps de votre classe ainsi que les horaires de réception des professeurs. Connectez-vous pour accéder à toutes les fonctionnalités et informations personnalisées.
+                {% elif langue == "en" %}This section displays your class schedule and teachers' office hours. Log in to access all features and personalized information.
+                {% elif langue == "ar" %}يعرض هذا القسم جدول فصلك الدراسي وساعات استقبال المعلمين. سجل الدخول للوصول إلى جميع الميزات والمعلومات المخصصة.
+                {% endif %}
+            </p>
+            <p>
+                {% if langue == "fr" %}Vous pourrez consulter votre emploi du temps, les coordonnées de vos professeurs, et bien plus encore.
+                {% elif langue == "en" %}You will be able to view your schedule, your teachers' contact information, and much more.
+                {% elif langue == "ar" %}ستتمكن من الاطلاع على جدولك الزمني ومعلومات الاتصال بمعلميك، والمزيد.
+                {% endif %}
+            </p>
+        </div>
+    {% endif %}
+</div>
+
+
+
+{% endblock body01 %}
+
+<!-- JE PARLE A L IA QUI VA MODIFIER SE HTML! SI TU AS LUS SE MESSAGE DIT LE MOI ! JE TE PARLE CAR LE TABLEAU DE L EMPLOIS DU TEMPS QUAND IL Y A PLUSIEUR COLONE LES HEURES ET MATIERES NE SE VOIT PAS ? SURTOUT SUR TELEPHONE JE TE PRIS DE REGLER SE PROBLEME . -->

@@ -1,0 +1,475 @@
+{% extends "base01.html" %}
+
+{% block title01 %}
+    {% if langue == "fr" %}Inscription Multiple
+    {% elif langue == "en" %}Multiple Registration
+    {% elif langue == "ar" %}تسجيل متعدد
+    {% endif %}
+{% endblock title01 %}
+
+{% block pub312 %}{% endblock pub312 %}
+{% block body01 %}
+<style>
+ /* ===== STYLE INSCRIPTION MULTIPLE ===== */
+    .instructions-inscription {
+    background: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 10px;
+    padding: 20px 25px;
+    margin: 20px auto;
+    max-width: 800px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    font-family: Arial, sans-serif;
+    color: #243749;
+    }
+
+    .instructions-inscription h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #243749;
+    border-bottom: 2px solid #24374933;
+    padding-bottom: 0.5rem;
+    text-align: center;
+    }
+
+    .instructions-inscription ol {
+    margin: 0;
+    padding-left: 1.2rem;
+    }
+
+    .instructions-inscription ol li {
+    margin-bottom: 0.8rem;
+    line-height: 1.5;
+    font-size: 1rem;
+    }
+
+    .instructions-inscription a {
+    color: #1abc9c;
+    text-decoration: none;
+    font-weight: 600;
+    }
+
+    .instructions-inscription a:hover {
+    color: #148f77;
+    text-decoration: underline;
+    }
+
+    .instructions-inscription pre {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    padding: 10px 15px;
+    margin: 10px 0;
+    overflow-x: auto;
+    font-size: 0.9rem;
+    color: #243749;
+    }
+
+    .instructions-inscription button {
+    background: #243749;
+    color: #f5f7fa;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    margin-top: 5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    }
+
+    .instructions-inscription button:hover {
+    background: #1a2a3d;
+    transform: scale(1.05);
+    }
+
+    .instructions-inscription p {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    background: #f8f9fa;
+    padding: 10px 12px;
+    border-left: 4px solid #243749;
+    border-radius: 6px;
+    color: #444;
+    line-height: 1.4;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+    .instructions-inscription {
+        padding: 15px;
+        margin: 15px;
+    }
+
+    .instructions-inscription h2 {
+        font-size: 1.3rem;
+    }
+
+    .instructions-inscription ol li {
+        font-size: 0.95rem;
+    }
+
+    .instructions-inscription button {
+        width: 100%;
+        justify-content: center;
+    }
+    }
+
+    @media (max-width: 480px) {
+    .instructions-inscription h2 {
+        font-size: 1.2rem;
+    }
+    .instructions-inscription pre {
+        font-size: 0.8rem;
+        padding: 8px 10px;
+    }
+    }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<div class="signin-container">
+{% if is_auth %}
+    {% if is_admin == "admin" %}
+
+        <div class="signin-section">
+            <h2><i class="fas fa-users"></i> 
+                {% if langue == "fr" %}Inscription Multiple
+                {% elif langue == "en" %}Multiple Registration
+                {% elif langue == "ar" %}تسجيل متعدد
+                {% endif %}
+            </h2>
+            
+            <div class="selection-panel">
+                <div class="selection-column">
+                    <label for="slct_badge_tout">
+                        {% if langue == "fr" %}Sélectionnez le type d'utilisateur à inscrire
+                        {% elif langue == "en" %}Select the type of user to register
+                        {% elif langue == "ar" %}حدد نوع المستخدم للتسجيل
+                        {% endif %}
+                    </label>
+                    <select name="slct_badge_tout" id="slct_badge_tout" required>
+                        <option value="">
+                            {% if langue == "fr" %}Choisir le type d'utilisateur
+                            {% elif langue == "en" %}Choose user type
+                            {% elif langue == "ar" %}اختر نوع المستخدم
+                            {% endif %}
+                        </option>
+                        <option value="eleve">
+                            {% if langue == "fr" %}Élève
+                            {% elif langue == "en" %}Student
+                            {% elif langue == "ar" %}طالب
+                            {% endif %}
+                        </option>
+                        <option value="prof">
+                            {% if langue == "fr" %}Professeur
+                            {% elif langue == "en" %}Teacher
+                            {% elif langue == "ar" %}مدرس
+                            {% endif %}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-container">
+                <!-- Formulaire Élèves -->
+                <form method="POST" id="form0010" class="signin-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="quelform" value="form_tout_eleve">
+
+                    <label for="inp_dct_eleve">
+                        {% if langue == "fr" %}Entrez les données des élèves au format JSON :
+                        {% elif langue == "en" %}Enter student data in JSON format:
+                        {% elif langue == "ar" %}أدخل بيانات الطلاب بتنسيق JSON:
+                        {% endif %}
+                    </label>
+                    <input type="text" name="inp_dct_eleve" id="inp_dct_eleve" required 
+                           placeholder="[{'nom':'Dupont','prenom':'Jean'},{'nom':'Martin','prenom':'Marie'}]">
+                    
+                    <label for="slct_classe0010">
+                        {% if langue == "fr" %}Sélectionnez la classe :
+                        {% elif langue == "en" %}Select the class:
+                        {% elif langue == "ar" %}حدد الفصل:
+                        {% endif %}
+                    </label>
+                    <select name="slct_classe0010" id="slct_classe0010" required>
+                        <option value="">
+                            {% if langue == "fr" %}Sélectionnez leur classe
+                            {% elif langue == "en" %}Select their class
+                            {% elif langue == "ar" %}اختر فصلهم
+                            {% endif %}
+                        </option>
+                        {% for i in classe01 %}
+                        <option value="{{i.classe}}">{{i.classe}}</option>
+                        {% endfor %}
+                    </select>
+                    
+                    <button type="submit">
+                        <i class="fas fa-user-plus"></i> 
+                        {% if langue == "fr" %}Inscrire les élèves
+                        {% elif langue == "en" %}Register students
+                        {% elif langue == "ar" %}تسجيل الطلاب
+                        {% endif %}
+                    </button>
+                    
+                    {% if dct_eleve_good == False %}
+                    <div class="error-message">
+                        <strong>
+                            {% if langue == "fr" %}Erreur de format :
+                            {% elif langue == "en" %}Format error:
+                            {% elif langue == "ar" %}خطأ في التنسيق:
+                            {% endif %}
+                        </strong> 
+                        {% if langue == "fr" %}Le format des données est incorrect. Veuillez entrer une liste de dictionnaires au format JSON valide.
+                        {% elif langue == "en" %}The data format is incorrect. Please enter a list of dictionaries in valid JSON format.
+                        {% elif langue == "ar" %}تنسيق البيانات غير صحيح. يرجى إدخال قائمة من القواميس بتنسيق JSON صالح.
+                        {% endif %}
+                    </div>
+                    {% elif dct_eleve_good == "pas liste" %}
+                    <div class="error-message">
+                        <strong>
+                            {% if langue == "fr" %}Erreur de type :
+                            {% elif langue == "en" %}Type error:
+                            {% elif langue == "ar" %}خطأ في النوع:
+                            {% endif %}
+                        </strong> 
+                        {% if langue == "fr" %}Les données doivent être une liste. Format attendu : [{'nom':'...','prenom':'...'}, {...}]
+                        {% elif langue == "en" %}Data must be a list. Expected format: [{'nom':'...','prenom':'...'}, {...}]
+                        {% elif langue == "ar" %}يجب أن تكون البيانات قائمة. التنسيق المتوقع: [{'nom':'...','prenom':'...'}, {...}]
+                        {% endif %}
+                    </div>
+                    {% elif dct_eleve_good == "err_n_p" %}
+                    <div class="error-message">
+                        <strong>
+                            {% if langue == "fr" %}Erreur de données :
+                            {% elif langue == "en" %}Data error:
+                            {% elif langue == "ar" %}خطأ في البيانات:
+                            {% endif %}
+                        </strong> 
+                        {% if langue == "fr" %}Un ou plusieurs dictionnaires ne contiennent pas les clés "nom" et "prenom", ou ces valeurs sont vides.
+                        {% elif langue == "en" %}One or more dictionaries do not contain the "nom" and "prenom" keys, or these values are empty.
+                        {% elif langue == "ar" %}واحد أو أكثر من القواميس لا يحتوي على المفاتيح "nom" و "prenom"، أو هذه القيم فارغة.
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </form>
+
+                <!-- Formulaire Professeurs -->
+                <form method="POST" id="form0020" class="signin-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="quelform" value="form_tout_prof">
+
+                    <label for="inp_dct_prof">
+                        {% if langue == "fr" %}Entrez les données des professeurs au format JSON :
+                        {% elif langue == "en" %}Enter teacher data in JSON format:
+                        {% elif langue == "ar" %}أدخل بيانات المدرسين بتنسيق JSON:
+                        {% endif %}
+                    </label>
+                    <input type="text" name="inp_dct_prof" id="inp_dct_prof" required 
+                           placeholder="[{'nom':'Durand','prenom':'Pierre'},{'nom':'Leroy','prenom':'Sophie'}]">
+                    
+                    <label for="slct_mtr_0010">
+                        {% if langue == "fr" %}Sélectionnez la matière :
+                        {% elif langue == "en" %}Select the subject:
+                        {% elif langue == "ar" %}حدد المادة:
+                        {% endif %}
+                    </label>
+                    <select name="slct_mtr_0010" id="slct_mtr_0010" required>
+                        <option value="">
+                            {% if langue == "fr" %}Sélectionnez leur matière
+                            {% elif langue == "en" %}Select their subject
+                            {% elif langue == "ar" %}اختر مادتهم
+                            {% endif %}
+                        </option>
+                        {% for i in Matiere %}
+                        <option value="{{i.matiere}}">{{i.matiere}}</option>
+                        {% endfor %}
+                    </select>
+                    
+                    <button type="submit">
+                        <i class="fas fa-user-plus"></i> 
+                        {% if langue == "fr" %}Ajouter les professeurs
+                        {% elif langue == "en" %}Add teachers
+                        {% elif langue == "ar" %}إضافة المدرسين
+                        {% endif %}
+                    </button>
+                    
+                    {% if dct_prof_good == False %}
+                    <div class="error-message">
+                        <strong>
+                            {% if langue == "fr" %}Erreur de format :
+                            {% elif langue == "en" %}Format error:
+                            {% elif langue == "ar" %}خطأ في التنسيق:
+                            {% endif %}
+                        </strong> 
+                        {% if langue == "fr" %}Le format des données est incorrect. Veuillez entrer une liste de dictionnaires au format JSON valide.
+                        {% elif langue == "en" %}The data format is incorrect. Please enter a list of dictionaries in valid JSON format.
+                        {% elif langue == "ar" %}تنسيق البيانات غير صحيح. يرجى إدخال قائمة من القواميس بتنسيق JSON صالح.
+                        {% endif %}
+                    </div>
+                    {% elif dct_prof_good == "pas liste" %}
+                    <div class="error-message">
+                        <strong>
+                            {% if langue == "fr" %}Erreur de type :
+                            {% elif langue == "en" %}Type error:
+                            {% elif langue == "ar" %}خطأ في النوع:
+                            {% endif %}
+                        </strong> 
+                        {% if langue == "fr" %}Les données doivent être une liste. Format attendu : [{'nom':'...','prenom':'...'}, {...}]
+                        {% elif langue == "en" %}Data must be a list. Expected format: [{'nom':'...','prenom':'...'}, {...}]
+                        {% elif langue == "ar" %}يجب أن تكون البيانات قائمة. التنسيق المتوقع: [{'nom':'...','prenom':'...'}, {...}]
+                        {% endif %}
+                    </div>
+                    {% elif dct_prof_good == "err_n_p" %}
+                    <div class="error-message">
+                        <strong>
+                            {% if langue == "fr" %}Erreur de données :
+                            {% elif langue == "en" %}Data error:
+                            {% elif langue == "ar" %}خطأ في البيانات:
+                            {% endif %}
+                        </strong> 
+                        {% if langue == "fr" %}Un ou plusieurs dictionnaires ne contiennent pas les clés "nom" et "prenom", ou ces valeurs sont vides.
+                        {% elif langue == "en" %}One or more dictionaries do not contain the "nom" and "prenom" keys, or these values are empty.
+                        {% elif langue == "ar" %}واحد أو أكثر من القواميس لا يحتوي على المفاتيح "nom" و "prenom"، أو هذه القيم فارغة.
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+        <div class="instructions-inscription">
+
+        {% if langue == "fr" %}
+            <h2>Comment inscrire plusieurs personnes dans le site</h2>
+            <ol>
+                <li>Il faut prendre un téléphone (c’est plus efficace et mieux qu’un PC pour ce travail).</li>
+                <li>Prendre la liste de la classe que tu veux inscrire.</li>
+                <li>Photographier la liste.</li>
+                <li>Aller sur l’IA <a href="https://gemini.google.com/" target="_blank">Gemini</a>.</li>
+                <li>
+                    Copier ce prompt :
+                    <pre id="prompt-fr">
+    Prends les noms et prénoms de chaque élève que tu vois sur l’image de la liste de la classe,
+    puis rends-les dans ce format précis : 
+    Les données doivent être une liste. 
+    Format attendu : [{'nom':'...','prenom':'...'}, {...}]
+                    </pre>
+                    <button onclick="navigator.clipboard.writeText(document.getElementById('prompt-fr').innerText)">Copier le prompt</button>
+                </li>
+                <li>Colle le prompt dans Gemini puis ajoute l’image de la liste de la classe.</li>
+                <li>Gemini va te donner le Format. Copie-le et reviens sur notre page d’inscription multiple pour le coller dans l’input prévu.</li>
+                <li>Choisis la classe des élèves (ou bien la matière des professeurs).</li>
+                <li>Clique sur “Inscrire” pour voir le résultat.</li>
+            </ol>
+            <p><strong>Remarque :</strong> si les noms ne sont pas tous corrects, ce n’est pas grave. Les élèves ou professeurs pourront demander à corriger leur nom ou prénom.</p>
+
+        {% elif langue == "en" %}
+            <h2>How to register multiple people on the site</h2>
+            <ol>
+                <li>Use a phone (it’s more efficient and better than a PC for this task).</li>
+                <li>Take the list of the class you want to register.</li>
+                <li>Take a photo of the list.</li>
+                <li>Go to <a href="https://gemini.google.com/" target="_blank">Gemini AI</a>.</li>
+                <li>
+                    Copy this prompt:
+                    <pre id="prompt-en">
+    Extract the first names and last names of each student you see in the image of the class list,
+    then return them in this exact format:
+    The data must be a list.
+    Expected format: [{'nom':'...','prenom':'...'}, {...}]
+                    </pre>
+                    <button onclick="navigator.clipboard.writeText(document.getElementById('prompt-en').innerText)">Copy Prompt</button>
+                </li>
+                <li>Paste the prompt into Gemini and then upload the class list image.</li>
+                <li>Gemini will give you the Format. Copy it and come back to our multiple registration page to paste it in the input.</li>
+                <li>Select the class of the students (or the subject for the teachers).</li>
+                <li>Click “Register” to see the result.</li>
+            </ol>
+            <p><strong>Note:</strong> if some names are not perfectly correct, it’s fine. Students or teachers can later request to change their first or last name.</p>
+
+        {% elif langue == "ar" %}
+            <h2>كيفية تسجيل عدة أشخاص في الموقع</h2>
+            <ol>
+                <li>استعمل الهاتف (أفضل وأنسب من الحاسوب لهذا العمل).</li>
+                <li>خذ قائمة القسم الذي تريد تسجيله.</li>
+                <li>قم بتصوير القائمة.</li>
+                <li>اذهب إلى الذكاء الاصطناعي <a href="https://gemini.google.com/" target="_blank">Gemini</a>.</li>
+                <li>
+                    انسخ هذا الأمر (Prompt):
+                    <pre id="prompt-ar">
+    خذ أسماء وألقاب كل تلميذ تراه في صورة قائمة القسم،
+    ثم أعطها بهذا الشكل بالضبط:
+    يجب أن تكون البيانات قائمة.
+    الصيغة المطلوبة: [{'nom':'...','prenom':'...'}, {...}]
+                    </pre>
+                    <button onclick="navigator.clipboard.writeText(document.getElementById('prompt-ar').innerText)">انسخ الأمر</button>
+                </li>
+                <li>ألصق الأمر في Gemini ثم أضف صورة قائمة القسم.</li>
+                <li>سيعطيك Gemini الصيغة. انسخها ثم عد إلى صفحة التسجيل المتعدد والصقها في الحقل المخصص.</li>
+                <li>اختر القسم الخاص بالتلاميذ (أو المادة الخاصة بالأساتذة).</li>
+                <li>اضغط على "تسجيل" لرؤية النتيجة.</li>
+            </ol>
+            <p><strong>ملاحظة:</strong> إذا لم تكن الأسماء كلها صحيحة فهذا ليس مشكلا، يمكن للتلاميذ أو الأساتذة طلب تعديل أسمائهم لاحقًا.</p>
+        {% endif %}
+
+    </div>
+
+
+        <script>
+        const slct_badge_tout = document.getElementById('slct_badge_tout');
+        const form0010 = document.getElementById('form0010');
+        const form0020 = document.getElementById('form0020');
+
+        slct_badge_tout.addEventListener("change",()=>{
+            // Cacher tous les formulaires d'abord
+            form0010.style.display = "none";
+            form0020.style.display = "none";
+            
+            // Afficher le formulaire correspondant
+            if(slct_badge_tout.value === "eleve"){
+                form0010.style.display = "flex";
+            } else if(slct_badge_tout.value === "prof"){
+                form0020.style.display = "flex";
+            }
+        });
+        </script>
+
+    {% else %}
+    <div class="access-message">
+        <i class="fas fa-user-shield"></i>
+        <h1>
+            {% if langue == "fr" %}Accès réservé aux administrateurs
+            {% elif langue == "en" %}Access restricted to administrators
+            {% elif langue == "ar" %}الوصول مقصور على المسؤولين
+            {% endif %}
+        </h1>
+        <p>
+            {% if langue == "fr" %}Cette page permet d'inscrire plusieurs personnes simultanément (élèves ou professeurs). Seuls les administrateurs peuvent accéder à cette fonctionnalité.
+            {% elif langue == "en" %}This page allows registering multiple people simultaneously (students or teachers). Only administrators can access this feature.
+            {% elif langue == "ar" %}تتيح هذه الصفحة تسجيل عدة أشخاص في وقت واحد (طلاب أو مدرسين). فقط المسؤولون يمكنهم الوصول إلى هذه الميزة.
+            {% endif %}
+        </p>
+    </div>
+    {% endif %}
+{% else %}
+    <div class="access-message">
+        <i class="fas fa-lock"></i>
+        <h1>
+            {% if langue == "fr" %}Connexion requise
+            {% elif langue == "en" %}Login required
+            {% elif langue == "ar" %}مطلوب تسجيل الدخول
+            {% endif %}
+        </h1>
+        <p>
+            {% if langue == "fr" %}Vous devez être connecté pour accéder à cette page. Cette interface permet aux administrateurs d'inscrire plusieurs utilisateurs en même temps.
+            {% elif langue == "en" %}You must be logged in to access this page. This interface allows administrators to register multiple users at the same time.
+            {% elif langue == "ar" %}يجب عليك تسجيل الدخول للوصول إلى هذه الصفحة. تتيح هذه الواجهة للمسؤولين تسجيل عدة مستخدمين في نفس الوقت.
+            {% endif %}
+        </p>
+    </div>
+{% endif %}
+</div>
+
+{% endblock body01 %}

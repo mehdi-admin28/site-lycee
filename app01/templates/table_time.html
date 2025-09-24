@@ -1,0 +1,433 @@
+{% extends "base01.html" %}
+
+{% block title01 %}
+    {% if langue == "fr" %}Création d'Emplois du Temps
+    {% elif langue == "en" %}Timetable Creation
+    {% elif langue == "ar" %}إنشاء الجداول الزمنية
+    {% endif %}
+{% endblock title01 %}
+
+{% block pub312 %}{% endblock pub312 %}
+{% block body01 %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<div class="admin-container">
+
+{% if is_auth %}
+    {% if is_admin == "admin" %}
+
+        <!-- Emplois existants -->
+        {% for i in emplois_temps %}
+        <div class="existing-schedule">
+            <h2>{{i.titre}}</h2>
+            <div class="existing-schedule-actions">
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="quelform" value="suprimer_lemplois">
+                    <input type="hidden" name="id_emplois" value="{{i.id}}">
+                    <button type="submit" class="action-btn btn-delete">
+                        <i class="fas fa-trash"></i> 
+                        {% if langue == "fr" %}Supprimer
+                        {% elif langue == "en" %}Delete
+                        {% elif langue == "ar" %}حذف
+                        {% endif %}
+                    </button>
+                </form>
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="quelform" value="poster_emplois">
+                    <input type="hidden" name="titre_emplois" value="{{i.titre}}">
+                    <input type="hidden" name="emplois" value="{{i.emplois}}">
+                    <button type="submit" class="action-btn btn-publish">
+                        <i class="fas fa-share"></i> 
+                        {% if langue == "fr" %}Poster
+                        {% elif langue == "en" %}Publish
+                        {% elif langue == "ar" %}نشر
+                        {% endif %}
+                    </button>
+                </form>
+            </div>
+            <div>
+                {{ i.emplois|safe }}
+            </div>
+        </div>
+        {% endfor %}
+
+        <button id="btntemps">
+            <i class="fas fa-plus"></i> 
+            {% if langue == "fr" %}Nouvel emploi
+            {% elif langue == "en" %}New schedule
+            {% elif langue == "ar" %}جدول جديد
+            {% endif %}
+        </button>
+        
+        <!-- Formulaire modal -->
+        <form id="form_emplois_temps">
+            {% csrf_token %}
+            <label>
+                {% if langue == "fr" %}Début :
+                {% elif langue == "en" %}Start:
+                {% elif langue == "ar" %}البداية:
+                {% endif %}
+            </label>
+            <input type="time" id="inp_time_avant" required>
+            
+            <label>
+                {% if langue == "fr" %}Fin :
+                {% elif langue == "en" %}End:
+                {% elif langue == "ar" %}النهاية:
+                {% endif %}
+            </label>
+            <input type="time" id="inp_time_apre" required>
+            
+            <label>
+                {% if langue == "fr" %}Matière :
+                {% elif langue == "en" %}Subject:
+                {% elif langue == "ar" %}المادة:
+                {% endif %}
+            </label>
+            <input type="text" id="inp_mtr_emplois" pattern="[A-Za-zÀ-ÿ ]+" required>
+            
+            <div class="modal-buttons">
+                <button type="submit" class="modal-btn btn-confirm">
+                    {% if langue == "fr" %}Confirmer
+                    {% elif langue == "en" %}Confirm
+                    {% elif langue == "ar" %}تأكيد
+                    {% endif %}
+                </button>
+                <button type="reset" id="btnannuler" class="modal-btn btn-cancel">
+                    {% if langue == "fr" %}Annuler
+                    {% elif langue == "en" %}Cancel
+                    {% elif langue == "ar" %}إلغاء
+                    {% endif %}
+                </button>
+            </div>
+        </form>
+
+        <!-- JavaScript ORIGINAL (inchangé) -->
+        <script>
+        const btntemps = document.getElementById('btntemps');
+        const form_emplois_temps = document.getElementById('form_emplois_temps');
+        const inp_time_avant = document.getElementById('inp_time_avant');
+        const inp_time_apre = document.getElementById('inp_time_apre');
+        const inp_mtr_emplois = document.getElementById('inp_mtr_emplois');
+        const btnannuler = document.getElementById('btnannuler');
+        let h_av = "";
+        function attacherEvenementFormEmplois(form) {
+            form.addEventListener("submit", function(e) {
+                e.preventDefault();
+                const tableau = this.nextElementSibling;
+                const code_html_emplois = this.querySelector('.code_html_emplois');
+                code_html_emplois.value = tableau.outerHTML;
+                this.submit();
+            });
+        }
+        let h_ap = "";
+        let mtr_emplois = "";
+
+        btntemps.addEventListener("click",()=>{
+            let t = document.createElement('table');
+            t.innerHTML=`<tr>
+            <td class="jours">
+                {% if langue == "fr" %}dimanche
+                {% elif langue == "en" %}Sunday
+                {% elif langue == "ar" %}الأحد
+                {% endif %}
+            </td><td><button class="btnsuppr_jour"><i class="fa-solid fa-trash-can"></i>
+        </button></td><td><button class="btn_ajou_heure"><i class="fa-solid fa-plus"></i>
+        </button></td>
+        </tr>
+        <tr>
+            <td class="jours">
+                {% if langue == "fr" %}lundi
+                {% elif langue == "en" %}Monday
+                {% elif langue == "ar" %}الاثنين
+                {% endif %}
+            </td><td><button class="btnsuppr_jour"><i class="fa-solid fa-trash-can"></i>
+        </button></td><td><button class="btn_ajou_heure"><i class="fa-solid fa-plus"></i>
+        </button></td>
+        </tr>
+        <tr>
+            <td class="jours">
+                {% if langue == "fr" %}mardi
+                {% elif langue == "en" %}Tuesday
+                {% elif langue == "ar" %}الثلاثاء
+                {% endif %}
+            </td><td><button class="btnsuppr_jour"><i class="fa-solid fa-trash-can"></i>
+        </button></td><td><button class="btn_ajou_heure"><i class="fa-solid fa-plus"></i>
+        </button></td>
+        </tr>
+        <tr>
+            <td class="jours">
+                {% if langue == "fr" %}mercredi
+                {% elif langue == "en" %}Wednesday
+                {% elif langue == "ar" %}الأربعاء
+                {% endif %}
+            </td><td><button class="btnsuppr_jour"><i class="fa-solid fa-trash-can"></i>
+        </button></td><td><button class="btn_ajou_heure"><i class="fa-solid fa-plus"></i>
+        </button></td>
+        </tr>
+        <tr>
+            <td class="jours">
+                {% if langue == "fr" %}jeudi
+                {% elif langue == "en" %}Thursday
+                {% elif langue == "ar" %}الخميس
+                {% endif %}
+            </td><td><button class="btnsuppr_jour"><i class="fa-solid fa-trash-can"></i>
+        </button></td><td><button class="btn_ajou_heure"><i class="fa-solid fa-plus"></i>
+        </button></td>
+        </tr>
+        <tr>
+            <td class="jours">
+                {% if langue == "fr" %}vendredi
+                {% elif langue == "en" %}Friday
+                {% elif langue == "ar" %}الجمعة
+                {% endif %}
+            </td><td><button class="btnsuppr_jour"><i class="fa-solid fa-trash-can"></i>
+        </button></td><td><button class="btn_ajou_heure"><i class="fa-solid fa-plus"></i>
+        </button></td>
+        </tr>
+        <tr>
+            <td class="jours">
+                {% if langue == "fr" %}samedi
+                {% elif langue == "en" %}Saturday
+                {% elif langue == "ar" %}السبت
+                {% endif %}
+            </td><td><button class="btnsuppr_jour"><i class="fa-solid fa-trash-can"></i>
+        </button></td><td><button class="btn_ajou_heure"><i class="fa-solid fa-plus"></i>
+        </button></td>
+        </tr>`;
+        document.body.appendChild(t);
+        let form_emplois_kaka = document.createElement('form');
+        form_emplois_kaka.method="POST";
+        form_emplois_kaka.className="form_emplois";
+        form_emplois_kaka.innerHTML=`{% csrf_token %}
+        <input type="hidden" name="quelform" value="save_emplois">
+            <input type="hidden" name="code_html_emplois" class="code_html_emplois" required>
+            <select name="titre_emplois" required>
+            <option value="">
+                {% if langue == "fr" %}selectioonner la classe de l emplois du temps
+                {% elif langue == "en" %}select the class for the timetable
+                {% elif langue == "ar" %}اختر الفصل للجدول الزمني
+                {% endif %}
+            </option>
+        {% for i in classe01 %}
+        <option value="{{i.classe}}">{{i.classe}}</option>
+        {% endfor %}</select>
+            <button type="submit">
+                {% if langue == "fr" %}enregistrer l emplois du temps
+                {% elif langue == "en" %}save timetable
+                {% elif langue == "ar" %}حفظ الجدول الزمني
+                {% endif %}
+            </button>
+            {% if o_emplois == "emplois_deja_la" %}
+            <p>
+                {% if langue == "fr" %}cet emplois du temps existe deja !
+                {% elif langue == "en" %}this timetable already exists!
+                {% elif langue == "ar" %}هذا الجدول الزمني موجود بالفعل!
+                {% endif %}
+            </p>
+            {% endif %}`;
+        document.body.insertBefore(form_emplois_kaka,t);
+        attacherEvenementFormEmplois(form_emplois_kaka);
+
+        const btnsuppr_jour = document.querySelectorAll('.btnsuppr_jour');
+        const btn_ajou_heure = document.querySelectorAll('.btn_ajou_heure');
+
+        btn_ajou_heure.forEach(z=>{
+            
+            z.addEventListener("click",()=>{
+                let y = z.closest("tr");
+                let nouveau = document.createElement("td");
+                let r = z.parentElement.parentElement;
+                let z1 = z.closest("td");
+
+                form_emplois_temps.style.display="flex";
+
+                new Promise((resolve,reject)=>{
+
+                    form_emplois_temps.addEventListener("submit",(e)=>{
+
+                        e.preventDefault();
+                        h_av = inp_time_avant.value;
+                        h_ap = inp_time_apre.value;
+                        mtr_emplois = inp_mtr_emplois.value;
+
+                        let g = {'h':h_av+" - "+h_ap,'mtr':mtr_emplois};
+                        resolve(g);
+                    });
+
+                    btnannuler.addEventListener("click",()=>{
+                        form_emplois_temps.style.display="none";
+                        reject("formulaire rejeter");
+                    });
+
+                }).then((g)=>{
+
+        if(g.h !== "" && g.mtr !== ""){
+            let e1 = g.h;
+            let e2 = g.mtr;
+
+        form_emplois_temps.style.display="none"
+
+        nouveau.innerHTML=`
+            <table>
+        <tr>
+            <td>${e1}</td>
+        </tr>
+        <tr>
+            <td>${e2}</td>
+        </tr>
+        <tr>
+            <td><button class="suppr_heure"><i class="fas fa-trash"></i></button><button class="btn_modification">
+                {% if langue == "fr" %}modifier
+                {% elif langue == "en" %}modify
+                {% elif langue == "ar" %}تعديل
+                {% endif %}
+            </button></td>
+        </tr>
+            </table>
+        `;
+
+            
+            r.insertBefore(nouveau,z1);
+        }
+        else{
+            return
+        };
+
+
+            const suppr_heure = document.querySelectorAll('.suppr_heure');
+            const btn_modification = document.querySelectorAll('.btn_modification');
+
+        btn_modification.forEach(x=>{
+            x.addEventListener("click",()=>{
+
+                let y1 = x.parentElement.parentElement.previousElementSibling.firstElementChild;
+                let y2 = x.parentElement.parentElement.previousElementSibling.previousElementSibling.firstElementChild;
+
+                form_emplois_temps.style.display="flex";
+
+        new Promise((resolve,reject)=>{
+            form_emplois_temps.addEventListener("submit",(e)=>{
+
+                        e.preventDefault();
+                        h_av = inp_time_avant.value;
+                        h_ap = inp_time_apre.value;
+                        mtr_emplois = inp_mtr_emplois.value;
+
+                        let g = {'h':h_av+" - "+h_ap,'mtr':mtr_emplois};
+                        resolve(g);
+                    });
+                    btnannuler.addEventListener("click",()=>{
+                        form_emplois_temps.style.display="none";
+                        reject("form rejeter !");
+                    });
+        }).then((g)=>{
+
+        if(g.h !== "" && g.mtr !== ""){
+            y1.textContent = g.mtr;
+            y2.textContent = g.h;
+
+            form_emplois_temps.style.display="none"
+
+        }
+        else{
+            return
+        };
+
+        }).catch((err)=>{
+            console.log(err);
+        });
+
+                
+            });
+        });
+
+        suppr_heure.forEach(x=>{
+            let y = x.closest('table').closest('tr');
+            x.addEventListener("click",()=>{
+                y.remove();
+            });
+            let z = x.parentElement;
+            z.style.display="none";
+            y.addEventListener("mouseenter",()=>{
+                z.style.display="block";
+            });
+            y.addEventListener("mouseleave",()=>{
+                setTimeout(()=>{
+                    z.style.display="none";
+                },300);
+            });
+        });
+
+        }).catch((err)=>{
+            console.log(err);
+        });
+
+        });
+        });
+        
+
+        btnsuppr_jour.forEach(x =>{
+        x.addEventListener("click",()=>{
+            let y = x.closest("tr");
+            y.remove();
+        });
+        });
+
+
+        const jours = document.querySelectorAll('.jours');
+
+        jours.forEach(c=>{
+            let n = c.nextElementSibling;
+            n.style.display="none";
+            c.addEventListener("mouseenter",()=>{
+                n.style.display="block";
+            });
+            c.addEventListener("mouseleave",()=>{
+                setTimeout(()=>{n.style.display="none";},1500);
+            });
+        }); 
+
+        });
+        </script>
+
+    {% else %}
+  <div class="access-message">
+    <i class="fas fa-user-shield"></i>
+    <h1>
+        {% if langue == "fr" %}Accès réservé
+        {% elif langue == "en" %}Restricted Access
+        {% elif langue == "ar" %}وصول مقيد
+        {% endif %}
+    </h1>
+    <p>
+        {% if langue == "fr" %}Seuls les administrateurs peuvent accéder à cette page.
+        {% elif langue == "en" %}Only administrators can access this page.
+        {% elif langue == "ar" %}فقط المسؤولون يمكنهم الوصول إلى هذه الصفحة.
+        {% endif %}
+    </p>
+  </div>
+{% endif %}
+{% else %}
+  <div class="access-message">
+    <i class="fas fa-lock"></i>
+    <h1>
+        {% if langue == "fr" %}Connexion requise
+        {% elif langue == "en" %}Login Required
+        {% elif langue == "ar" %}تسجيل الدخول مطلوب
+        {% endif %}
+    </h1>
+    <p>
+        {% if langue == "fr" %}Veuillez vous connecter pour continuer.
+        {% elif langue == "en" %}Please log in to continue.
+        {% elif langue == "ar" %}يرجى تسجيل الدخول للمتابعة.
+        {% endif %}
+    </p>
+  </div>
+{% endif %}
+
+</div>
+
+{% endblock body01 %}

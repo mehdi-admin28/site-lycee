@@ -1,0 +1,298 @@
+{% extends "base01.html" %}
+
+{% block title01 %}
+  {% if langue == "fr" %}Contactez-nous admin
+  {% elif langue == "en" %}Contact-us admin
+  {% elif langue == "ar" %}اتصل بنا admin
+  {% endif %}
+{% endblock title01 %}
+
+{% block javascriptmemeplace %}{% endblock javascriptmemeplace %}
+{% block pub312 %}{% endblock pub312 %}
+
+{% block body01 %}
+
+{% if is_auth %}
+
+  {% if is_admin == "admin" %}
+
+    {% if contact %}
+
+      {% if username == "Mehdi_Admin" %}
+        {% for i in contact %}
+          {% if i.qui == "mehdi" %}
+          <div class="contact-card">
+            <i class="fas fa-user"></i>
+            <p><strong>{{i.nom_complet}}</strong></p>
+            <p><i class="fas fa-phone"></i> {{i.numero}}</p>
+            <p><i class="fas fa-envelope"></i> {{i.message}}</p>
+
+            <form method="POST">
+              {% csrf_token %}
+              <input type="hidden" name="quelform" value="supprimer_contact">
+              <input type="hidden" name="id1" value="{{i.id}}">
+              <button type="submit" class="delete-btn">
+                <i class="fas fa-trash-alt"></i>
+                {% if langue == "fr" %}Supprimer
+                {% elif langue == "en" %}Delete
+                {% elif langue == "ar" %}حذف
+                {% endif %}
+              </button>
+            </form>
+          </div>
+          {% else %}
+          <div class="access-message">
+            <i class="fas fa-info-circle"></i>
+            <p>
+              {% if langue == "fr" %}Aucun message ne vous est destiné.
+              {% elif langue == "en" %}No message is intended for you.
+              {% elif langue == "ar" %}لا توجد رسالة موجهة إليك.
+              {% endif %}
+            </p>
+          </div>
+          {% endif %}
+        {% endfor %}
+
+        <form method="POST" class="form-action">
+          {% csrf_token %}
+          <input type="hidden" name="quelform" value="supprimer_mes_contact">
+          <input type="hidden" name="qui" value="mehdi">
+          <button type="submit" class="delete-btn">
+            <i class="fas fa-trash"></i>
+            {% if langue == "fr" %}Supprimer mes messages
+            {% elif langue == "en" %}Delete my messages
+            {% elif langue == "ar" %}حذف رسائلي
+            {% endif %}
+          </button>
+        </form>
+
+        <form method="POST" class="form-action">
+          {% csrf_token %}
+          <input type="hidden" name="quelform" value="supprime_stp">
+          <button type="submit" class="delete-btn">
+            <i class="fas fa-broom"></i>
+            {% if langue == "fr" %}Suppression spéciale
+            {% elif langue == "en" %}Special delete
+            {% elif langue == "ar" %}حذف خاص
+            {% endif %}
+          </button>
+        </form>
+
+    {% elif username == "Samy_Admin" or  username == "Mehdi_Admin"%}
+        {% for i in contact %}
+            {% if i.qui == "samy" %}
+            <div class="contact-card">
+            <i class="fas fa-user"></i>
+            <p><strong>{{i.nom_complet}}</strong></p>
+            <p><i class="fas fa-phone"></i> {{i.numero}}</p>
+            <p><i class="fas fa-envelope"></i> {{i.message}}</p>
+
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="quelform" value="supprimer_contact">
+                <input type="hidden" name="id1" value="{{i.id}}">
+                <button type="submit" class="delete-btn">
+                <i class="fas fa-trash-alt"></i>
+                {% if langue == "fr" %}Supprimer
+                {% elif langue == "en" %}Delete
+                {% elif langue == "ar" %}حذف
+                {% endif %}
+                </button>
+            </form>
+            </div>
+            {% else %}
+            <div class="access-message">
+            <i class="fas fa-info-circle"></i>
+            <p>
+                {% if langue == "fr" %}Aucun message ne vous est destiné.
+                {% elif langue == "en" %}No message is intended for you.
+                {% elif langue == "ar" %}لا توجد رسالة موجهة إليك.
+                {% endif %}
+            </p>
+            </div>
+            {% endif %}
+        {% endfor %}
+
+        <form method="POST" class="form-action">
+            {% csrf_token %}
+            <input type="hidden" name="quelform" value="supprimer_mes_contact">
+            <input type="hidden" name="qui" value="samy">
+            <button type="submit" class="delete-btn">
+            <i class="fas fa-trash"></i>
+            {% if langue == "fr" %}Supprimer mes messages
+            {% elif langue == "en" %}Delete my messages
+            {% elif langue == "ar" %}حذف رسائلي
+            {% endif %}
+            </button>
+        </form>
+
+        {% elif username == "Directeur_Admin" or  username == "Mehdi_Admin" %}
+        {% for i in contact %}
+            {% if i.qui == "directeur" %}
+            <div class="contact-card">
+            <i class="fas fa-user-tie"></i>
+            <p><strong>{{i.nom_complet}}</strong></p>
+            <p><i class="fas fa-phone"></i> {{i.numero}}</p>
+            <p><i class="fas fa-envelope"></i> {{i.message}}</p>
+
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="quelform" value="supprimer_contact">
+                <input type="hidden" name="id1" value="{{i.id}}">
+                <button type="submit" class="delete-btn">
+                <i class="fas fa-trash-alt"></i>
+                {% if langue == "fr" %}Supprimer
+                {% elif langue == "en" %}Delete
+                {% elif langue == "ar" %}حذف
+                {% endif %}
+                </button>
+            </form>
+            </div>
+            {% else %}
+            <div class="access-message">
+            <i class="fas fa-info-circle"></i>
+            <p>
+                {% if langue == "fr" %}Aucun message ne vous est destiné.
+                {% elif langue == "en" %}No message is intended for you.
+                {% elif langue == "ar" %}لا توجد رسالة موجهة إليك.
+                {% endif %}
+            </p>
+            </div>
+            {% endif %}
+        {% endfor %}
+
+        <form method="POST" class="form-action">
+            {% csrf_token %}
+            <input type="hidden" name="quelform" value="supprimer_mes_contact">
+            <input type="hidden" name="qui" value="directeur">
+            <button type="submit" class="delete-btn">
+            <i class="fas fa-trash"></i>
+            {% if langue == "fr" %}Supprimer mes messages
+            {% elif langue == "en" %}Delete my messages
+            {% elif langue == "ar" %}حذف رسائلي
+            {% endif %}
+            </button>
+        </form>
+
+        {% else %}
+        <div class="access-message">
+            <i class="fas fa-ban"></i>
+            <p>
+            {% if langue == "fr" %}Cette page est réservée uniquement au directeur et aux deux développeurs du site.
+            {% elif langue == "en" %}This page is reserved only for the director and the two developers of the site.
+            {% elif langue == "ar" %}هذه الصفحة مخصصة فقط للمدير والمطورين الاثنين للموقع.
+            {% endif %}
+            </p>
+        </div>
+        {% endif %}
+
+    {% else %}
+      <div class="access-message">
+        <i class="fas fa-inbox"></i>
+        <p>
+          {% if langue == "fr" %}Aucun message de contact disponible.
+          {% elif langue == "en" %}No contact messages available.
+          {% elif langue == "ar" %}لا توجد رسائل اتصال متاحة.
+          {% endif %}
+        </p>
+      </div>
+    {% endif %}
+
+  {% else %}
+    <div class="access-message">
+      <i class="fas fa-user-shield"></i>
+      <h1>
+        {% if langue == "fr" %}Accès réservé aux administrateurs
+        {% elif langue == "en" %}Access restricted to administrators
+        {% elif langue == "ar" %}الوصول مقصور على المسؤولين
+        {% endif %}
+      </h1>
+      <p>
+        {% if langue == "fr" %}Cette page permet de gérer les messages de contact.
+        {% elif langue == "en" %}This page allows managing contact requests.
+        {% elif langue == "ar" %}تتيح هذه الصفحة إدارة رسائل الاتصال.
+        {% endif %}
+      </p>
+    </div>
+  {% endif %}
+
+{% else %}
+  <div class="access-message">
+    <i class="fas fa-lock"></i>
+    <h1>
+      {% if langue == "fr" %}Connexion requise
+      {% elif langue == "en" %}Login required
+      {% elif langue == "ar" %}مطلوب تسجيل الدخول
+      {% endif %}
+    </h1>
+    <p>
+      {% if langue == "fr" %}Vous devez être connecté pour accéder à cette page.
+      {% elif langue == "en" %}You must be logged in to access this page.
+      {% elif langue == "ar" %}يجب عليك تسجيل الدخول للوصول إلى هذه الصفحة.
+      {% endif %}
+    </p>
+  </div>
+{% endif %}
+
+<style>
+  .contact-card {
+    background: #ffffff;
+    border: 1px solid #e0e6ed;
+    border-radius: 12px;
+    padding: 1rem;
+    margin: 1rem auto;
+    max-width: 600px;
+    box-shadow: 0 4px 8px rgba(36, 55, 73, 0.1);
+  }
+
+  .contact-card p {
+    margin: 0.3rem 0;
+    font-size: 0.95rem;
+  }
+
+  .form-action {
+    text-align: center;
+    margin: 1rem 0;
+  }
+
+  .delete-btn {
+    background: #243749;
+    color: #fff;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.3s ease;
+  }
+
+  .delete-btn:hover {
+    background: #1a2837;
+  }
+
+  .access-message {
+    background: #f4f7fa;
+    border: 1px solid #dbe3ec;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 2rem auto;
+    max-width: 600px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(36, 55, 73, 0.08);
+  }
+
+  .access-message i {
+    font-size: 2rem;
+    color: #243749;
+    margin-bottom: 0.8rem;
+  }
+
+  @media (max-width: 768px) {
+    .contact-card, .access-message {
+      margin: 1rem;
+      padding: 1rem;
+    }
+  }
+</style>
+
+{% endblock body01 %}

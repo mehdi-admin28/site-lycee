@@ -1,0 +1,308 @@
+{% extends "base01.html" %}
+
+{% block javascriptmemeplace %}{% endblock javascriptmemeplace %}
+
+{% block title01 %}
+    {% if langue == "fr" %}Profile - {{username}}
+    {% elif langue == "en" %}Profile - {{username}}
+    {% elif langue == "ar" %}الملف الشخصي - {{username}}
+    {% endif %}
+{% endblock title01 %}
+
+{% block body01 %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<div class="profile-container">
+
+{% if is_auth %}
+    <div class="profile-card">
+        <div class="profile-info">
+            <div class="info-group">
+                <span class="info-label">
+                    {% if langue == "fr" %}Nom d'utilisateur
+                    {% elif langue == "en" %}Username
+                    {% elif langue == "ar" %}اسم المستخدم
+                    {% endif %}
+                </span>
+                <div class="info-value">{{username}}</div>
+            </div>
+            
+            <div class="info-group">
+                <span class="info-label">
+                    {% if langue == "fr" %}Nom de famille
+                    {% elif langue == "en" %}Last name
+                    {% elif langue == "ar" %}الاسم العائلي
+                    {% endif %}
+                </span>
+                <div class="info-value">{{last_name}}</div>
+            </div>
+            
+            <div class="info-group">
+                <span class="info-label">
+                    {% if langue == "fr" %}Prénom
+                    {% elif langue == "en" %}First name
+                    {% elif langue == "ar" %}الاسم الشخصي
+                    {% endif %}
+                </span>
+                <div class="info-value">{{first_name}}</div>
+            </div>
+            
+            <div class="info-group">
+                <span class="info-label">
+                    {% if langue == "fr" %}Badge
+                    {% elif langue == "en" %}Badge
+                    {% elif langue == "ar" %}الشارة
+                    {% endif %}
+                </span>
+                <div class="info-value">
+                    <span class="profile-badge">{{badge}}</span>
+                </div>
+            </div>
+            
+            {% if badge == "eleve" %}
+            <div class="info-group">
+                <span class="info-label">
+                    {% if langue == "fr" %}Classe
+                    {% elif langue == "en" %}Class
+                    {% elif langue == "ar" %}الصف
+                    {% endif %}
+                </span>
+                <div class="info-value">{{classe}}</div>
+            </div>
+            {% elif badge == "prof" %}
+            <div class="info-group">
+                <span class="info-label">
+                    {% if langue == "fr" %}Matière
+                    {% elif langue == "en" %}Subject
+                    {% elif langue == "ar" %}المادة
+                    {% endif %}
+                </span>
+                <div class="info-value">{{matiere}}</div>
+            </div>
+            
+            <div class="info-group">
+                <span class="info-label">
+                    {% if langue == "fr" %}Heure de réception
+                    {% elif langue == "en" %}Office hours
+                    {% elif langue == "ar" %}ساعات الاستقبال
+                    {% endif %}
+                </span>
+                <div class="info-value">{{heures_de_reception}}</div>
+            </div>
+            
+            <div class="reception-form">
+                <h3><i class="fas fa-clock"></i> 
+                    {% if langue == "fr" %}Changer l'heure de réception
+                    {% elif langue == "en" %}Change office hours
+                    {% elif langue == "ar" %}تغيير ساعات الاستقبال
+                    {% endif %}
+                </h3>
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="quelform" value="changer_reception">
+                    
+                    <label for="db_reception">
+                        {% if langue == "fr" %}Début de l'heure de réception
+                        {% elif langue == "en" %}Start of office hours
+                        {% elif langue == "ar" %}بداية ساعات الاستقبال
+                        {% endif %}
+                    </label>
+                    <input type="time" name="db_reception" id="db_reception" required>
+                    
+                    <label for="fn_reception">
+                        {% if langue == "fr" %}Fin de l'heure de réception
+                        {% elif langue == "en" %}End of office hours
+                        {% elif langue == "ar" %}نهاية ساعات الاستقبال
+                        {% endif %}
+                    </label>
+                    <input type="time" name="fn_reception" id="fn_reception" required>
+                    
+                    <label for="slct_jour">
+                        {% if langue == "fr" %}Jour de réception
+                        {% elif langue == "en" %}Office day
+                        {% elif langue == "ar" %}يوم الاستقبال
+                        {% endif %}
+                    </label>
+                    <select name="slct_jour" id="slct_jour" required>
+                        <option value="">
+                            {% if langue == "fr" %}Sélectionner un jour
+                            {% elif langue == "en" %}Select a day
+                            {% elif langue == "ar" %}اختر يومًا
+                            {% endif %}
+                        </option>
+                        <option value="dimanche">
+                            {% if langue == "fr" %}Dimanche
+                            {% elif langue == "en" %}Sunday
+                            {% elif langue == "ar" %}الأحد
+                            {% endif %}
+                        </option>
+                        <option value="lundi">
+                            {% if langue == "fr" %}Lundi
+                            {% elif langue == "en" %}Monday
+                            {% elif langue == "ar" %}الإثنين
+                            {% endif %}
+                        </option>
+                        <option value="mardi">
+                            {% if langue == "fr" %}Mardi
+                            {% elif langue == "en" %}Tuesday
+                            {% elif langue == "ar" %}الثلاثاء
+                            {% endif %}
+                        </option>
+                        <option value="mercredi">
+                            {% if langue == "fr" %}Mercredi
+                            {% elif langue == "en" %}Wednesday
+                            {% elif langue == "ar" %}الأربعاء
+                            {% endif %}
+                        </option>
+                        <option value="jeudi">
+                            {% if langue == "fr" %}Jeudi
+                            {% elif langue == "en" %}Thursday
+                            {% elif langue == "ar" %}الخميس
+                            {% endif %}
+                        </option>
+                    </select>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-sync-alt"></i> 
+                        {% if langue == "fr" %}Changer
+                        {% elif langue == "en" %}Change
+                        {% elif langue == "ar" %}تغيير
+                        {% endif %}
+                    </button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+
+        {% if not c_d == 1 %}
+            {% if "M" in chance and is_admin != "admin" %}
+            <div class="message message-success">
+                <i class="fas fa-check-circle"></i>
+                <h3>
+                    {% if langue == "fr" %}Demande envoyée avec succès !
+                    {% elif langue == "en" %}Request sent successfully!
+                    {% elif langue == "ar" %}تم إرسال الطلب بنجاح!
+                    {% endif %}
+                </h3>
+                <p>
+                    {% if langue == "fr" %}Votre demande de changement de nom et prénom a été transmise. Notez que c'est la seule fois où vous pouvez demander à changer votre nom et prénom dans l'année.
+                    {% elif langue == "en" %}Your name change request has been submitted. Note that this is the only time you can request to change your name during the year.
+                    {% elif langue == "ar" %}تم إرسال طلب تغيير الاسم الخاص بك. لاحظ أن هذه هي المرة الوحيدة التي يمكنك فيها طلب تغيير اسمك خلال العام.
+                    {% endif %}
+                </p>
+            </div>
+            {% else %}
+            <div class="name-change-form">
+                <h1><i class="fas fa-user-edit"></i> 
+                    {% if langue == "fr" %}Demander à changer votre nom et prénom
+                    {% elif langue == "en" %}Request to change your name
+                    {% elif langue == "ar" %}طلب تغيير اسمك
+                    {% endif %}
+                </h1>
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="quelform" value="demande_changement">
+                    
+                    <label for="nom_voulu" style="color:black;">
+                        {% if langue == "fr" %}Nom que vous souhaitez avoir
+                        {% elif langue == "en" %}Last name you want to have
+                        {% elif langue == "ar" %}الاسم العائلي الذي تريد الحصول عليه
+                        {% endif %}
+                    </label>
+                    <input type="text" name="nom_voulu" id="nom_voulu" required>
+                    
+                    <label for="prenom_voulu" style="color:black;">
+                        {% if langue == "fr" %}Prénom que vous souhaitez avoir
+                        {% elif langue == "en" %}First name you want to have
+                        {% elif langue == "ar" %}الاسم الشخصي الذي تريد الحصول عليه
+                        {% endif %}
+                    </label>
+                    <input type="text" name="prenom_voulu" id="prenom_voulu" required>
+                    
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-paper-plane"></i> 
+                        {% if langue == "fr" %}Envoyer la demande
+                        {% elif langue == "en" %}Send request
+                        {% elif langue == "ar" %}إرسال الطلب
+                        {% endif %}
+                    </button>
+                </form>
+            </div>
+            {% endif %}
+        {% else %}
+            {% if att == "deja_la" %}
+            <div class="message message-warning">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h3>
+                    {% if langue == "fr" %}Demande déjà existante
+                    {% elif langue == "en" %}Request already exists
+                    {% elif langue == "ar" %}الطلب موجود بالفعل
+                    {% endif %}
+                </h3>
+                <p>
+                    {% if langue == "fr" %}Votre demande a déjà été envoyée auparavant !
+                    {% elif langue == "en" %}Your request has already been sent before!
+                    {% elif langue == "ar" %}تم إرسال طلبك مسبقًا!
+                    {% endif %}
+                </p>
+            </div>
+            {% else %}
+            <div class="message message-info">
+                <i class="fas fa-check-circle"></i>
+                <h3>
+                    {% if langue == "fr" %}Demande envoyée
+                    {% elif langue == "en" %}Request sent
+                    {% elif langue == "ar" %}تم إرسال الطلب
+                    {% endif %}
+                </h3>
+                <p>
+                    {% if langue == "fr" %}Votre demande a été envoyée avec succès !
+                    {% elif langue == "en" %}Your request has been sent successfully!
+                    {% elif langue == "ar" %}تم إرسال طلبك بنجاح!
+                    {% endif %}
+                </p>
+            </div>
+            {% endif %}
+        {% endif %}
+
+        <div style="text-align: center; margin-top: 2rem;">
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="quelform" value="log-out_user">
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-sign-out-alt"></i> 
+                    {% if langue == "fr" %}Se déconnecter
+                    {% elif langue == "en" %}Log out
+                    {% elif langue == "ar" %}تسجيل الخروج
+                    {% endif %}
+                </button>
+            </form>
+        </div>
+    </div>
+
+{% else %}
+    <div class="access-message">
+        <i class="fas fa-lock"></i>
+        <h1>
+            {% if langue == "fr" %}Connexion requise
+            {% elif langue == "en" %}Login required
+            {% elif langue == "ar" %}مطلوب تسجيل الدخول
+            {% endif %}
+        </h1>
+        <p>
+            {% if langue == "fr" %}Vous devez être connecté pour accéder à cette page.
+            {% elif langue == "en" %}You must be logged in to access this page.
+            {% elif langue == "ar" %}يجب عليك تسجيل الدخول للوصول إلى هذه الصفحة.
+            {% endif %}
+        </p>
+        <p>
+            {% if langue == "fr" %}Cette page contient les informations du profil de l'utilisateur comme le nom, prénom, classe, matière, heures de réception, et permet de modifier certaines informations personnelles.
+            {% elif langue == "en" %}This page contains user profile information such as name, class, subject, office hours, and allows modifying certain personal information.
+            {% elif langue == "ar" %}تحتوي هذه الصفحة على معلومات الملف الشخصي للمستخدم مثل الاسم، الصف، المادة، ساعات الاستقبال، وتتيح تعديل بعض المعلومات الشخصية.
+            {% endif %}
+        </p>
+    </div>
+{% endif %}
+</div>
+
+{% endblock body01 %}

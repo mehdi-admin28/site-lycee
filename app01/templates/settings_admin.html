@@ -1,0 +1,898 @@
+{% extends "base01.html" %}
+
+{% block title01 %}
+    {% if langue == "fr" %}Settings Admin
+    {% elif langue == "en" %}Admin Settings
+    {% elif langue == "ar" %}إعدادات المشرف
+    {% endif %}
+{% endblock title01 %}
+
+{% block pub312 %}{% endblock pub312 %}
+{% block body01 %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!--
+  J’ai une liste de comptes (utilisateur + mot de passe).  
+    Formate-les en tableau texte avec 2 colonnes alignées (police monospace), pour que je puisse couper la feuille en deux verticalement.
+
+    ⚠️ Règles strictes :
+    - Chaque paire (gauche + droite) doit prendre exactement 3 lignes :
+    1. Une ligne de séparation "------------------------------------------------      ------------------------------------------------"
+    2. Une ligne avec "Utilisateur : ..." (dans chaque colonne)
+    3. Une ligne avec "Mot de passe : ..." (dans chaque colonne)
+    - Répéter ce schéma pour chaque paire.
+    - Chaque page doit contenir **exactement 30 lignes** (donc 10 paires par page).  
+    - Quand on atteint la ligne 30 → insérer un **saut de page clair** (ligne vide ou "=== PAGE SUIVANTE ===") et recommencer la même structure sur la page suivante.
+    - Si le nombre total de lignes n’est pas multiple de 30, la dernière page peut contenir moins de paires mais doit garder la même mise en forme.
+
+    Objectif : obtenir un rendu propre, bien aligné, imprimable, avec des colonnes droites et pages régulières.
+
+-->
+<style>
+    /* ===== STYLE RECEVOIR PDF ===== */
+.pdf-section {
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 10px;
+  padding: 20px 25px;
+  margin: 20px auto;
+  max-width: 600px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  font-family: Arial, sans-serif;
+  color: #243749;
+}
+
+.pdf-section form {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.pdf-section button {
+  background: #243749;
+  color: #f5f7fa;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.pdf-section button:hover {
+  background: #1a2a3d;
+  transform: scale(1.05);
+}
+
+.pdf-section h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.6rem;
+  border-bottom: 2px solid #24374933;
+  padding-bottom: 0.4rem;
+  text-align: center;
+}
+
+.pdf-section pre {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 6px;
+  padding: 10px 12px;
+  margin: 10px 0;
+  overflow-x: auto;
+  font-size: 0.9rem;
+  color: #243749;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .pdf-section {
+    padding: 15px;
+    margin: 15px;
+  }
+
+  .pdf-section h3 {
+    font-size: 1.1rem;
+  }
+
+  .pdf-section button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .pdf-section h3 {
+    font-size: 1rem;
+  }
+  .pdf-section pre {
+    font-size: 0.8rem;
+    padding: 8px 10px;
+  }
+}
+/* ===== Bouton Copier ===== */
+.copy-btn {
+  background: #1abc9c;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-top: 8px;
+  transition: all 0.3s ease;
+}
+
+.copy-btn:hover {
+  background: #148f77;
+  transform: scale(1.05);
+}
+
+/* ===== Bloc Instructions ===== */
+.instructions-box {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 15px 20px;
+  margin-top: 20px;
+  color: #243749;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.instructions-box h4 {
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+  color: #243749;
+}
+
+.instructions-box ol {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.instructions-box li {
+  margin-bottom: 0.7rem;
+}
+
+.instructions-box pre {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 0.85rem;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+</style>
+
+
+<div class="admin-settings-container">
+{% if is_auth %}
+    {% if is_admin == "admin" %}
+
+        <!-- Section Matières -->
+        <div class="settings-section">
+            <h2><i class="fas fa-book"></i> 
+                {% if langue == "fr" %}Matières
+                {% elif langue == "en" %}Subjects
+                {% elif langue == "ar" %}المواد
+                {% endif %}
+            </h2>
+            <table class="settings-table">
+                <thead>
+                    <tr>
+                        <th>
+                            {% if langue == "fr" %}Matière
+                            {% elif langue == "en" %}Subject
+                            {% elif langue == "ar" %}المادة
+                            {% endif %}
+                        </th>
+                        <th>
+                            {% if langue == "fr" %}Sélection
+                            {% elif langue == "en" %}Selection
+                            {% elif langue == "ar" %}اختيار
+                            {% endif %}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for i in Matiere %}
+                    <tr>
+                        <td style="color:#243749;">{{i.matiere}}</td>
+                        <td><input type="checkbox" name="" class="mtrchk" value="{{i.id}}"></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            
+            <div class="settings-form">
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="quelform" value="form_supprimer_matiere">
+                    <input type="hidden" name="matierename" id="mtrsuppr">
+                    <button type="submit" id="btnmtr01">
+                        <i class="fas fa-trash"></i> 
+                        {% if langue == "fr" %}Supprimer les matières sélectionnées
+                        {% elif langue == "en" %}Delete selected subjects
+                        {% elif langue == "ar" %}حذف المواد المحددة
+                        {% endif %}
+                    </button>
+                </form>
+            </div>
+            
+            <div class="settings-form">
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="quelform" value="form_ajouter_matiere">
+                    <input type="text" name="matierename01" placeholder="{% if langue == 'fr' %}Ajouter une matière{% elif langue == 'en' %}Add a subject{% elif langue == 'ar' %}إضافة مادة{% endif %}" required>
+                    <button type="submit">
+                        <i class="fas fa-plus"></i> 
+                        {% if langue == "fr" %}Ajouter une matière
+                        {% elif langue == "en" %}Add subject
+                        {% elif langue == "ar" %}إضافة مادة
+                        {% endif %}
+                    </button>
+                    {% if error_mtr == "n" %}
+                    <p class="error-message">
+                        {% if langue == "fr" %}Il doit y avoir seulement des lettres !
+                        {% elif langue == "en" %}There must be only letters!
+                        {% elif langue == "ar" %}يجب أن يحتوي على أحرف فقط!
+                        {% endif %}
+                    </p>
+                    {% elif error_mtr == "y" %}
+                    <p class="error-message">
+                        {% if langue == "fr" %}Cette matière existe déjà !
+                        {% elif langue == "en" %}This subject already exists!
+                        {% elif langue == "ar" %}هذه المادة موجودة بالفعل!
+                        {% endif %}
+                    </p>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+
+        <!-- Section Filières -->
+        <div class="settings-section">
+            <h2><i class="fas fa-graduation-cap"></i> 
+                {% if langue == "fr" %}Filières
+                {% elif langue == "en" %}Fields
+                {% elif langue == "ar" %}التخصصات
+                {% endif %}
+            </h2>
+            <table class="settings-table">
+                <thead>
+                    <tr>
+                        <th>
+                            {% if langue == "fr" %}Filière
+                            {% elif langue == "en" %}Field
+                            {% elif langue == "ar" %}التخصص
+                            {% endif %}
+                        </th>
+                        <th>
+                            {% if langue == "fr" %}Sélection
+                            {% elif langue == "en" %}Selection
+                            {% elif langue == "ar" %}اختيار
+                            {% endif %}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for i in Filiere01 %}
+                    <tr>
+                        <td style="color:#243749;">{{i.filiere}}</td>
+                        <td><input type="checkbox" class="flrchk" value="{{i.id}}"></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            
+            <div class="settings-form">
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="quelform" value="form_suppr_flr">
+                    <input type="hidden" name="inp_suppr_flr" id="inp_suppr_flr">
+                    <button type="submit" id="btn_suppr_flr">
+                        <i class="fas fa-trash"></i> 
+                        {% if langue == "fr" %}Supprimer les filières sélectionnées
+                        {% elif langue == "en" %}Delete selected fields
+                        {% elif langue == "ar" %}حذف التخصصات المحددة
+                        {% endif %}
+                    </button>
+                </form>
+            </div>
+            
+            <div class="settings-form">
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="quelform" value="form_ajou_flr">
+                    <input type="text" name="inp_ajou_flr" placeholder="{% if langue == 'fr' %}Entrer la filière{% elif langue == 'en' %}Enter the field{% elif langue == 'ar' %}أدخل التخصص{% endif %}" required>
+                    <button type="submit">
+                        <i class="fas fa-plus"></i> 
+                        {% if langue == "fr" %}Ajouter une filière
+                        {% elif langue == "en" %}Add field
+                        {% elif langue == "ar" %}إضافة تخصص
+                        {% endif %}
+                    </button>
+                    {% if error_flr == "y" %}
+                    <p class="error-message">
+                        {% if langue == "fr" %}Cette filière existe déjà !
+                        {% elif langue == "en" %}This field already exists!
+                        {% elif langue == "ar" %}هذا التخصص موجود بالفعل!
+                        {% endif %}
+                    </p>
+                    {% elif error_flr == "n" %}
+                    <p class="error-message">
+                        {% if langue == "fr" %}Il doit y avoir seulement des lettres !
+                        {% elif langue == "en" %}There must be only letters!
+                        {% elif langue == "ar" %}يجب أن يحتوي على أحرف فقط!
+                        {% endif %}
+                    </p>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+
+        <!-- Section Classes -->
+        <div class="settings-section">
+            <h2><i class="fas fa-school"></i> 
+                {% if langue == "fr" %}Classes du lycée
+                {% elif langue == "en" %}School classes
+                {% elif langue == "ar" %}فصول المدرسة
+                {% endif %}
+            </h2>
+            <table class="settings-table">
+                <thead>
+                    <tr>
+                        <th>
+                            {% if langue == "fr" %}Classe
+                            {% elif langue == "en" %}Class
+                            {% elif langue == "ar" %}الفصل
+                            {% endif %}
+                        </th>
+                        <th>
+                            {% if langue == "fr" %}Sélection
+                            {% elif langue == "en" %}Selection
+                            {% elif langue == "ar" %}اختيار
+                            {% endif %}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for i in classe01 %}
+                    <tr>
+                        <td style="color:#243749;">{{i.classe}}</td>
+                        <td><input type="checkbox" class="chkclasse" value="{{i.id}}"></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            
+            <div class="settings-form">
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="quelform" value="suppr_classe">
+                    <input type="hidden" name="inp_suppr_classe" id="inp_suppr_classe">
+                    <button type="submit" id="btn_suppr_classe">
+                        <i class="fas fa-trash"></i> 
+                        {% if langue == "fr" %}Supprimer les classes sélectionnées
+                        {% elif langue == "en" %}Delete selected classes
+                        {% elif langue == "ar" %}حذف الفصول المحددة
+                        {% endif %}
+                    </button>
+                </form>
+            </div>
+            
+            <div class="settings-form">
+                <form method="POST" style="display:flex;flex-direction:column;">
+                    {% csrf_token %}
+                    <input type="hidden" name="quelform" value="ajou_classe">
+                    <input type="hidden" name="final_classe" id="final_classe">
+
+                    <label for="slct_flr">
+                        {% if langue == "fr" %}Sélectionner une filière
+                        {% elif langue == "en" %}Select a field
+                        {% elif langue == "ar" %}اختر تخصصًا
+                        {% endif %}
+                    </label>
+                    <select name="slct_flr" id="slct_flr" required>
+                        <option value="">
+                            {% if langue == "fr" %}Choisissez une filière
+                            {% elif langue == "en" %}Choose a field
+                            {% elif langue == "ar" %}اختر تخصصًا
+                            {% endif %}
+                        </option>
+                        {% for i in Filiere01 %}
+                        <option value="{{i.filiere}}">{{i.filiere}}</option>
+                        {% endfor %}
+                    </select>
+
+                    <label for="slct_annee">
+                        {% if langue == "fr" %}Sélectionnez une année
+                        {% elif langue == "en" %}Select a year
+                        {% elif langue == "ar" %}اختر سنة
+                        {% endif %}
+                    </label>
+                    <select name="slct_annee" id="slct_annee" required>
+                        <option value="">
+                            {% if langue == "fr" %}Choisissez une année
+                            {% elif langue == "en" %}Choose a year
+                            {% elif langue == "ar" %}اختر سنة
+                            {% endif %}
+                        </option>
+                        <option value="{% if langue == 'fr' %}1er Année{% elif langue == 'en' %}1st Year{% elif langue == 'ar' %}السنة الأولى{% endif %}">
+                            {% if langue == "fr" %}1er Année
+                            {% elif langue == "en" %}1st Year
+                            {% elif langue == "ar" %}السنة الأولى
+                            {% endif %}
+                        </option>
+                        <option value="{% if langue == 'fr' %}2eme Année{% elif langue == 'en' %}2nd Year{% elif langue == 'ar' %}السنة الثانية{% endif %}">
+                            {% if langue == "fr" %}2eme Année
+                            {% elif langue == "en" %}2nd Year
+                            {% elif langue == "ar" %}السنة الثانية
+                            {% endif %}
+                        </option>
+                        <option value="{% if langue == 'fr' %}3eme Année{% elif langue == 'en' %}3rd Year{% elif langue == 'ar' %}السنة الثالثة{% endif %}">
+                            {% if langue == "fr" %}3eme Année
+                            {% elif langue == "en" %}3rd Year
+                            {% elif langue == "ar" %}السنة الثالثة
+                            {% endif %}
+                        </option>
+                    </select>
+                    
+                    <label for="inp_number_classe">
+                        {% if langue == "fr" %}Entrez le numéro de la classe
+                        {% elif langue == "en" %}Enter the class number
+                        {% elif langue == "ar" %}أدخل رقم الفصل
+                        {% endif %}
+                    </label>
+                    <input name="inp_number_classe" id="inp_number_classe" type="number" max="15" min="1" required placeholder="{% if langue == 'fr' %}Ex: 1, 2, 3...{% elif langue == 'en' %}Ex: 1, 2, 3...{% elif langue == 'ar' %}مثال: 1, 2, 3...{% endif %}">
+                    
+                    <button type="submit" id="btn_classe">
+                        <i class="fas fa-plus"></i> 
+                        {% if langue == "fr" %}Crée une classe
+                        {% elif langue == "en" %}Create class
+                        {% elif langue == "ar" %}إنشاء فصل
+                        {% endif %}
+                    </button>
+                    
+                    {% if error_classe == "y" %}
+                    <p class="error-message">
+                        {% if langue == "fr" %}Cette classe existe déjà !
+                        {% elif langue == "en" %}This class already exists!
+                        {% elif langue == "ar" %}هذا الفصل موجود بالفعل!
+                        {% endif %}
+                    </p>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+            {% if redx == "bloque" %}
+                    
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="quelform" value="bloquepub">
+                <button type="submit" class="submit-btn" style="margin:2rem 0;background:#dc3545;">
+                    {% if langue == "fr" %}Bloquer les demandes de publicité <i class="fa-solid fa-ban"></i>
+                    {% elif langue == "en" %}Block advertising requests <i class="fa-solid fa-ban"></i>
+                    {% elif langue == "ar" %}حظر طلبات الإعلانات <i class="fa-solid fa-ban"></i>
+                    {% endif %}
+                </button>
+            </form>
+            {% elif redx == "debloque" %}
+
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="quelform" value="debloquerpub">
+                <button type="submit" class="submit-btn" style="margin:2rem 0;background: #218838;">
+                    {% if langue == "fr" %}Débloquer les demandes de publicité <i class="fa-solid fa-unlock"></i>
+                    {% elif langue == "en" %}Unblock advertising requests <i class="fa-solid fa-unlock"></i>
+                    {% elif langue == "ar" %}إلغاء حظر طلبات الإعلانات <i class="fa-solid fa-unlock"></i>
+                    {% endif %}
+                </button>
+            </form>
+
+            {% endif %}
+
+            {% if redy == "bloque" %}
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="quelform" value="bloquecertf">
+                <button type="submit" class="submit-btn" style="margin:2rem 0;background:#dc3545;">
+                    {% if langue == "fr" %}Bloquer les demandes de certificat d’absence <i class="fa-solid fa-file-circle-xmark"></i>
+                    {% elif langue == "en" %}Block absence certificate requests <i class="fa-solid fa-file-circle-xmark"></i>
+                    {% elif langue == "ar" %}حظر طلبات شهادة الغياب <i class="fa-solid fa-file-circle-xmark"></i>
+                    {% endif %}
+                </button>
+            </form>
+
+            {% elif redy == "debloque" %}
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="quelform" value="debloquecertif">
+                <button type="submit" class="submit-btn" style="margin:2rem 0;background: #218838;">
+                    {% if langue == "fr" %}Débloquer les demandes de certificat d’absence <i class="fa-solid fa-file-circle-check"></i>
+                    {% elif langue == "en" %}Unblock absence certificate requests <i class="fa-solid fa-file-circle-check"></i>
+                    {% elif langue == "ar" %}إلغاء حظر طلبات شهادة الغياب <i class="fa-solid fa-file-circle-check"></i>
+                    {% endif %}
+                </button>
+            </form>
+
+            {% endif %}
+
+<!--            
+<div class="pdf-section">
+  <form method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="quelform" value="recevoir_pdf">
+      <button type="submit">
+          {% if langue == "fr" %}
+              Recevoir le PDF
+          {% elif langue == "en" %}
+              Receive PDF
+          {% elif langue == "ar" %}
+              استلام ملف PDF
+          {% endif %}
+      </button>
+  </form>
+
+  {% if tout_infos %}
+      <h3>
+          {% if langue == "fr" %}
+              Informations reçues :
+          {% elif langue == "en" %}
+              Received Information:
+          {% elif langue == "ar" %}
+              المعلومات المستلمة :
+          {% endif %}
+      </h3>
+      <pre id="infos-text">{{ tout_infos }}</pre>
+
+      
+      <button type="button" class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('infos-text').innerText)">
+          {% if langue == "fr" %}
+              Copier
+          {% elif langue == "en" %}
+              Copy
+          {% elif langue == "ar" %}
+              نسخ
+          {% endif %}
+      </button>
+
+      
+      <div class="instructions-box">
+          {% if langue == "fr" %}
+              <h4>Instructions (obligatoire sur PC) :</h4>
+              <ol>
+                  <li>Cliquer sur <b>Recevoir le PDF</b></li>
+                  <li>Cliquer sur <b>Copier</b></li>
+                  <li>Aller sur ChatGPT et coller les données avec <b>Ctrl+V</b></li>
+                  <li>Copier ce prompt :
+    <pre id="erivfv5dv5">
+    🟦 PROMPT ULTIME - FORMATAGE PRO 🟦
+
+    🎯 Rôle :  
+    Tu es un formateur ultra strict de mise en page.  
+    Je vais te donner une liste de noms + numéros (classés en Professeurs / Élèves / Matières).  
+    Ta mission est de les transformer en un tableau texte **monospace** (alignement parfait).
+
+    ⚠️ RÈGLES STRICTES :
+
+    1. Chaque page doit avoir **exactement 31 lignes** (ni plus ni moins).  
+    - Si la catégorie se termine avant 31 lignes, ajouter des lignes vides (avec séparateurs) pour compléter.  
+
+    2. Chaque page doit avoir **2 colonnes alignées** (gauche / droite).  
+    - Les deux colonnes doivent pouvoir être **coupées verticalement**.  
+
+    3. Chaque paire (gauche/droite) est séparée par une ligne :  
+    ------------------------------------------------      ------------------------------------------------  
+
+    4. Le haut de chaque page doit toujours afficher :  
+    ------------------------------------------------      ------------------------------------------------  
+    Page X                                               Page X  
+    ------------------------------------------------      ------------------------------------------------  
+
+    5. Les titres de groupe (Prof - Arabic, Prof - Sport, Élèves - 1ère Année, etc.) doivent :  
+    - Être centrés entre `##########`  
+    - Utiliser des **emoji colorés compatibles Word (Windows)** → exemples : ⭐📘⭐, ⭐⚡⭐, ⭐🧮⭐, ⭐🎓⭐  
+    - Toujours occuper **une seule ligne entière**, par ex. :  
+        ########## ⭐📘 PROF - ARABIC 📘⭐ ##########  
+
+    6. Les noms + numéros sont présentés **par deux colonnes** (gauche / droite).  
+
+    7. Quand une catégorie se termine, on passe à la suivante avec son titre clair et séparateurs.  
+
+    ---
+
+    📌 Exemple simplifié attendu :  
+
+    ------------------------------------------------      ------------------------------------------------  
+    Page 1                                               Page 1  
+    ------------------------------------------------      ------------------------------------------------  
+    ########## ⭐📘 PROF - ARABIC 📘⭐ ##########  
+    الخطيب_علي 268977                                    العمر_فاطمة 943476  
+    ------------------------------------------------      ------------------------------------------------  
+    النجار_يوسف 408174                                   المصري_مريم 271222  
+    ------------------------------------------------      ------------------------------------------------  
+    السعيد_أحمد 705108                                   الحسيني_ليلى 252983  
+    ------------------------------------------------      ------------------------------------------------  
+    الرفاعي_خالد 335034                                  الشريف_نور 453086  
+    ------------------------------------------------      ------------------------------------------------  
+    العباسي_حسن 420971                                   العلي_سارة 149658  
+    ------------------------------------------------      ------------------------------------------------  
+    ########## ⭐⚡ PROF - SPORT ⚡⭐ ##########  
+    الكاظمي_إبراهيم 985893                               البغدادي_خديجة 983588  
+    ------------------------------------------------      ------------------------------------------------  
+
+    ---
+
+    ⚡ Astuce bonus :  
+    Si tu veux changer le style visuel, il suffit de remplacer la combinaison d’emoji (⭐📘⭐) par une autre colorée (🔥⭐🔥, 📕⭐📕, 🎯📗🎯, etc.).  
+    </pre>
+
+        <button type="button" class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('erivfv5dv5').innerText)">
+          {% if langue == "fr" %}
+              Copier
+          {% elif langue == "en" %}
+              Copy
+          {% elif langue == "ar" %}
+              نسخ
+          {% endif %}
+        </button>
+                  </li>
+                  <li>Retourner sur la même page de ChatGPT et coller le prompt avec <b>Ctrl+V</b></li>
+                  <li>Lancer</li>
+                  <li>Copier le résultat</li>
+                  <li>Aller sur Word puis coller le résultat</li>
+                  <li>Imprimer</li>
+              </ol>
+          {% elif langue == "en" %}
+              <h4>Instructions (mandatory on PC):</h4>
+              <ol>
+                  <li>Click <b>Receive PDF</b></li>
+                  <li>Click <b>Copy</b></li>
+                  <li>Go to ChatGPT and paste the data with <b>Ctrl+V</b></li>
+                  <li>Copy this prompt:
+    <pre id="xkxs">
+    🟦 ULTIMATE PROMPT - PRO FORMATTING 🟦
+
+    🎯 Role:  
+    You are an ultra-strict formatting trainer.  
+    I will give you a list of names + numbers (grouped into Teachers / Students / Subjects).  
+    Your mission is to transform them into a **monospaced text table** (perfect alignment).
+
+    ⚠️ STRICT RULES:
+
+    1. Each page must have **exactly 31 lines** (no more, no less).  
+    - If the category ends before 31 lines, add empty lines (with separators) to complete.  
+
+    2. Each page must have **2 aligned columns** (left / right).  
+    - The two columns must be able to be **cut vertically**.  
+
+    3. Each pair (left/right) is separated by a line:  
+    ------------------------------------------------      ------------------------------------------------  
+
+    4. The top of each page must always display:  
+    ------------------------------------------------      ------------------------------------------------  
+    Page X                                               Page X  
+    ------------------------------------------------      ------------------------------------------------  
+
+    5. Group titles (Prof - Arabic, Prof - Sport, Students - 1st Year, etc.) must:  
+    - Be centered between `##########`  
+    - Use **colored emojis compatible with Word (Windows)** → examples: ⭐📘⭐, ⭐⚡⭐, ⭐🧮⭐, ⭐🎓⭐  
+    - Always take up **one full line**, e.g.:  
+        ########## ⭐📘 PROF - ARABIC 📘⭐ ##########  
+
+    6. Names + numbers must be presented **in two columns** (left / right).  
+
+    7. When a category ends, move to the next with its clear title and separators.  
+
+    ---
+
+    📌 Simplified expected example:  
+
+    ------------------------------------------------      ------------------------------------------------  
+    Page 1                                               Page 1  
+    ------------------------------------------------      ------------------------------------------------  
+    ########## ⭐📘 PROF - ARABIC 📘⭐ ##########  
+    الخطيب_علي 268977                                    العمر_فاطمة 943476  
+    ------------------------------------------------      ------------------------------------------------  
+    النجار_يوسف 408174                                   المصري_مريم 271222  
+    ------------------------------------------------      ------------------------------------------------  
+    السعيد_أحمد 705108                                   الحسيني_ليلى 252983  
+    ------------------------------------------------      ------------------------------------------------  
+    الرفاعي_خالد 335034                                  الشريف_نور 453086  
+    ------------------------------------------------      ------------------------------------------------  
+    العباسي_حسن 420971                                   العلي_سارة 149658  
+    ------------------------------------------------      ------------------------------------------------  
+    ########## ⭐⚡ PROF - SPORT ⚡⭐ ##########  
+    الكاظمي_إبراهيم 985893                               البغدادي_خديجة 983588  
+    ------------------------------------------------      ------------------------------------------------  
+
+    ---
+
+    ⚡ Bonus tip:  
+    If you want to change the visual style, simply replace the emoji combination (⭐📘⭐) with another colorful one (🔥⭐🔥, 📕⭐📕, 🎯📗🎯, etc.).  
+
+    </pre>
+                      <button type="button" class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('vf5151d').innerText)">
+                        {% if langue == "fr" %}
+                            Copier
+                        {% elif langue == "en" %}
+                            Copy
+                        {% elif langue == "ar" %}
+                            نسخ
+                        {% endif %}
+                        </button>
+                  </li>
+                  <li>ارجع إلى نفس صفحة ChatGPT والصق الـ prompt بـ <b>Ctrl+V</b></li>
+                  <li>شغّل</li>
+                  <li>انسخ النتيجة</li>
+                  <li>اذهب إلى Word والصق النتيجة</li>
+                  <li>اطبع</li>
+              </ol>
+          {% endif %}
+      </div>
+  {% endif %}
+</div>
+-->
+
+<div class="pdf-section">
+  <form method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="quelform" value="recevoir_pdf">
+      <button type="submit">
+          {% if langue == "fr" %}
+              Recevoir le PDF
+          {% elif langue == "en" %}
+              Receive PDF
+          {% elif langue == "ar" %}
+              استلام ملف PDF
+          {% endif %}
+      </button>
+  </form>
+<div class="instructions-box">
+    {% if langue == "fr" %}
+        <h4>Instructions (obligatoire sur PC) :</h4>
+        <ol>
+            <li>Cliquer sur <b>Recevoir le PDF</b></li>
+            <li>Copier le résultat</li>
+            <li>Aller sur Word puis coller le résultat</li>
+            <li>Imprimer</li>
+        </ol>
+
+    {% elif langue == "en" %}
+        <h4>Instructions (mandatory on PC):</h4>
+        <ol>
+            <li>Click <b>Receive PDF</b></li>
+            <li>Copy the result</li>
+            <li>Go to Word and paste the result</li>
+            <li>Print</li>
+        </ol>
+
+    {% elif langue == "ar" %}
+        <h4>التعليمات (إجباري على الحاسوب):</h4>
+        <ol>
+            <li>اضغط على <b>استلام ملف PDF</b></li>
+            <li>انسخ النتيجة</li>
+            <li>اذهب إلى Word والصق النتيجة</li>
+            <li>اطبع</li>
+        </ol>
+    {% endif %}
+</div>
+  {% if tout_infos %}
+      <h3>
+          {% if langue == "fr" %}
+              Informations reçues :
+          {% elif langue == "en" %}
+              Received Information:
+          {% elif langue == "ar" %}
+              المعلومات المستلمة :
+          {% endif %}
+      </h3>
+      <pre id="infos-text">{{ tout_infos }}</pre>
+
+      <!-- Bouton pour copier -->
+      <button type="button" class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('infos-text').innerText)">
+          {% if langue == "fr" %}
+              Copier
+          {% elif langue == "en" %}
+              Copy
+          {% elif langue == "ar" %}
+              نسخ
+          {% endif %}
+      </button>
+
+      <!-- Instructions -->
+      
+  {% endif %}
+</div>
+
+
+
+
+    
+
+        <script>
+        const chk_mtr = document.querySelectorAll('.mtrchk');
+        const inp_mtr_suppr = document.getElementById('mtrsuppr');
+        const btn_suppr_mtr = document.getElementById('btnmtr01');
+
+        const flrchk = document.querySelectorAll('.flrchk');
+        const inp_suppr_flr = document.getElementById('inp_suppr_flr');
+        const btn_suppr_flr = document.getElementById('btn_suppr_flr');
+
+        const chk_classe = document.querySelectorAll('.chkclasse');
+        const inp_suppr_classe = document.getElementById('inp_suppr_classe');
+        const btn_suppr_classe = document.getElementById('btn_suppr_classe');
+
+        btn_suppr_classe.addEventListener("click",()=>{
+            let e = "";
+            chk_classe.forEach(x=>{
+                if(x.checked){
+                    e += "-"+ x.value;
+                };
+            });
+            inp_suppr_classe.value = e;
+        });
+
+        btn_suppr_flr.addEventListener("click",()=>{
+            let e="";
+            flrchk.forEach(x=>{
+                if(x.checked){
+                    e += "-"+ x.value;
+                };
+            });
+            inp_suppr_flr.value = e ;
+        });
+
+        btn_suppr_mtr.addEventListener("click",()=>{
+            let e = "";
+            chk_mtr.forEach(x =>{
+                if(x.checked){
+                    e += "-" + x.value
+                };
+            });
+            inp_mtr_suppr.value = e ;
+        });
+        </script>
+       
+    {% else %}
+    <div class="access-message">
+        <i class="fas fa-user-shield"></i>
+        <h1>
+            {% if langue == "fr" %}Accès réservé aux administrateurs
+            {% elif langue == "en" %}Access restricted to administrators
+            {% elif langue == "ar" %}الوصول مقصور على المسؤولين
+            {% endif %}
+        </h1>
+        <p>
+            {% if langue == "fr" %}Cette page permet d'ajouter ou de supprimer des matières, filières et classes. Seuls les administrateurs peuvent accéder à ces fonctionnalités.
+            {% elif langue == "en" %}This page allows adding or deleting subjects, fields and classes. Only administrators can access these features.
+            {% elif langue == "ar" %}تتيح هذه الصفحة إضافة أو حذف المواد والتخصصات والفصول. فقط المسؤولون يمكنهم الوصول إلى هذه الميزات.
+            {% endif %}
+        </p>
+    </div>
+    {% endif %}     
+{% else %}
+    <div class="access-message">
+        <i class="fas fa-lock"></i>
+        <h1>
+            {% if langue == "fr" %}Connexion requise
+            {% elif langue == "en" %}Login required
+            {% elif langue == "ar" %}مطلوب تسجيل الدخول
+            {% endif %}
+        </h1>
+        <p>
+            {% if langue == "fr" %}Vous devez être connecté pour accéder à cette page. Cette interface permet aux administrateurs de gérer les matières, filières et classes de l'établissement.
+            {% elif langue == "en" %}You must be logged in to access this page. This interface allows administrators to manage the subjects, fields and classes of the institution.
+            {% elif langue == "ar" %}يجب عليك تسجيل الدخول للوصول إلى هذه الصفحة. تتيح هذه الواجهة للمسؤولين إدارة المواد والتخصصات والفصول بالمؤسسة.
+            {% endif %}
+        </p>
+    </div>
+{% endif %}
+</div>
+
+{% endblock body01 %}

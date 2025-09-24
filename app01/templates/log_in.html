@@ -1,0 +1,97 @@
+{% extends "base01.html" %}
+{% block javascriptmemeplace %}{% endblock javascriptmemeplace %}
+
+{% block title01 %}
+    {% if langue == "fr" %}Connexion
+    {% elif langue == "en" %}Login
+    {% elif langue == "ar" %}تسجيل الدخول
+    {% endif %}
+{% endblock title01 %}
+
+{% block body01 %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-header">
+            <i class="fas fa-sign-in-alt"></i>
+            <h1>
+                {% if langue == "fr" %}Connexion
+                {% elif langue == "en" %}Login
+                {% elif langue == "ar" %}تسجيل الدخول
+                {% endif %}
+            </h1>
+        </div>
+
+        <form method="POST" class="login-form">
+            {% csrf_token %}
+            <input type="hidden" name="quelform" value="log-in_user">
+            
+            <div class="form-group">
+                <label for="nom">
+                    {% if langue == "fr" %}Nom de famille
+                    {% elif langue == "en" %}Last name
+                    {% elif langue == "ar" %}الاسم العائلي
+                    {% endif %}
+                </label>
+                <input type="text" name="nom" id="nom" placeholder="
+                    {% if langue == 'fr' %}Votre nom de famille
+                    {% elif langue == 'en' %}Your last name
+                    {% elif langue == 'ar' %}اسمك العائلي
+                    {% endif %}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="prenom">
+                    {% if langue == "fr" %}Prénom
+                    {% elif langue == "en" %}First name
+                    {% elif langue == "ar" %}الاسم الشخصي
+                    {% endif %}
+                </label>
+                <input type="text" name="prenom" id="prenom" placeholder="
+                    {% if langue == 'fr' %}Votre prénom
+                    {% elif langue == 'en' %}Your first name
+                    {% elif langue == 'ar' %}اسمك الشخصي
+                    {% endif %}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">
+                    {% if langue == "fr" %}Mot de passe
+                    {% elif langue == "en" %}Password
+                    {% elif langue == "ar" %}كلمة المرور
+                    {% endif %}
+                </label>
+                <input type="password" name="password" id="password" placeholder="
+                    {% if langue == 'fr' %}Votre mot de passe
+                    {% elif langue == 'en' %}Your password
+                    {% elif langue == 'ar' %}كلمة المرور الخاصة بك
+                    {% endif %}" required>
+            </div>
+            
+            <button type="submit" class="login-button">
+                <i class="fas fa-sign-in-alt"></i> 
+                {% if langue == "fr" %}Se connecter
+                {% elif langue == "en" %}Log in
+                {% elif langue == "ar" %}تسجيل الدخول
+                {% endif %}
+            </button>
+            
+
+            {% if mdp_faux == "faux" %}
+            <div class="error-message">
+                <i class="fas fa-exclamation-circle"></i>
+                <p>
+                    {% if langue == "fr" %}Mot de passe incorrect / Nom ou prénom incorrect
+                    {% elif langue == "en" %}Incorrect password / Incorrect name or first name
+                    {% elif langue == "ar" %}كلمة المرور غير صحيحة / الاسم أو الاسم الشخصي غير صحيح
+                    {% endif %}
+                </p>
+            </div>
+            {% endif %}
+        </form>
+    </div>
+</div>
+
+{% endblock body01 %}

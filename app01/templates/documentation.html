@@ -1,0 +1,625 @@
+{% extends "base01.html" %}
+
+{% block title01 %}{% if langue == "fr" %}Documentation{% elif langue == "en" %}Documentation{% elif langue == "ar" %}وثائق{% endif %}{% endblock title01 %}
+
+{% block javascriptmemeplace %}{% endblock javascriptmemeplace %}
+
+{% block body01 %}
+<!--
+    <style>
+        .doc-section {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .doc-section h2 {
+            font-size: 1.6rem;
+            color: #243749;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #24374933;
+            padding-bottom: 0.3rem;
+        }
+
+        .doc-section h3 {
+            font-size: 1.3rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.7rem;
+            color: #243749;
+        }
+
+        .doc-list,
+        .doc-steps {
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+
+        .doc-list li,
+        .doc-steps li {
+            margin-bottom: 0.6rem;
+            font-size: 1.05rem;
+            line-height: 1.5;
+        }
+
+        .doc-message {
+            background: #243749;
+            color: azure;
+            padding: 1rem 1.2rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+        }
+
+        .doc-message i {
+            font-style: italic;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .doc-section {
+                padding: 1rem;
+            }
+            .doc-section h2 {
+                font-size: 1.3rem;
+            }
+            .doc-section h3 {
+                font-size: 1.1rem;
+            }
+            .doc-list li,
+            .doc-steps li {
+                font-size: 1rem;
+            }
+        }
+    </style>
+
+    <h1 class="doc-title">
+    {% if langue == "fr" %}Documentation du site
+    {% elif langue == "en" %}Site Documentation
+    {% elif langue == "ar" %}توثيق الموقع
+    {% endif %}
+    </h1>
+
+    <h2 class="doc-section-title">
+    {% if langue == "fr" %}Fonctionnalités et pages
+    {% elif langue == "en" %}Features and Pages
+    {% elif langue == "ar" %}الوظائف والصفحات
+    {% endif %}
+    </h2>
+    <ul class="doc-list">
+        <li>
+        {% if langue == "fr" %}Home : Emploi du temps pour les élèves, horaires de réception des enseignants.
+        {% elif langue == "en" %}Home: Class schedule for students, teachers' office hours.
+        {% elif langue == "ar" %}الصفحة الرئيسية: جدول الدروس للطلاب، مواعيد استقبال الأساتذة.
+        {% endif %}
+        </li>
+        <li>
+        {% if langue == "fr" %}Profile : Informations personnelles, possibilité de modifier nom/prénom.
+        {% elif langue == "en" %}Profile: Personal information, possibility to edit first/last name.
+        {% elif langue == "ar" %}الملف الشخصي: معلومات شخصية، إمكانية تعديل الاسم واللقب.
+        {% endif %}
+        </li>
+        <li>
+        {% if langue == "fr" %}News : Actualités du lycée, admin peut supprimer chaque actu.
+        {% elif langue == "en" %}News: School news, admin can delete each news item.
+        {% elif langue == "ar" %}الأخبار: أخبار المدرسة، يمكن للمسؤول حذف كل خبر.
+        {% endif %}
+        </li>
+        <li>
+        {% if langue == "fr" %}Connexion : Connexion pour tous les utilisateurs.
+        {% elif langue == "en" %}Login: Login for all users.
+        {% elif langue == "ar" %}تسجيل الدخول: تسجيل الدخول لجميع المستخدمين.
+        {% endif %}
+        </li>
+        <li>
+        {% if langue == "fr" %}Certificat : Demande d'absence ou retard (selon blocage admin).
+        {% elif langue == "en" %}Certificate: Request for absence or lateness (depending on admin block).
+        {% elif langue == "ar" %}الشهادة: طلب غياب أو تأخير (حسب حظر المسؤول).
+        {% endif %}
+        </li>
+        <li>
+        {% if langue == "fr" %}Demande de pub : Demande de publicité avec contact.
+        {% elif langue == "en" %}Ad request: Request for advertisement with contact info.
+        {% elif langue == "ar" %}طلب إعلان: طلب إعلان مع معلومات الاتصال.
+        {% endif %}
+        </li>
+        <li>
+        {% if langue == "fr" %}Messagerie : Création de messagerie pour profs/admins et élèves choisis.
+        {% elif langue == "en" %}Messaging: Create messaging for teachers/admins and selected students.
+        {% elif langue == "ar" %}المراسلة: إنشاء مراسلة للمعلمين/المسؤولين والطلاب المختارين.
+        {% endif %}
+        </li>
+        <li>
+        {% if langue == "fr" %}Création emplois du temps (admin) : Créer, poster et supprimer emplois du temps.
+        {% elif langue == "en" %}Schedule creation (admin): Create, post, and delete schedules.
+        {% elif langue == "ar" %}إنشاء الجداول (المسؤول): إنشاء، نشر وحذف الجداول.
+        {% endif %}
+        </li>
+        <li>
+        {% if langue == "fr" %}Posting (admin) : Poster ou supprimer des news.
+        {% elif langue == "en" %}Posting (admin): Post or delete news.
+        {% elif langue == "ar" %}النشر (المسؤول): نشر أو حذف الأخبار.
+        {% endif %}
+        </li>
+        <li>
+        {% if langue == "fr" %}Certificat admin : Gérer les certificats d’absence (acceptation/refus).
+        {% elif langue == "en" %}Certificate admin: Manage absence certificates (accept/reject).
+        {% elif langue == "ar" %}شهادات المسؤول: إدارة شهادات الغياب (قبول/رفض).
+        {% endif %}
+        </li>
+        <li>
+        {% if langue == "fr" %}Pub admin : Refuser/accepter les demandes de pub.
+        {% elif langue == "en" %}Ad admin: Accept or reject ad requests.
+        {% elif langue == "ar" %}إعلانات المسؤول: قبول أو رفض طلبات الإعلانات.
+        {% endif %}
+        </li>
+        <li>
+        {% if langue == "fr" %}Contact us : Contacter directeur ou développeur front/back-end.
+        {% elif langue == "en" %}Contact us: Contact director or front/back-end developer.
+        {% elif langue == "ar" %}اتصل بنا: الاتصال بالمدير أو مطور الواجهة/الخلفية.
+        {% endif %}
+        </li>
+        <li>
+        {% if langue == "fr" %}Contact us admin : Voir les messages de contact reçus.
+        {% elif langue == "en" %}Contact us admin: View received contact messages.
+        {% elif langue == "ar" %}اتصل بنا للمسؤول: عرض الرسائل المستلمة.
+        {% endif %}
+        </li>
+        <li>
+        {% if langue == "fr" %}Setting admin : Ajouter matières, filières, classes, bloquer demandes.
+        {% elif langue == "en" %}Setting admin: Add subjects, departments, classes, block requests.
+        {% elif langue == "ar" %}إعدادات المسؤول: إضافة المواد، الأقسام، الصفوف، حظر الطلبات.
+        {% endif %}
+        </li>
+        <li>
+        {% if langue == "fr" %}Sign in many admin : Inscrire plusieurs utilisateurs.
+        {% elif langue == "en" %}Sign in many admin: Register multiple users.
+        {% elif langue == "ar" %}تسجيل جماعي للمسؤول: تسجيل عدة مستخدمين.
+        {% endif %}
+        </li>
+        <li>
+        {% if langue == "fr" %}Users manage : Inscrire ou supprimer un utilisateur unique.
+        {% elif langue == "en" %}Users manage: Register or delete a single user.
+        {% elif langue == "ar" %}إدارة المستخدمين: تسجيل أو حذف مستخدم واحد.
+        {% endif %}
+        </li>
+    </ul>
+
+    <h2 class="doc-section-title">
+    {% if langue == "fr" %}Instructions pour l'admin
+    {% elif langue == "en" %}Admin Instructions
+    {% elif langue == "ar" %}تعليمات المسؤول
+    {% endif %}
+    </h2>
+
+    <h3 class="doc-subtitle">
+    {% if langue == "fr" %}À la sortie du site
+    {% elif langue == "en" %}At site launch
+    {% elif langue == "ar" %}عند إطلاق الموقع
+    {% endif %}
+    </h3>
+    <ol class="doc-steps">
+        <li>
+        {% if langue == "fr" %}Choisir la langue (FR/EN/AR).
+        {% elif langue == "en" %}Choose language (FR/EN/AR).
+        {% elif langue == "ar" %}اختر اللغة (FR/EN/AR).
+        {% endif %}
+        </li>
+        <li>
+        {% if langue == "fr" %}Aller dans Setting : ajouter matières, filières, classes.
+        {% elif langue == "en" %}Go to Settings: add subjects, departments, classes.
+        {% elif langue == "ar" %}اذهب إلى الإعدادات: إضافة المواد، الأقسام، الصفوف.
+        {% endif %}
+        </li>
+        <li>
+        {% if langue == "fr" %}Bloquer ou débloquer les demandes de pub et certificat.
+        {% elif langue == "en" %}Block or unblock ad and certificate requests.
+        {% elif langue == "ar" %}حظر أو إلغاء حظر طلبات الإعلانات والشهادات.
+        {% endif %}
+        </li>
+        <li>
+        {% if langue == "fr" %}Utiliser "Sign in many" pour inscrire les utilisateurs.
+        {% elif langue == "en" %}Use "Sign in many" to register users.
+        {% elif langue == "ar" %}استخدم "التسجيل الجماعي" لتسجيل المستخدمين.
+        {% endif %}
+        </li>
+        <li>
+        {% if langue == "fr" %}Poster l’information de lancement du site.
+        {% elif langue == "en" %}Post site launch information.
+        {% elif langue == "ar" %}انشر معلومات إطلاق الموقع.
+        {% endif %}
+        </li>
+    </ol>
+
+    <h3 class="doc-subtitle">
+    {% if langue == "fr" %}Fin d'année
+    {% elif langue == "en" %}End of year
+    {% elif langue == "ar" %}نهاية السنة
+    {% endif %}
+    </h3>
+    <ol class="doc-steps">
+        <li>
+        {% if langue == "fr" %}Supprimer tous les élèves via Users manage.
+        {% elif langue == "en" %}Delete all students via Users manage.
+        {% elif langue == "ar" %}حذف جميع الطلاب عبر إدارة المستخدمين.
+        {% endif %}
+        </li>
+        <li>
+        {% if langue == "fr" %}Supprimer tous les posts via News/Posting.
+        {% elif langue == "en" %}Delete all posts via News/Posting.
+        {% elif langue == "ar" %}حذف جميع المنشورات عبر الأخبار/النشر.
+        {% endif %}
+        </li>
+        <li>
+        {% if langue == "fr" %}Supprimer toutes les demandes de certificat dans Certificat admin.
+        {% elif langue == "en" %}Delete all certificate requests in Certificate admin.
+        {% elif langue == "ar" %}حذف جميع طلبات الشهادات في شهادات المسؤول.
+        {% endif %}
+        </li>
+    </ol>
+
+    <h3 class="doc-subtitle">
+    {% if langue == "fr" %}Gestion des changements
+    {% elif langue == "en" %}Handling Changes
+    {% elif langue == "ar" %}إدارة التغييرات
+    {% endif %}
+    </h3>
+    <p class="doc-paragraph">
+    {% if langue == "fr" %}Nouvel arrivant, filière, classe ou matière : gérer via Settings.
+    {% elif langue == "en" %}New teacher, subject, class, or department: manage via Settings.
+    {% elif langue == "ar" %}المعلم الجديد، المادة، الصف أو القسم: إدارة عبر الإعدادات.
+    {% endif %}
+    </p>
+
+    <h2 class="doc-section-title">
+    {% if langue == "fr" %}Message de l'auteur
+    {% elif langue == "en" %}Author's Message
+    {% elif langue == "ar" %}رسالة المؤلف
+    {% endif %}
+    </h2>
+    <p class="doc-message">
+    {% if langue == "fr" %}
+    Ce site a été créé pour moderniser la gestion du lycée et faciliter la communication. Il est temps de moderniser les choses. Je vous demande de soutenir les mouvements et toutes les petites actions qui permettent d’avancer, malgré tout. Encouragez chacun à s’améliorer malgré tout.  
+    Je vous demande de me souhaiter la réussite.  
+    <i>PS : je n’ai pas eu le temps d’inclure la langue amazigh.</i>
+    .
+    {% elif langue == "en" %}
+    This site was created to modernize school management and facilitate communication. It is time to modernize things. I ask you to support movements and every small action that helps progress, despite everything. Encourage everyone to improve despite everything.  
+    I ask you to wish me success.  
+    <i>PS: I didn’t have time to include the Amazigh language.</i>
+    .
+    {% elif langue == "ar" %}
+    تم إنشاء هذا الموقع لتحديث إدارة المدرسة وتسهيل التواصل. حان الوقت لتحديث الأمور. أطلب منكم دعم الحركات وكل المبادرات الصغيرة التي تساعد على التقدم، رغم كل شيء. شجعوا الجميع على التحسن رغم كل شيء.  
+    أطلب منكم أن تتمنوا لي النجاح.  
+    <i>ملاحظة: لم أتمكن من إضافة اللغة الأمازيغية لعدم وجود وقت كافٍ.</i>
+    .
+    {% endif %}
+    </p>
+-->
+
+<style>
+    
+
+    .container {
+        max-width: 1000px;
+        margin: auto;
+        padding: 1.5rem;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 2rem;
+        font-size: 2rem;
+        color: #1d2d44;
+    }
+
+    .doc-section {
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    }
+
+    .doc-section h2 {
+        font-size: 1.5rem;
+        color: #243749;
+        margin-bottom: 1rem;
+        border-bottom: 2px solid #24374933;
+        padding-bottom: 0.3rem;
+    }
+
+    .doc-section h3 {
+        font-size: 1.2rem;
+        margin-top: 1.2rem;
+        margin-bottom: 0.7rem;
+        color: #243749;
+    }
+
+    .doc-list,
+    .doc-steps {
+        margin: 0;
+        padding-left: 1.5rem;
+    }
+
+    .doc-list li,
+    .doc-steps li {
+        margin-bottom: 0.6rem;
+        font-size: 1.05rem;
+    }
+
+    .doc-message {
+        background: #243749;
+        color: azure;
+        padding: 1.2rem;
+        border-radius: 12px;
+        margin-top: 2rem;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+    }
+
+    .doc-message i {
+        font-style: italic;
+        opacity: 0.9;
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            padding: 1rem;
+        }
+        h1 {
+            font-size: 1.6rem;
+        }
+        .doc-section {
+            padding: 1rem;
+        }
+        .doc-section h2 {
+            font-size: 1.2rem;
+        }
+        .doc-section h3 {
+            font-size: 1rem;
+        }
+        .doc-list li,
+        .doc-steps li {
+            font-size: 0.95rem;
+        }
+    }
+</style>
+
+<div class="container">
+    <h1>
+        <i class="fas fa-book"></i>
+        {% if langue == "fr" %}Documentation du site
+        {% elif langue == "en" %}Site Documentation
+        {% elif langue == "ar" %}توثيق الموقع
+        {% endif %}
+    </h1>
+
+    <div class="doc-section">
+        <h2>
+            <i class="fas fa-cogs"></i>
+            {% if langue == "fr" %}Fonctionnalités et pages
+            {% elif langue == "en" %}Features and Pages
+            {% elif langue == "ar" %}الوظائف والصفحات
+            {% endif %}
+        </h2>
+        <ul class="doc-list">
+            <li>
+                {% if langue == "fr" %}Home : Emploi du temps pour les élèves, horaires de réception des enseignants.
+                {% elif langue == "en" %}Home: Class schedule for students, teachers' office hours.
+                {% elif langue == "ar" %}الصفحة الرئيسية: جدول الدروس للطلاب، مواعيد استقبال الأساتذة.
+                {% endif %}
+            </li>
+            <li>
+                {% if langue == "fr" %}Profile : Informations personnelles, possibilité de modifier nom/prénom.
+                {% elif langue == "en" %}Profile: Personal information, possibility to edit first/last name.
+                {% elif langue == "ar" %}الملف الشخصي: معلومات شخصية، إمكانية تعديل الاسم واللقب.
+                {% endif %}
+            </li>
+            <li>
+                {% if langue == "fr" %}News : Actualités du lycée, admin peut supprimer chaque actu.
+                {% elif langue == "en" %}News: School news, admin can delete each news item.
+                {% elif langue == "ar" %}الأخبار: أخبار المدرسة، يمكن للمسؤول حذف كل خبر.
+                {% endif %}
+            </li>
+            <li>
+                {% if langue == "fr" %}Connexion : Connexion pour tous les utilisateurs.
+                {% elif langue == "en" %}Login: Login for all users.
+                {% elif langue == "ar" %}تسجيل الدخول: تسجيل الدخول لجميع المستخدمين.
+                {% endif %}
+            </li>
+            <li>
+                {% if langue == "fr" %}Certificat : Demande d'absence ou retard (selon blocage admin).
+                {% elif langue == "en" %}Certificate: Request for absence or lateness (depending on admin block).
+                {% elif langue == "ar" %}الشهادة: طلب غياب أو تأخير (حسب حظر المسؤول).
+                {% endif %}
+            </li>
+            <li>
+                {% if langue == "fr" %}Demande de pub : Demande de publicité avec contact.
+                {% elif langue == "en" %}Ad request: Request for advertisement with contact info.
+                {% elif langue == "ar" %}طلب إعلان: طلب إعلان مع معلومات الاتصال.
+                {% endif %}
+            </li>
+            <li>
+                {% if langue == "fr" %}Messagerie : Création de messagerie pour profs/admins et élèves choisis.
+                {% elif langue == "en" %}Messaging: Create messaging for teachers/admins and selected students.
+                {% elif langue == "ar" %}المراسلة: إنشاء مراسلة للمعلمين/المسؤولين والطلاب المختارين.
+                {% endif %}
+            </li>
+            <li>
+                {% if langue == "fr" %}Création emplois du temps (admin) : Créer, poster et supprimer emplois du temps.
+                {% elif langue == "en" %}Schedule creation (admin): Create, post, and delete schedules.
+                {% elif langue == "ar" %}إنشاء الجداول (المسؤول): إنشاء، نشر وحذف الجداول.
+                {% endif %}
+            </li>
+            <li>
+                {% if langue == "fr" %}Posting (admin) : Poster ou supprimer des news.
+                {% elif langue == "en" %}Posting (admin): Post or delete news.
+                {% elif langue == "ar" %}النشر (المسؤول): نشر أو حذف الأخبار.
+                {% endif %}
+            </li>
+            <li>
+                {% if langue == "fr" %}Certificat admin : Gérer les certificats d’absence (acceptation/refus).
+                {% elif langue == "en" %}Certificate admin: Manage absence certificates (accept/reject).
+                {% elif langue == "ar" %}شهادات المسؤول: إدارة شهادات الغياب (قبول/رفض).
+                {% endif %}
+            </li>
+            <li>
+                {% if langue == "fr" %}Pub admin : Refuser/accepter les demandes de pub.
+                {% elif langue == "en" %}Ad admin: Accept or reject ad requests.
+                {% elif langue == "ar" %}إعلانات المسؤول: قبول أو رفض طلبات الإعلانات.
+                {% endif %}
+            </li>
+            <li>
+                {% if langue == "fr" %}Contact us : Contacter directeur ou développeur front/back-end.
+                {% elif langue == "en" %}Contact us: Contact director or front/back-end developer.
+                {% elif langue == "ar" %}اتصل بنا: الاتصال بالمدير أو مطور الواجهة/الخلفية.
+                {% endif %}
+            </li>
+            <li>
+                {% if langue == "fr" %}Contact us admin : Voir les messages de contact reçus.
+                {% elif langue == "en" %}Contact us admin: View received contact messages.
+                {% elif langue == "ar" %}اتصل بنا للمسؤول: عرض الرسائل المستلمة.
+                {% endif %}
+            </li>
+            <li>
+                {% if langue == "fr" %}Setting admin : Ajouter matières, filières, classes, bloquer demandes.
+                {% elif langue == "en" %}Setting admin: Add subjects, departments, classes, block requests.
+                {% elif langue == "ar" %}إعدادات المسؤول: إضافة المواد، الأقسام، الصفوف، حظر الطلبات.
+                {% endif %}
+            </li>
+            <li>
+                {% if langue == "fr" %}Sign in many admin : Inscrire plusieurs utilisateurs.
+                {% elif langue == "en" %}Sign in many admin: Register multiple users.
+                {% elif langue == "ar" %}تسجيل جماعي للمسؤول: تسجيل عدة مستخدمين.
+                {% endif %}
+            </li>
+            <li>
+                {% if langue == "fr" %}Users manage : Inscrire ou supprimer un utilisateur unique.
+                {% elif langue == "en" %}Users manage: Register or delete a single user.
+                {% elif langue == "ar" %}إدارة المستخدمين: تسجيل أو حذف مستخدم واحد.
+                {% endif %}
+            </li>
+        </ul>
+    </div>
+
+    <div class="doc-section">
+        <h2>
+            <i class="fas fa-user-shield"></i>
+            {% if langue == "fr" %}Instructions pour l'admin
+            {% elif langue == "en" %}Admin Instructions
+            {% elif langue == "ar" %}تعليمات المسؤول
+            {% endif %}
+        </h2>
+
+        <h3>
+            <i class="fas fa-rocket"></i>
+            {% if langue == "fr" %}À la sortie du site
+            {% elif langue == "en" %}At site launch
+            {% elif langue == "ar" %}عند إطلاق الموقع
+            {% endif %}
+        </h3>
+        <ol class="doc-steps">
+            <li>
+                {% if langue == "fr" %}Choisir la langue (FR/EN/AR).
+                {% elif langue == "en" %}Choose language (FR/EN/AR).
+                {% elif langue == "ar" %}اختر اللغة (FR/EN/AR).
+                {% endif %}
+            </li>
+            <li>
+                {% if langue == "fr" %}Aller dans Setting : ajouter matières, filières, classes.
+                {% elif langue == "en" %}Go to Settings: add subjects, departments, classes.
+                {% elif langue == "ar" %}اذهب إلى الإعدادات: إضافة المواد، الأقسام، الصفوف.
+                {% endif %}
+            </li>
+            <li>
+                {% if langue == "fr" %}Bloquer ou débloquer les demandes de pub et certificat.
+                {% elif langue == "en" %}Block or unblock ad and certificate requests.
+                {% elif langue == "ar" %}حظر أو إلغاء حظر طلبات الإعلانات والشهادات.
+                {% endif %}
+            </li>
+            <li>
+                {% if langue == "fr" %}Utiliser "Sign in many" pour inscrire les utilisateurs.
+                {% elif langue == "en" %}Use "Sign in many" to register users.
+                {% elif langue == "ar" %}استخدم "التسجيل الجماعي" لتسجيل المستخدمين.
+                {% endif %}
+            </li>
+            <li>
+                {% if langue == "fr" %}Poster l’information de lancement du site.
+                {% elif langue == "en" %}Post site launch information.
+                {% elif langue == "ar" %}انشر معلومات إطلاق الموقع.
+                {% endif %}
+            </li>
+        </ol>
+
+        <h3>
+            <i class="fas fa-calendar-check"></i>
+            {% if langue == "fr" %}Fin d'année
+            {% elif langue == "en" %}End of year
+            {% elif langue == "ar" %}نهاية السنة
+            {% endif %}
+        </h3>
+        <ol class="doc-steps">
+            <li>
+                {% if langue == "fr" %}Supprimer tous les élèves via Users manage.
+                {% elif langue == "en" %}Delete all students via Users manage.
+                {% elif langue == "ar" %}حذف جميع الطلاب عبر إدارة المستخدمين.
+                {% endif %}
+            </li>
+            <li>
+                {% if langue == "fr" %}Supprimer tous les posts via News/Posting.
+                {% elif langue == "en" %}Delete all posts via News/Posting.
+                {% elif langue == "ar" %}حذف جميع المنشورات عبر الأخبار/النشر.
+                {% endif %}
+            </li>
+            <li>
+                {% if langue == "fr" %}Supprimer toutes les demandes de certificat dans Certificat admin.
+                {% elif langue == "en" %}Delete all certificate requests in Certificate admin.
+                {% elif langue == "ar" %}حذف جميع طلبات الشهادات في شهادات المسؤول.
+                {% endif %}
+            </li>
+        </ol>
+
+        <h3>
+            <i class="fas fa-exchange-alt"></i>
+            {% if langue == "fr" %}Gestion des changements
+            {% elif langue == "en" %}Handling Changes
+            {% elif langue == "ar" %}إدارة التغييرات
+            {% endif %}
+        </h3>
+        <p>
+            {% if langue == "fr" %}Nouvel arrivant, filière, classe ou matière : gérer via Settings.
+            {% elif langue == "en" %}New teacher, subject, class, or department: manage via Settings.
+            {% elif langue == "ar" %}المعلم الجديد، المادة، الصف أو القسم: إدارة عبر الإعدادات.
+            {% endif %}
+        </p>
+    </div>
+
+    <div class="doc-section doc-message">
+        <h2 style="color:azure;" >
+            <i class="fas fa-feather-alt"></i>
+            {% if langue == "fr" %}Message de l'auteur
+            {% elif langue == "en" %}Author's Message
+            {% elif langue == "ar" %}رسالة المؤلف
+            {% endif %}
+        </h2>
+        <p>
+            {% if langue == "fr" %}
+            Ce site a été créé pour moderniser la gestion du lycée et faciliter la communication. Il est temps de moderniser les choses. Je vous demande de soutenir les mouvements et toutes les petites actions qui permettent d’avancer, malgré tout. Encouragez chacun à s’améliorer malgré tout.  
+            Je vous demande de me souhaiter la réussite.  
+            <i>PS : je n’ai pas eu le temps d’inclure la langue amazigh.</i>
+            {% elif langue == "en" %}
+            This site was created to modernize school management and facilitate communication. It is time to modernize things. I ask you to support movements and every small action that helps progress, despite everything. Encourage everyone to improve despite everything.  
+            I ask you to wish me success.  
+            <i>PS: I didn’t have time to include the Amazigh language.</i>
+            {% elif langue == "ar" %}
+            تم إنشاء هذا الموقع لتحديث إدارة المدرسة وتسهيل التواصل. حان الوقت لتحديث الأمور. أطلب منكم دعم الحركات وكل المبادرات الصغيرة التي تساعد على التقدم، رغم كل شيء. شجعوا الجميع على التحسن رغم كل شيء.  
+            أطلب منكم أن تتمنوا لي النجاح.  
+            <i>ملاحظة: لم أتمكن من إضافة اللغة الأمازيغية لعدم وجود وقت كافٍ.</i>
+            {% endif %}
+        </p>
+    </div>
+</div>
+
+
+{% endblock body01 %}

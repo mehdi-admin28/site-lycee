@@ -1,0 +1,56 @@
+#navnrml{
+    text-shadow: azure 5px 10px;
+    font-family:'Courier New', Courier, monospace;
+
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #243749;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,50%);
+}
+
+#divnavnrml{
+    margin: 0;
+    padding: 0;
+    margin-right:1rem ;
+    display: flex;
+    align-items: center;
+    justify-content:space-around;
+}
+
+#divnavadmin{
+    width: 100%;
+    background-color: #243749;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,50%);
+    margin: 0;
+    padding: 0;
+    padding-right:1rem ;
+    display: flex;
+    align-items: center;
+    justify-content:space-around;
+}
+
+#logonrml01{
+    margin: 0;
+    padding: 0;
+    margin-left: 1rem;
+}
+
+#divnavnrml a{
+    color: azure;
+    text-decoration:none;
+}
+
+#divnavadmin a{
+    color: azure;
+    text-decoration:none;
+}

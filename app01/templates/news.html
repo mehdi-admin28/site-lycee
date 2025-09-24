@@ -1,0 +1,114 @@
+{% extends "base01.html" %}
+{% load static %}
+{% block javascriptmemeplace %}{% endblock javascriptmemeplace %}
+
+{% block title01 %}
+    {% if langue == "fr" %}Actualités de l'école
+    {% elif langue == "en" %}School News
+    {% elif langue == "ar" %}أخبار المدرسة
+    {% endif %}
+{% endblock title01 %}
+
+{% block body01 %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<div class="news-container">
+
+{% if posts0 %}
+    {% for i in posts %}
+        {% if not i.type or i.type == "." %}
+       <div class="news-card">
+    <div class="news-header">
+        <div class="news-date">
+            <i class="far fa-calendar-alt"></i> {{i.date}}
+        </div>
+        <h2 class="news-title">{{i.titre}}</h2>
+    </div>
+    
+    <div class="news-content">
+        <p class="news-text">{{i.text}}</p>
+        
+        <!-- Badge optionnel pour indiquer le type d'actualité -->
+        <span class="news-type-badge">
+            <i class="fas fa-info-circle"></i>
+            {% if langue == "fr" %}Information
+            {% elif langue == "en" %}Information
+            {% elif langue == "ar" %}معلومة
+            {% endif %}
+        </span>
+    </div>
+    
+    {% if badge == "admin" %}
+    <div class="admin-actions">
+        <form method="POST" class="delete-form">
+            {% csrf_token %}
+            <input type="hidden" name="quelform" value="suppr_post">
+            <input type="hidden" name="id_post" value="{{i.id}}">
+            <button type="submit" class="delete-btn">
+                <i class="fas fa-trash"></i> 
+                {% if langue == "fr" %}Supprimer
+                {% elif langue == "en" %}Delete
+                {% elif langue == "ar" %}حذف
+                {% endif %}
+            </button>
+        </form>
+    </div>
+    {% endif %}
+</div>
+        
+        {% elif i.type == "emplois" %}
+        <div class="news-card emplois">
+            <div class="news-header">
+                <div class="news-date">
+                    <i class="far fa-calendar-alt"></i> {{i.date}}
+                </div>
+                <h2 class="news-title">
+                    <i class="fas fa-calendar-days"></i> {{i.titre}}
+                </h2>
+            </div>
+            
+            <div class="news-content">
+                <div class="emploi-du-temps-container">
+                    {{ i.text|safe }}
+                </div>
+            </div>
+            
+            {% if badge == "admin" %}
+            <div class="admin-actions">
+                <form method="POST" class="delete-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="quelform" value="suppr_post">
+                    <input type="hidden" name="id_post" value="{{i.id}}">
+                    <button type="submit" class="delete-btn">
+                        <i class="fas fa-trash"></i> 
+                        {% if langue == "fr" %}Supprimer
+                        {% elif langue == "en" %}Delete
+                        {% elif langue == "ar" %}حذف
+                        {% endif %}
+                    </button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+    {% endfor %}
+{% else %}
+    <div class="access-message">
+        <i class="far fa-newspaper"></i>
+        <h1>
+            {% if langue == "fr" %}Aucune actualité
+            {% elif langue == "en" %}No news
+            {% elif langue == "ar" %}لا توجد أخبار
+            {% endif %}
+        </h1>
+        <p>
+            {% if langue == "fr" %}Revenez plus tard pour les nouvelles.
+            {% elif langue == "en" %}Check back later for news.
+            {% elif langue == "ar" %}ارجع لاحقًا للأخبار.
+            {% endif %}
+        </p>
+    </div>
+{% endif %}
+</div>
+
+{% endblock body01 %}

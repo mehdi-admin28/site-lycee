@@ -1,0 +1,140 @@
+{% extends "base01.html" %}
+
+{% block title01 %}
+    {% if langue == "fr" %}Publication d'Actualités
+    {% elif langue == "en" %}News Publication
+    {% elif langue == "ar" %}نشر الأخبار
+    {% endif %}
+{% endblock title01 %}
+
+{% block pub312 %}{% endblock pub312 %}
+{% block body01 %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<div class="admin-container">
+    
+{% if is_auth %}
+    {% if is_admin == "admin" %}
+
+        <div class="publication-form">
+
+            
+
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="quelform" value="poster_info">
+                
+                <div class="form-group">
+                    <label for="date">
+                        {% if langue == "fr" %}Date
+                        {% elif langue == "en" %}Date
+                        {% elif langue == "ar" %}التاريخ
+                        {% endif %}
+                    </label>
+                    <input type="date" name="date" id="date" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="titre">
+                        {% if langue == "fr" %}Titre de l'actualité
+                        {% elif langue == "en" %}News title
+                        {% elif langue == "ar" %}عنوان الخبر
+                        {% endif %}
+                    </label>
+                    <input type="text" name="titre" id="titre" placeholder="
+                        {% if langue == 'fr' %}Entrez le titre
+                        {% elif langue == 'en' %}Enter the title
+                        {% elif langue == 'ar' %}أدخل العنوان
+                        {% endif %}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="text">
+                        {% if langue == "fr" %}Contenu de l'actualité
+                        {% elif langue == "en" %}News content
+                        {% elif langue == "ar" %}محتوى الخبر
+                        {% endif %}
+                    </label>
+                    <textarea name="text" id="text" placeholder="
+                        {% if langue == 'fr' %}Rédigez le contenu de l'actualité...
+                        {% elif langue == 'en' %}Write the news content...
+                        {% elif langue == 'ar' %}اكتب محتوى الخبر...
+                        {% endif %}" required></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-paper-plane"></i> 
+                    {% if langue == "fr" %}Publier l'actualité
+                    {% elif langue == "en" %}Publish news
+                    {% elif langue == "ar" %}نشر الخبر
+                    {% endif %}
+                </button>
+            </form>
+            
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="quelform" value="supprimertoutposts">
+                <button type="submit" class="submit-btn" style="background:#dc3545;">
+                    {% if langue == "fr" %}<i class="fas fa-trash-alt"></i> Supprimer tous les posts
+                    {% elif langue == "en" %}<i class="fas fa-trash-alt"></i> Delete all posts
+                    {% elif langue == "ar" %}حذف جميع المنشورات<i class="fas fa-trash-alt"></i> 
+                    {% endif %}
+                </button>
+            </form>
+
+        </div>
+
+    {% else %}
+        <div class="access-message">
+            <i class="fas fa-user-shield"></i>
+            <h1>
+                {% if langue == "fr" %}Accès réservé aux administrateurs
+                {% elif langue == "en" %}Access restricted to administrators
+                {% elif langue == "ar" %}الوصول مقصور على المسؤولين
+                {% endif %}
+            </h1>
+            <p>
+                {% if langue == "fr" %}Cette interface permet de publier des actualités et annonces officielles sur la plateforme.
+                {% elif langue == "en" %}This interface allows publishing news and official announcements on the platform.
+                {% elif langue == "ar" %}تتيح هذه الواجهة نشر الأخبار والإعلانات الرسمية على المنصة.
+                {% endif %}
+            </p>
+            <p>
+                {% if langue == "fr" %}Seuls les membres de l'administration disposant des privilèges appropriés peuvent accéder à cette fonctionnalité.
+                {% elif langue == "en" %}Only administration members with appropriate privileges can access this feature.
+                {% elif langue == "ar" %}يمكن فقط لأعضاء الإدارة الذين لديهم الصلاحيات المناسبة الوصول إلى هذه الميزة.
+                {% endif %}
+            </p>
+        </div>
+    {% endif %}
+{% else %}
+    <div class="access-message">
+        <i class="fas fa-lock"></i>
+        <h1>
+            {% if langue == "fr" %}Connexion requise
+            {% elif langue == "en" %}Login required
+            {% elif langue == "ar" %}مطلوب تسجيل الدخول
+            {% endif %}
+        </h1>
+        <p>
+            {% if langue == "fr" %}Vous devez être connecté pour accéder à cette page.
+            {% elif langue == "en" %}You must be logged in to access this page.
+            {% elif langue == "ar" %}يجب عليك تسجيل الدخول للوصول إلى هذه الصفحة.
+            {% endif %}
+        </p>
+        <p>
+            {% if langue == "fr" %}Cette interface permet aux administrateurs de publier des actualités et annonces importantes.
+            {% elif langue == "en" %}This interface allows administrators to publish news and important announcements.
+            {% elif langue == "ar" %}تتيح هذه الواجهة للمسؤولين نشر الأخبار والإعلانات المهمة.
+            {% endif %}
+        </p>
+    </div>
+{% endif %}
+
+
+
+</div>
+
+
+
+{% endblock body01 %}

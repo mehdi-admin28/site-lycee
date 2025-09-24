@@ -1,0 +1,289 @@
+{% extends "base01.html" %}
+
+{% block title01 %}
+    {% if langue == "fr" %}Demande de Certificat d'absence
+    {% elif langue == "en" %}Absence Certificate Request
+    {% elif langue == "ar" %}طلب شهادة غياب
+    {% endif %}
+{% endblock title01 %}
+
+{% block body01 %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+
+<div class="certif-container">
+
+{% if redy == "bloque" %}
+
+
+
+{% if is_auth %}
+    <div class="certif-form">
+        <h1 style="text-align: center; color: #243749; margin-bottom: 1.5rem;">
+            <i class="fas fa-file-certificate"></i> 
+            {% if langue == "fr" %}Demander un certificat d'absence
+            {% elif langue == "en" %}Request an absence certificate
+            {% elif langue == "ar" %}طلب شهادة غياب
+            {% endif %}
+        </h1>
+        
+        <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="quelform" value="certificat_envoie">
+
+            <label for="slct_jour">
+                {% if langue == "fr" %}Moment de l'absence
+                {% elif langue == "en" %}Time of absence
+                {% elif langue == "ar" %}وقت الغياب
+                {% endif %}
+            </label>
+            <select name="slct_jour" id="slct_jour" required>
+                <option value="">
+                    {% if langue == "fr" %}Sélectionner un jour
+                    {% elif langue == "en" %}Select a day
+                    {% elif langue == "ar" %}اختر يومًا
+                    {% endif %}
+                </option>
+                <option value="dimanche">
+                    {% if langue == "fr" %}Dimanche
+                    {% elif langue == "en" %}Sunday
+                    {% elif langue == "ar" %}الأحد
+                    {% endif %}
+                </option>
+                <option value="lundi">
+                    {% if langue == "fr" %}Lundi
+                    {% elif langue == "en" %}Monday
+                    {% elif langue == "ar" %}الإثنين
+                    {% endif %}
+                </option>
+                <option value="mardi">
+                    {% if langue == "fr" %}Mardi
+                    {% elif langue == "en" %}Tuesday
+                    {% elif langue == "ar" %}الثلاثاء
+                    {% endif %}
+                </option>
+                <option value="mercredi">
+                    {% if langue == "fr" %}Mercredi
+                    {% elif langue == "en" %}Wednesday
+                    {% elif langue == "ar" %}الأربعاء
+                    {% endif %}
+                </option>
+                <option value="jeudi">
+                    {% if langue == "fr" %}Jeudi
+                    {% elif langue == "en" %}Thursday
+                    {% elif langue == "ar" %}الخميس
+                    {% endif %}
+                </option>
+            </select>
+            
+            <label>
+                {% if langue == "fr" %}Entre quelle heure et quelle heure ?
+                {% elif langue == "en" %}Between what time and what time?
+                {% elif langue == "ar" %}بين أي وقت وأي وقت؟
+                {% endif %}
+            </label>
+            <div class="time-container">
+                <div class="time-group">
+                    <label for="av_abs">
+                        {% if langue == "fr" %}De
+                        {% elif langue == "en" %}From
+                        {% elif langue == "ar" %}من
+                        {% endif %}
+                    </label>
+                    <input type="time" name="av_abs" id="av_abs" required>
+                </div>
+                <div class="time-group">
+                    <label for="ap_abs">
+                        {% if langue == "fr" %}À
+                        {% elif langue == "en" %}To
+                        {% elif langue == "ar" %}إلى
+                        {% endif %}
+                    </label>
+                    <input type="time" name="ap_abs" id="ap_abs" required>
+                </div>
+            </div>
+            
+            <label for="motif">
+                {% if langue == "fr" %}Motif
+                {% elif langue == "en" %}Reason
+                {% elif langue == "ar" %}السبب
+                {% endif %}
+            </label>
+            <textarea name="motif" id="motif" placeholder="
+                {% if langue == 'fr' %}Si vous n'arrivez pas à donner l'heure exacte, choisissez 00:00 dans les deux cas et expliquez-nous ici. Choisissez aussi un jour au hasard mais précisez dès le début dans ce champ.
+                {% elif langue == 'en' %}If you can't give the exact time, choose 00:00 in both cases and explain here. Also choose a random day but specify it at the beginning in this field.
+                {% elif langue == 'ar' %}إذا لم تتمكن من تحديد الوقت بالضبط، اختر 00:00 في كلتا الحالتين واشرح هنا. اختر أيضًا يومًا عشوائيًا ولكن حدده في بداية هذا الحقل.
+                {% endif %}" required></textarea>
+            
+            <button type="submit"><i class="fas fa-paper-plane"></i> 
+                {% if langue == "fr" %}Envoyer la demande
+                {% elif langue == "en" %}Send request
+                {% elif langue == "ar" %}إرسال الطلب
+                {% endif %}
+            </button>
+            
+            {% if z == "envoyer" %}
+            <div class="message success">
+                <i class="fas fa-check-circle"></i> 
+                {% if langue == "fr" %}Votre demande a été envoyée avec succès
+                {% elif langue == "en" %}Your request has been sent successfully
+                {% elif langue == "ar" %}تم إرسال طلبك بنجاح
+                {% endif %}
+            </div>
+            {% elif z == "certif deja la" %}
+            <div class="message info">
+                <i class="fas fa-info-circle"></i> 
+                {% if langue == "fr" %}Cette demande a déjà été envoyée
+                {% elif langue == "en" %}This request has already been sent
+                {% elif langue == "ar" %}تم إرسال هذا الطلب مسبقًا
+                {% endif %}
+            </div>
+            {% endif %}
+        </form>
+    </div>
+
+    {% if mescertif %}
+        {% for i in mescertif %}
+            <div class="certif-card">
+                {% if i.dcr == "oui" %}
+                    <h1><i class="fas fa-check-circle" style="color:green;"></i> 
+                        {% if langue == "fr" %}Votre demande a été acceptée
+                        {% elif langue == "en" %}Your request has been accepted
+                        {% elif langue == "ar" %}تم قبول طلبك
+                        {% endif %}
+                    </h1>
+                    <p><strong>
+                        {% if langue == "fr" %}Données de la demande :
+                        {% elif langue == "en" %}Request data:
+                        {% elif langue == "ar" %}بيانات الطلب:
+                        {% endif %}
+                    </strong> {{i.nom}} - {{i.prenom}} - {{i.heure}} - {{i.motif}}</p>
+                {% elif i.dcr == "non" %}
+                    <h1><i class="fas fa-times-circle" style="color:red;"></i> 
+                        {% if langue == "fr" %}Votre demande a été refusée
+                        {% elif langue == "en" %}Your request has been denied
+                        {% elif langue == "ar" %}تم رفض طلبك
+                        {% endif %}
+                    </h1>
+                    <p><strong>
+                        {% if langue == "fr" %}Données de la demande :
+                        {% elif langue == "en" %}Request data:
+                        {% elif langue == "ar" %}بيانات الطلب:
+                        {% endif %}
+                    </strong> {{i.nom}} - {{i.prenom}} - {{i.heure}} - {{i.motif}}</p>
+                {% else %}
+                    <h1><i class="fas fa-clock" style="color:#ff9800;"></i> 
+                        {% if langue == "fr" %}Demande en attente
+                        {% elif langue == "en" %}Pending request
+                        {% elif langue == "ar" %}طلب قيد الانتظار
+                        {% endif %}
+                    </h1>
+                    <label>
+                        {% if langue == "fr" %}Nom :
+                        {% elif langue == "en" %}Last name:
+                        {% elif langue == "ar" %}الاسم:
+                        {% endif %}
+                    </label>
+                    <p>{{i.nom}}</p>
+                    
+                    <label>
+                        {% if langue == "fr" %}Prénom :
+                        {% elif langue == "en" %}First name:
+                        {% elif langue == "ar" %}الكنية:
+                        {% endif %}
+                    </label>
+                    <p>{{i.prenom}}</p>
+                    
+                    <label>
+                        {% if langue == "fr" %}Moment de l'absence :
+                        {% elif langue == "en" %}Time of absence:
+                        {% elif langue == "ar" %}وقت الغياب:
+                        {% endif %}
+                    </label>
+                    <p>{{i.heure}}</p>
+                    
+                    <label>
+                        {% if langue == "fr" %}Motif :
+                        {% elif langue == "en" %}Reason:
+                        {% elif langue == "ar" %}السبب:
+                        {% endif %}
+                    </label>
+                    <p>{{i.motif}}</p>
+                {% endif %}
+                
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="quelform" value="suppr_certif">
+                    <input type="hidden" name="idcertif" value="{{i.id}}">
+                    <button type="submit"  style="background:#243749;"><i class="fas fa-trash"></i> 
+                        {% if langue == "fr" %}Supprimer cette demande
+                        {% elif langue == "en" %}Delete this request
+                        {% elif langue == "ar" %}حذف هذا الطلب
+                        {% endif %}
+                    </button>
+                </form>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="certif-message">
+            <i class="fas fa-inbox"></i>
+            <h3>
+                {% if langue == "fr" %}Aucune demande pour le moment
+                {% elif langue == "en" %}No requests at the moment
+                {% elif langue == "ar" %}لا توجد طلبات في الوقت الحالي
+                {% endif %}
+            </h3>
+            <p>
+                {% if langue == "fr" %}Vous n'avez pas encore envoyé de demande de certificat.
+                {% elif langue == "en" %}You haven't sent any certificate requests yet.
+                {% elif langue == "ar" %}لم ترسل أي طلبات شهادات بعد.
+                {% endif %}
+            </p>
+        </div>
+    {% endif %}
+
+{% else %}
+    <div class="access-message">
+        <i class="fas fa-lock"></i>
+        <h1>
+            {% if langue == "fr" %}Connexion requise
+            {% elif langue == "en" %}Login required
+            {% elif langue == "ar" %}مطلوب تسجيل الدخول
+            {% endif %}
+        </h1>
+        <p>
+            {% if langue == "fr" %}Cette section contient un formulaire pour demander un certificat d'absence. Veuillez vous connecter pour y accéder.
+            {% elif langue == "en" %}This section contains a form to request an absence certificate. Please log in to access it.
+            {% elif langue == "ar" %}يحتوي هذا القسم على نموذج لطلب شهادة غياب. يرجى تسجيل الدخول للوصول إليه.
+            {% endif %}
+        </p>
+    </div>
+{% endif %}
+{% elif redy == "debloque" %}
+<div class="access-message">
+    <i class="fas fa-file-circle-xmark"></i>
+    <h1>
+        {% if langue == "fr" %}Page de demande de certificat d’absence bloquée
+        {% elif langue == "en" %}Absence certificate request page blocked
+        {% elif langue == "ar" %}تم حظر صفحة طلب شهادة الغياب
+        {% endif %}
+    </h1>
+    <p>
+        {% if langue == "fr" %}L'administrateur a bloqué l'accès à cette page.
+        {% elif langue == "en" %}The administrator has blocked access to this page.
+        {% elif langue == "ar" %}قام المسؤول بحظر الوصول إلى هذه الصفحة.
+        {% endif %}
+    </p>
+    <p>
+        {% if langue == "fr" %}Cette page permet normalement de demander un certificat d’absence en ligne.
+        {% elif langue == "en" %}This page normally allows you to request an absence certificate online.
+        {% elif langue == "ar" %}تتيح هذه الصفحة عادةً طلب شهادة غياب عبر الإنترنت.
+        {% endif %}
+    </p>
+</div>
+
+{% endif %}
+</div>
+
+{% endblock body01 %}

@@ -1,0 +1,266 @@
+{% extends "base01.html" %}
+
+{% block title01 %}
+    {% if langue == "fr" %}Demander une publicité
+    {% elif langue == "en" %}Request an advertisement
+    {% elif langue == "ar" %}طلب إعلان
+    {% endif %}
+{% endblock title01 %}
+
+{% block body01 %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+
+<div class="pub-container">
+
+{% if redx == "bloque" %}
+
+
+
+{% if is_auth %}
+    {% if "P" in chance and badge != "admin" %}
+        <div class="confirmation-message">
+            <i class="fas fa-check-circle"></i>
+            <h2>
+                {% if langue == "fr" %}Demande envoyée avec succès !
+                {% elif langue == "en" %}Request sent successfully!
+                {% elif langue == "ar" %}تم إرسال الطلب بنجاح!
+                {% endif %}
+            </h2>
+            <p>
+                {% if langue == "fr" %}Votre demande de publicité a été transmise à notre équipe.
+                {% elif langue == "en" %}Your advertisement request has been forwarded to our team.
+                {% elif langue == "ar" %}تم إرسال طلب الإعلان الخاص بك إلى فريقنا.
+                {% endif %}
+            </p>
+            <p>
+                {% if langue == "fr" %}Notez que vous ne pouvez soumettre qu'une seule demande à la fois. Vous ne pourrez pas annuler votre demande une fois envoyée.
+                {% elif langue == "en" %}Note that you can only submit one request at a time. You cannot cancel your request once sent.
+                {% elif langue == "ar" %}لاحظ أنه يمكنك تقديم طلب واحد فقط في كل مرة. لا يمكنك إلغاء طلبك بمجرد إرساله.
+                {% endif %}
+            </p>
+        </div>
+    {% else %}
+        <div class="pub-form">
+            <form method="POST" enctype="multipart/form-data" id="form312voulu">
+                {% csrf_token %}
+                <input type="hidden" name="quelform" value="demander une pub">
+                
+                <label for="message">
+                    {% if langue == "fr" %}Un message pour nous expliquer en privé votre demande et aussi nous donner des moyens de vous contacter, etc.
+                    {% elif langue == "en" %}A message to privately explain your request and also provide us with ways to contact you, etc.
+                    {% elif langue == "ar" %}رسالة لشرح طلبك بشكل خاص وأيضًا لإعطائنا وسائل للاتصال بك، إلخ.
+                    {% endif %}
+                </label>
+                <textarea name="message" id="message" placeholder="
+                    {% if langue == 'fr' %}Expliquez-nous votre demande en détail, donnez-nous vos coordonnées et toute information utile...
+                    {% elif langue == 'en' %}Explain your request in detail, give us your contact details and any useful information...
+                    {% elif langue == 'ar' %}اشرح طلبك بالتفصيل، أعطنا معلومات الاتصال الخاصة بك وأي معلومات مفيدة...
+                    {% endif %}" required></textarea>
+                
+                <label for="img">
+                    {% if langue == "fr" %}La pub doit être en format d'image seulement
+                    {% elif langue == "en" %}The ad must be in image format only
+                    {% elif langue == "ar" %}يجب أن يكون الإعلان بصيغة صورة فقط
+                    {% endif %}
+                </label>
+                <div class="file-input-container">
+                    <input type="file" class="file-input" accept="image/*" name="img" id="img" required>
+                </div>
+                <p class="info-text">
+                    {% if langue == "fr" %}Seules les images sont acceptées (JPEG, PNG, GIF, etc.)
+                    {% elif langue == "en" %}Only images are accepted (JPEG, PNG, GIF, etc.)
+                    {% elif langue == "ar" %}يتم قبول الصور فقط (JPEG, PNG, GIF, إلخ)
+                    {% endif %}
+                </p>
+                
+                <button type="submit" id="pubenvoie312">
+                    <i class="fas fa-paper-plane"></i> 
+                    {% if langue == "fr" %}Envoyer la demande
+                    {% elif langue == "en" %}Send request
+                    {% elif langue == "ar" %}إرسال الطلب
+                    {% endif %}
+                </button>
+                <div id="validepubenvoie312">
+                    {% if langue == "fr" %}Votre demande de publicité a été envoyée avec succès !
+                    {% elif langue == "en" %}Your advertisement request has been successfully sent!
+                    {% elif langue == "ar" %}تم إرسال طلب الإعلان الخاص بك بنجاح!
+                    {% endif %}
+                </div>
+            </form>
+            
+            <div class="info-text">
+                <p><strong>
+                    {% if langue == "fr" %}Informations importantes :
+                    {% elif langue == "en" %}Important information:
+                    {% elif langue == "ar" %}معلومات مهمة:
+                    {% endif %}
+                </strong></p>
+                <ul>
+                    <li>
+                        {% if langue == "fr" %}Votre nom et prénom seront transmis avec votre demande
+                        {% elif langue == "en" %}Your name and first name will be transmitted with your request
+                        {% elif langue == "ar" %}سيتم نقل اسمك واسمك الأول مع طلبك
+                        {% endif %}
+                    </li>
+                    <li>
+                        {% if langue == "fr" %}Vous ne pouvez soumettre qu'une seule demande à la fois
+                        {% elif langue == "en" %}You can only submit one request at a time
+                        {% elif langue == "ar" %}يمكنك تقديم طلب واحد فقط في كل مرة
+                        {% endif %}
+                    </li>
+                    <li>
+                        {% if langue == "fr" %}Une fois envoyée, vous ne pourrez pas annuler votre demande
+                        {% elif langue == "en" %}Once sent, you cannot cancel your request
+                        {% elif langue == "ar" %}بمجرد الإرسال، لا يمكنك إلغاء طلبك
+                        {% endif %}
+                    </li>
+                    <li>
+                        {% if langue == "fr" %}Nous allons examiner votre demande et vous contactera
+                        {% elif langue == "en" %}We will review your request and contact you
+                        {% elif langue == "ar" %}سنراجع طلبك ون contactedك
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    {% endif %}
+
+   
+{% else %}
+<!--
+    <div class="access-message">
+        <i class="fas fa-lock"></i>
+        <h1>
+            {% if langue == "fr" %}Connexion requise
+            {% elif langue == "en" %}Login required
+            {% elif langue == "ar" %}مطلوب تسجيل الدخول
+            {% endif %}
+        </h1>
+        <p>
+            {% if langue == "fr" %}Vous devez être connecté pour accéder à cette page.
+            {% elif langue == "en" %}You must be logged in to access this page.
+            {% elif langue == "ar" %}يجب عليك تسجيل الدخول للوصول إلى هذه الصفحة.
+            {% endif %}
+        </p>
+        <p>
+            {% if langue == "fr" %}Cette page permet de demander à faire une pub juste avec une image et un message pour la demande.
+            {% elif langue == "en" %}This page allows you to request an ad with just an image and a message for the request.
+            {% elif langue == "ar" %}تتيح هذه الصفحة طلب إعلان فقط بصورة ورسالة للطلب.
+            {% endif %}
+        </p>
+    </div>
+-->
+<div class="pub-form">
+            <form method="POST" enctype="multipart/form-data" id="form312voulu">
+                {% csrf_token %}
+                <input type="hidden" name="quelform" value="demander une pub inviter">
+                
+                <label for="message">
+                    {% if langue == "fr" %}Un message pour nous expliquer en privé votre demande et aussi nous donner des moyens de vous contacter, etc.
+                    {% elif langue == "en" %}A message to privately explain your request and also provide us with ways to contact you, etc.
+                    {% elif langue == "ar" %}رسالة لشرح طلبك بشكل خاص وأيضًا لإعطائنا وسائل للاتصال بك، إلخ.
+                    {% endif %}
+                </label>
+                <textarea name="message" id="message" placeholder="
+                    {% if langue == 'fr' %}Expliquez-nous votre demande en détail, donnez-nous vos coordonnées et toute information utile...
+                    {% elif langue == 'en' %}Explain your request in detail, give us your contact details and any useful information...
+                    {% elif langue == 'ar' %}اشرح طلبك بالتفصيل، أعطنا معلومات الاتصال الخاصة بك وأي معلومات مفيدة...
+                    {% endif %}" required></textarea>
+                
+                <label for="img">
+                    {% if langue == "fr" %}La pub doit être en format d'image seulement
+                    {% elif langue == "en" %}The ad must be in image format only
+                    {% elif langue == "ar" %}يجب أن يكون الإعلان بصيغة صورة فقط
+                    {% endif %}
+                </label>
+                <div class="file-input-container">
+                    <input type="file" class="file-input" accept="image/*" name="img" id="img" required>
+                </div>
+                <p class="info-text">
+                    {% if langue == "fr" %}Seules les images sont acceptées (JPEG, PNG, GIF, etc.)
+                    {% elif langue == "en" %}Only images are accepted (JPEG, PNG, GIF, etc.)
+                    {% elif langue == "ar" %}يتم قبول الصور فقط (JPEG, PNG, GIF, إلخ)
+                    {% endif %}
+                </p>
+                {% if error_pub == "oui" %}
+                <p class="info-text" style="color:red;">
+                    {% if langue == "fr" %}La limite de demandes de publication pour les non-inscrits a été atteinte. Veuillez revenir ultérieurement, une fois la limite réinitialisée (après que l’administrateur aura refusé certaines demandes).
+                    {% elif langue == "en" %}The request limit for non-registered users has been reached. Please come back later once the limit is refreshed (after the administrator declines some requests).
+                    {% elif langue == "ar" %}تم بلوغ الحد الأقصى لطلبات النشر لغير المسجلين. يرجى العودة لاحقًا بعد إعادة ضبط الحد (عندما يرفض المسؤول بعض الطلبات).
+                    {% endif %}
+                </p>
+                {% endif %}
+                <button type="submit" id="pubenvoie312">
+                    <i class="fas fa-paper-plane"></i> 
+                    {% if langue == "fr" %}Envoyer la demande
+                    {% elif langue == "en" %}Send request
+                    {% elif langue == "ar" %}إرسال الطلب
+                    {% endif %}
+                </button>
+                <div id="validepubenvoie312">
+                    {% if langue == "fr" %}Votre demande de publicité a été envoyée avec succès !
+                    {% elif langue == "en" %}Your advertisement request has been successfully sent!
+                    {% elif langue == "ar" %}تم إرسال طلب الإعلان الخاص بك بنجاح!
+                    {% endif %}
+                </div>
+            </form>
+            
+            <div class="info-text">
+                <p><strong>
+                    {% if langue == "fr" %}Informations importantes :
+                    {% elif langue == "en" %}Important information:
+                    {% elif langue == "ar" %}معلومات مهمة:
+                    {% endif %}
+                </strong></p>
+                <ul>
+                    <li>
+                        {% if langue == "fr" %}Vous ne pouvez soumettre qu'une seule demande à la fois
+                        {% elif langue == "en" %}You can only submit one request at a time
+                        {% elif langue == "ar" %}يمكنك تقديم طلب واحد فقط في كل مرة
+                        {% endif %}
+                    </li>
+                    <li>
+                        {% if langue == "fr" %}Une fois envoyée, vous ne pourrez pas annuler votre demande
+                        {% elif langue == "en" %}Once sent, you cannot cancel your request
+                        {% elif langue == "ar" %}بمجرد الإرسال، لا يمكنك إلغاء طلبك
+                        {% endif %}
+                    </li>
+                    <li>
+                        {% if langue == "fr" %}Nous allons examiner votre demande et vous contactera
+                        {% elif langue == "en" %}We will review your request and contact you
+                        {% elif langue == "ar" %}سنراجع طلبك ون contactedك
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+</div>
+
+{% endif %}
+{% elif redx == "debloque" %}
+<div class="access-message">
+    <i class="fas fa-ban"></i>
+    <h1>
+        {% if langue == "fr" %}Page de demande de publicité bloquée
+        {% elif langue == "en" %}Advertising request page blocked
+        {% elif langue == "ar" %}تم حظر صفحة طلب الإعلانات
+        {% endif %}
+    </h1>
+    <p>
+        {% if langue == "fr" %}L'administrateur a bloqué l'accès à cette page.
+        {% elif langue == "en" %}The administrator has blocked access to this page.
+        {% elif langue == "ar" %}قام المسؤول بحظر الوصول إلى هذه الصفحة.
+        {% endif %}
+    </p>
+    <p>
+        {% if langue == "fr" %}Cette page permet normalement de demander une publicité avec une image et un message.
+        {% elif langue == "en" %}This page normally allows you to request an ad with an image and a message.
+        {% elif langue == "ar" %}تتيح هذه الصفحة عادةً طلب إعلان بصورة ورسالة.
+        {% endif %}
+    </p>
+</div>
+{% endif %}
+</div>
+
+{% endblock body01 %}

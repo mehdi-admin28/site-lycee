@@ -1,0 +1,557 @@
+{% extends "base01.html" %}
+
+{% block title01 %}
+    {% if langue == "fr" %}Gestion des Utilisateurs
+    {% elif langue == "en" %}User Management
+    {% elif langue == "ar" %}إدارة المستخدمين
+    {% endif %}
+{% endblock title01 %}
+
+{% block pub312 %}{% endblock pub312 %}
+{% block body01 %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<div class="users-container">
+{% if is_auth %}
+    {% if is_admin == "admin" %}
+
+        <!-- Section Professeurs -->
+        <div class="users-section">
+            <h2><i class="fas fa-chalkboard-teacher"></i> 
+                {% if langue == "fr" %}Professeurs
+                {% elif langue == "en" %}Teachers
+                {% elif langue == "ar" %}المدرسون
+                {% endif %}
+            </h2>
+            
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th>
+                            {% if langue == "fr" %}Nom d'utilisateur
+                            {% elif langue == "en" %}Username
+                            {% elif langue == "ar" %}اسم المستخدم
+                            {% endif %}
+                        </th>
+                        <th>
+                            {% if langue == "fr" %}Rôle
+                            {% elif langue == "en" %}Role
+                            {% elif langue == "ar" %}الدور
+                            {% endif %}
+                        </th>
+                        <th>
+                            {% if langue == "fr" %}Nom
+                            {% elif langue == "en" %}Last Name
+                            {% elif langue == "ar" %}الاسم العائلي
+                            {% endif %}
+                        </th>
+                        <th>
+                            {% if langue == "fr" %}Prénom
+                            {% elif langue == "en" %}First Name
+                            {% elif langue == "ar" %}الاسم الشخصي
+                            {% endif %}
+                        </th>
+                        <th>
+                            {% if langue == "fr" %}Mot de passe
+                            {% elif langue == "en" %}Password
+                            {% elif langue == "ar" %}كلمة المرور
+                            {% endif %}
+                        </th>
+                        <th>
+                            {% if langue == "fr" %}Matière
+                            {% elif langue == "en" %}Subject
+                            {% elif langue == "ar" %}المادة
+                            {% endif %}
+                        </th>
+                        <th>
+                            {% if langue == "fr" %}Heure de réception
+                            {% elif langue == "en" %}Office Hours
+                            {% elif langue == "ar" %}ساعات الاستقبال
+                            {% endif %}
+                        </th>
+                        <th>
+                            {% if langue == "fr" %}Sélection
+                            {% elif langue == "en" %}Selection
+                            {% elif langue == "ar" %}اختيار
+                            {% endif %}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in User %}
+                    {% if i.profile.badge == "prof" %}
+                    <tr style="color:#243749;">
+                        <td>{{i.username}}</td>
+                        <td>{{i.profile.badge}}</td>
+                        <td>{{i.last_name}}</td>
+                        <td>{{i.first_name}}</td>
+                        <td>{{i.profile.password}}</td>
+                        <td>{{i.profile.matiere}}</td>
+                        <td>{{i.profile.heure_de_reception}}</td>
+                        <td><input type="checkbox" class="chk" value="{{i.id}}"></td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            <div class="user-form">
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="quelform" value="form_ajou_prof">
+                    
+                    <label for="last_name_prof">
+                        {% if langue == "fr" %}Nom de famille :
+                        {% elif langue == "en" %}Last Name:
+                        {% elif langue == "ar" %}الاسم العائلي:
+                        {% endif %}
+                    </label>
+                    <input type="text" name="last_name_prof" id="last_name_prof" required>
+                    
+                    <label for="first_name_prof">
+                        {% if langue == "fr" %}Prénom :
+                        {% elif langue == "en" %}First Name:
+                        {% elif langue == "ar" %}الاسم الشخصي:
+                        {% endif %}
+                    </label>
+                    <input type="text" name="first_name_prof" id="first_name_prof" required>
+                    
+                    <label for="slct_mtr03">
+                        {% if langue == "fr" %}Matière :
+                        {% elif langue == "en" %}Subject:
+                        {% elif langue == "ar" %}المادة:
+                        {% endif %}
+                    </label>
+                    <select name="slct_mtr03" required>
+                        <option value="">
+                            {% if langue == "fr" %}Sélectionner une matière
+                            {% elif langue == "en" %}Select a subject
+                            {% elif langue == "ar" %}اختر مادة
+                            {% endif %}
+                        </option>
+                        {% for i in Matiere %}
+                        <option value="{{i.matiere}}">{{i.matiere}}</option>
+                        {% endfor %}
+                    </select>
+                    
+                    <button type="submit">
+                        <i class="fas fa-plus"></i> 
+                        {% if langue == "fr" %}Ajouter un professeur
+                        {% elif langue == "en" %}Add a teacher
+                        {% elif langue == "ar" %}إضافة مدرس
+                        {% endif %}
+                    </button>
+                    
+                    {% if error_prof == "y" %}
+                    <p class="error-message">
+                        {% if langue == "fr" %}Cet utilisateur existe déjà !
+                        {% elif langue == "en" %}This user already exists!
+                        {% elif langue == "ar" %}هذا المستخدم موجود بالفعل!
+                        {% endif %}
+                    </p>
+                    {% elif error_prof == "n" %}
+                    <p class="error-message">
+                        {% if langue == "fr" %}Seules les lettres sont autorisées !
+                        {% elif langue == "en" %}Only letters are allowed!
+                        {% elif langue == "ar" %}يُسمح فقط بالحروف!
+                        {% endif %}
+                    </p>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+
+        <!-- Section Élèves -->
+        <div class="users-section">
+            <h2><i class="fas fa-user-graduate"></i> 
+                {% if langue == "fr" %}Élèves
+                {% elif langue == "en" %}Students
+                {% elif langue == "ar" %}الطلاب
+                {% endif %}
+            </h2>
+            
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th>
+                            {% if langue == "fr" %}Nom d'utilisateur
+                            {% elif langue == "en" %}Username
+                            {% elif langue == "ar" %}اسم المستخدم
+                            {% endif %}
+                        </th>
+                        <th>
+                            {% if langue == "fr" %}Rôle
+                            {% elif langue == "en" %}Role
+                            {% elif langue == "ar" %}الدور
+                            {% endif %}
+                        </th>
+                        <th>
+                            {% if langue == "fr" %}Prénom
+                            {% elif langue == "en" %}First Name
+                            {% elif langue == "ar" %}الاسم الشخصي
+                            {% endif %}
+                        </th>
+                        <th>
+                            {% if langue == "fr" %}Nom
+                            {% elif langue == "en" %}Last Name
+                            {% elif langue == "ar" %}الاسم العائli
+                            {% endif %}
+                        </th>
+                        <th>
+                            {% if langue == "fr" %}Classe
+                            {% elif langue == "en" %}Class
+                            {% elif langue == "ar" %}الفصل
+                            {% endif %}
+                        </th>
+                        <th>
+                            {% if langue == "fr" %}Mot de passe
+                            {% elif langue == "en" %}Password
+                            {% elif langue == "ar" %}كلمة المرور
+                            {% endif %}
+                        </th>
+                        <th>
+                            {% if langue == "fr" %}Sélection
+                            {% elif langue == "en" %}Selection
+                            {% elif langue == "ar" %}اختيار
+                            {% endif %}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in User %}
+                    {% if i.profile.badge != "admin" and i.profile.badge != "prof" %}
+                    <tr style="color:#243749;">
+                        <td>{{i.username}}</td>
+                        <td>{{i.profile.badge}}</td>
+                        <td>{{i.first_name}}</td>
+                        <td>{{i.last_name}}</td>
+                        <td>{{i.profile.classe}}</td>
+                        <td>{{i.profile.password}}</td>
+                        <td><input type="checkbox" class="chk" value="{{i.id}}"></td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            <div class="user-form">
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="quelform" value="form_ajou_eleve">
+                    
+                    <label for="last_name01">
+                        {% if langue == "fr" %}Nom de famille :
+                        {% elif langue == "en" %}Last Name:
+                        {% elif langue == "ar" %}الاسم العائلي:
+                        {% endif %}
+                    </label>
+                    <input type="text" name="last_name01" id="last_name01" required>
+                    
+                    <label for="first_name01">
+                        {% if langue == "fr" %}Prénom :
+                        {% elif langue == "en" %}First Name:
+                        {% elif langue == "ar" %}الاسم الشخصي:
+                        {% endif %}
+                    </label>
+                    <input type="text" name="first_name01" id="first_name01" required>
+                    
+                    <label for="slct_classe03">
+                        {% if langue == "fr" %}Classe :
+                        {% elif langue == "en" %}Class:
+                        {% elif langue == "ar" %}الفصل:
+                        {% endif %}
+                    </label>
+                    <select name="slct_classe03" id="slct_classe03" required>
+                        <option value="">
+                            {% if langue == "fr" %}Sélectionnez une classe
+                            {% elif langue == "en" %}Select a class
+                            {% elif langue == "ar" %}اختر فصلًا
+                            {% endif %}
+                        </option>
+                        {% for i in classe01 %}
+                        <option value="{{i.classe}}">{{i.classe}}</option>
+                        {% endfor %}
+                    </select>
+                    
+                    <button type="submit">
+                        <i class="fas fa-plus"></i> 
+                        {% if langue == "fr" %}Ajouter un élève
+                        {% elif langue == "en" %}Add a student
+                        {% elif langue == "ar" %}إضافة طالب
+                        {% endif %}
+                    </button>
+                    
+                    {% if error_eleve == "y" %}
+                    <p class="error-message">
+                        {% if langue == "fr" %}Cet utilisateur existe déjà !
+                        {% elif langue == "en" %}This user already exists!
+                        {% elif langue == "ar" %}هذا المستخدم موجود بالفعل!
+                        {% endif %}
+                    </p>
+                    {% elif error_eleve == "n" %}
+                    <p class="error-message">
+                        {% if langue == "fr" %}Seules les lettres sont autorisées !
+                        {% elif langue == "en" %}Only letters are allowed!
+                        {% elif langue == "ar" %}يُسمح فقط بالحروف!
+                        {% endif %}
+                    </p>
+                    {% endif %}
+                </form>
+            </div>
+            
+            <div class="delete-all-form">
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="quelform" value="form_suppr_tout_eleve">
+                    <button type="submit">
+                        <i class="fas fa-trash"></i> 
+                        {% if langue == "fr" %}Supprimer tous les élèves
+                        {% elif langue == "en" %}Delete all students
+                        {% elif langue == "ar" %}حذف جميع الطلاب
+                        {% endif %}
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Section Administrateurs (uniquement pour superuser01) -->
+        {% if username == "superuser01" or  username == "Mehdi_Admin" %}
+        <div class="users-section">
+            <h2><i class="fas fa-user-shield"></i> 
+                {% if langue == "fr" %}Administrateurs
+                {% elif langue == "en" %}Administrators
+                {% elif langue == "ar" %}المسؤولون
+                {% endif %}
+            </h2>
+            
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th>
+                            {% if langue == "fr" %}Nom d'utilisateur
+                            {% elif langue == "en" %}Username
+                            {% elif langue == "ar" %}اسم المستخدم
+                            {% endif %}
+                        </th>
+                        <th>
+                            {% if langue == "fr" %}Rôle
+                            {% elif langue == "en" %}Role
+                            {% elif langue == "ar" %}الدور
+                            {% endif %}
+                        </th>
+                        <th>
+                            {% if langue == "fr" %}Nom
+                            {% elif langue == "en" %}Last Name
+                            {% elif langue == "ar" %}الاسم العائلي
+                            {% endif %}
+                        </th>
+                        <th>
+                            {% if langue == "fr" %}Prénom
+                            {% elif langue == "en" %}First Name
+                            {% elif langue == "ar" %}الاسم الشخصي
+                            {% endif %}
+                        </th>
+                        <th>
+                            {% if langue == "fr" %}Mot de passe
+                            {% elif langue == "en" %}Password
+                            {% elif langue == "ar" %}كلمة المرور
+                            {% endif %}
+                        </th>
+                        <th>
+                            {% if langue == "fr" %}Sélection
+                            {% elif langue == "en" %}Selection
+                            {% elif langue == "ar" %}اختيار
+                            {% endif %}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in User %}
+                    {% if i.profile.badge == "admin" %}
+                    <tr style="color:#243749;">
+                        <td>{{i.username}}</td>
+                        <td>{{i.profile.badge}}</td>
+                        <td>{{i.last_name}}</td>
+                        <td>{{i.first_name}}</td>
+                        <td>{{i.profile.password}}</td>
+                        <td><input type="checkbox" class="chk" value="{{i.id}}"></td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+
+<div style="text-align: center; margin-top: 20px; padding: 10px; background: #f5f5f5; border-radius: 5px;">
+    {% if User.has_previous %}
+        <a href="?page=1" style="margin: 0 10px; text-decoration: none; color: #243749;">← Première</a>
+        <a href="?page={{ User.previous_page_number }}" style="margin: 0 10px; text-decoration: none; color: #243749;">Précédente</a>
+    {% endif %}
+    
+    <span style="margin: 0 15px; font-weight: bold;">Page {{ User.number }} sur {{ User.paginator.num_pages }}</span>
+    
+    {% if User.has_next %}
+        <a href="?page={{ User.next_page_number }}" style="margin: 0 10px; text-decoration: none; color: #243749;">Suivante</a>
+        <a href="?page={{ User.paginator.num_pages }}" style="margin: 0 10px; text-decoration: none; color: #243749;">Dernière →</a>
+    {% endif %}
+</div>
+            
+            <div class="user-form">
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="quelform" value="form_ajou_administration">
+                    
+                    <label for="last_name_adm">
+                        {% if langue == "fr" %}Nom de famille :
+                        {% elif langue == "en" %}Last Name:
+                        {% elif langue == "ar" %}الاسم العائلي:
+                        {% endif %}
+                    </label>
+                    <input type="text" name="last_name_adm" id="last_name_adm" required>
+                    
+                    <label for="first_name_adm">
+                        {% if langue == "fr" %}Prénom :
+                        {% elif langue == "en" %}First Name:
+                        {% elif langue == "ar" %}الاسم الشخصي:
+                        {% endif %}
+                    </label>
+                    <input type="text" name="first_name_adm" id="first_name_adm" required>
+                    
+                    <label for="mdp_adm">
+                        {% if langue == "fr" %}Mot de passe :
+                        {% elif langue == "en" %}Password:
+                        {% elif langue == "ar" %}كلمة المرور:
+                        {% endif %}
+                    </label>
+                    <input type="text" name="mdp_adm" id="mdp_adm" required>
+                    
+                    <button type="submit" id="btn_ajou_adm">
+                        <i class="fas fa-plus"></i> 
+                        {% if langue == "fr" %}Ajouter un administrateur
+                        {% elif langue == "en" %}Add an administrator
+                        {% elif langue == "ar" %}إضافة مسؤول
+                        {% endif %}
+                    </button>
+                    
+                    {% if error_admin == "y" %}
+                    <p class="error-message">
+                        {% if langue == "fr" %}Cet utilisateur existe déjà !
+                        {% elif langue == "en" %}This user already exists!
+                        {% elif langue == "ar" %}هذا المستخدم موجود بالفعل!
+                        {% endif %}
+                    </p>
+                    {% elif error_admin == "n" %}
+                    <p class="error-message">
+                        {% if langue == "fr" %}Seules les lettres sont autorisées !
+                        {% elif langue == "en" %}Only letters are allowed!
+                        {% elif langue == "ar" %}يُسمح فقط بالحروف!
+                        {% endif %}
+                    </p>
+                    {% endif %}
+                </form>
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="quelform" value="securiser admin">
+                    <button type="submit">securiser les admin</button>
+                </form>
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="quelform" value="securiser">
+                    <button type="submit">securiser tout le monde</button>
+                </form>
+            </div>
+        </div>
+        {% else %}
+        <div class="warning-message">
+            <i class="fas fa-shield-alt"></i>
+            <p>
+                {% if langue == "fr" %}Accès réservé au super administrateur
+                {% elif langue == "en" %}Access restricted to super administrator
+                {% elif langue == "ar" %}الوصول مقصور على المسؤول الفائق
+                {% endif %}
+            </p>
+        </div>
+        {% endif %}
+
+        <!-- Formulaire de suppression sélective -->
+        <div class="selective-delete-form">
+            <form id="form01" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="quelform" value="form_recuper_id_selected">
+                <input type="hidden" name="resultat01" id="resultat" required>
+                <button id="btn01" type="submit">
+                    <i class="fas fa-trash"></i> 
+                    {% if langue == "fr" %}Supprimer les utilisateurs sélectionnés ⚠
+                    {% elif langue == "en" %}Delete selected users ⚠
+                    {% elif langue == "ar" %}حذف المستخدمين المحددين ⚠
+                    {% endif %}
+                </button>
+            </form>
+        </div>
+
+        <script>
+        const checks = document.querySelectorAll('.chk');
+        const btn01 = document.getElementById('btn01');
+        const resultat = document.getElementById('resultat');
+        const form01 = document.getElementById('form01');
+
+        
+        btn01.addEventListener("click", (e) => {
+            let selectedIds = "";
+            checks.forEach(x => {
+                if (x.checked) {
+                    selectedIds += "-" + x.value;
+                }
+            });
+            
+            if (selectedIds === "") {
+                e.preventDefault();
+                alert(
+                    {% if langue == "fr" %}"Veuillez sélectionner au moins un utilisateur à supprimer."
+                    {% elif langue == "en" %}"Please select at least one user to delete."
+                    {% elif langue == "ar" %}"يرجى اختيار مستخدم واحد على الأقل للحذف."
+                    {% endif %}
+                );
+                return;
+            }
+            
+            resultat.value = selectedIds;
+        });
+        </script>
+
+    {% else %}
+    <div class="access-message">
+        <i class="fas fa-user-shield"></i>
+        <h1>
+            {% if langue == "fr" %}Accès réservé aux administrateurs
+            {% elif langue == "en" %}Access restricted to administrators
+            {% elif langue == "ar" %}الوصول مقصور على المسؤولين
+            {% endif %}
+        </h1>
+        <p>
+            {% if langue == "fr" %}Cette page permet de visualiser tous les utilisateurs, leurs informations, et de gérer leur suppression ou ajout. Seuls les administrateurs peuvent accéder à ces fonctionnalités.
+            {% elif langue == "en" %}This page allows viewing all users, their information, and managing their deletion or addition. Only administrators can access these features.
+            {% elif langue == "ar" %}تتيح هذه الصفحة عرض جميع المستخدمين ومعلوماتهم وإدارة حذفهم أو إضافتهم. فقط المسؤولون يمكنهم الوصول إلى هذه الميزات.
+            {% endif %}
+        </p>
+    </div>
+    {% endif %}
+{% else %}
+    <div class="access-message">
+        <i class="fas fa-lock"></i>
+        <h1>
+            {% if langue == "fr" %}Connexion requise
+            {% elif langue == "en" %}Login required
+            {% elif langue == "ar" %}تسجيل الدخول مطلوب
+            {% endif %}
+        </h1>
+        <p>
+            {% if langue == "fr" %}Vous devez être connecté pour accéder à cette page. Cette interface permet aux administrateurs de gérer tous les utilisateurs du système.
+            {% elif langue == "en" %}You must be logged in to access this page. This interface allows administrators to manage all system users.
+            {% elif langue == "ar" %}يجب عليك تسجيل الدخول للوصول إلى هذه الصفحة. تتيح هذه الواجهة للمسؤولين إدارة جميع مستخدمي النظام.
+            {% endif %}
+        </p>
+    </div>
+{% endif %}
+</div>
+
+{% endblock body01 %}

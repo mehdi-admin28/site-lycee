@@ -1,0 +1,96 @@
+{% for msg in messages %}
+
+    {% if msg.signale == "." %}
+        <!-- message non signalé -->
+        <div class="message {% if msg.sender == requestuser %}mine{% endif %}" data-message-id="{{ msg.id }}">
+            <p class="sender" style="color:#243749;">{{ msg.sender.username }}</p>
+
+            {% if msg.text %}
+                <div class="message-text">{{ msg.text }}</div>
+            {% endif %}
+
+            {% if msg.image %}
+                <div class="message-image">
+                    <img src="{{ msg.image.url }}" alt="image" class="message-img">
+                </div>
+            {% endif %}
+
+            <p class="date">{{ msg.date_creation }}</p>
+
+            <!-- actions -->
+            <div class="message-actions">
+                {% if msg.sender == requestuser %}
+                    <!-- suppression -->
+                    <form method="POST" id="delete-form-{{ msg.id }}" hidden>
+                        {% csrf_token %}
+                        <input type="hidden" name="quelform" value="supprimer message">
+                        <input type="hidden" name="id_message" value="{{ msg.id }}">
+                    </form>
+                    <i class="fa-solid fa-trash icon-trash js-delete"
+                       role="button"
+                       tabindex="0"
+                       data-message-id="{{ msg.id }}"
+                       aria-label="supprimer"
+                       style="right:-8px;color:#243749;"></i>
+                {% else %}
+                    <!-- signalement -->
+                    <form method="POST" id="report-form-{{ msg.id }}" hidden>
+                        {% csrf_token %}
+                        <input type="hidden" name="quelform" value="signaler message">
+                        <input type="hidden" name="id_message" value="{{ msg.id }}">
+                    </form>
+                    <i class="fa-solid fa-flag icon-flag js-report" 
+                       role="button"
+                       tabindex="0"
+                       data-message-id="{{ msg.id }}"
+                       aria-label="signaler"></i>
+                {% endif %}
+
+                {% if msg.signale == requestuser.username and msg.sender != requestuser %}
+                    <!-- désignaler -->
+                    <form method="POST" id="unreport-form-{{ msg.id }}" hidden>
+                        {% csrf_token %}
+                        <input type="hidden" name="quelform" value="designaler">
+                        <input type="hidden" name="id_message" value="{{ msg.id }}">
+                    </form>
+                    <i class="fa-solid fa-undo icon-undo js-unreport"
+                       role="button"
+                       tabindex="0"
+                       data-message-id="{{ msg.id }}"
+                       aria-label="désigner"></i>
+                {% endif %}
+            </div>
+        </div>
+
+    {% else %}
+        <!-- message signalé -->
+        <div class="message-reported" data-message-id="{{ msg.id }}">
+            <p class="reported-text">
+                {% if langue == "fr" %}
+                    Ce message a été signalé par
+                {% elif langue == "ar" %}
+                    تم الإبلاغ عن هذه الرسالة من طرف
+                {% else %}
+                    This message was reported by
+                {% endif %}
+                ( {{ msg.signale }} )
+            </p>
+
+            {% if msg.signale == requestuser.username and msg.sender != requestuser %}
+                <!-- désignaler -->
+                <form method="POST" id="unreport-form-{{ msg.id }}" hidden>
+                    {% csrf_token %}
+                    <input type="hidden" name="quelform" value="designaler">
+                    <input type="hidden" name="id_message" value="{{ msg.id }}">
+                </form>
+                <i class="fa-solid fa-undo icon-undo js-unreport"
+                   role="button"
+                   tabindex="0"
+                   data-message-id="{{ msg.id }}"
+                   aria-label="désigner"></i>
+            {% endif %}
+        </div>
+    {% endif %}
+
+{% endfor %}
+

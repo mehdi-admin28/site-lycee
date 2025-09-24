@@ -1,0 +1,169 @@
+{% extends "base01.html" %}
+
+{% block title01 %}
+    {% if langue == "fr" %}Demandes de changement de nom
+    {% elif langue == "en" %}Name Change Requests
+    {% elif langue == "ar" %}طلبات تغيير الاسم
+    {% endif %}
+{% endblock title01 %}
+
+{% block pub312 %}{% endblock pub312 %}
+{% block body01 %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<div class="admin-container">
+
+{% if is_auth %}
+    {% if is_admin == "admin" %}
+
+        {% if changement_nom_prernom %}
+        <form method="POST" >
+            {% csrf_token %}
+            <input type="hidden" name="quelform" value="toutrefusernoms">
+            <button type="submit" class="submit-btn" style="margin:2rem 0;background:#dc3545;">
+                {% if langue == "fr" %}<i class="fas fa-times-circle"></i> Refuser tout changement
+                {% elif langue == "en" %}<i class="fas fa-times-circle"></i> Reject all changes
+                {% elif langue == "ar" %}<i class="fas fa-times-circle"></i> رفض جميع التغييرات
+                {% endif %}
+            </button>
+        </form>
+
+        <table class="requests-table">
+            <thead>
+                <tr>
+                    <th>
+                        {% if langue == "fr" %}Nom actuel
+                        {% elif langue == "en" %}Current last name
+                        {% elif langue == "ar" %}الاسم العائلي الحالي
+                        {% endif %}
+                    </th>
+                    <th>
+                        {% if langue == "fr" %}Prénom actuel
+                        {% elif langue == "en" %}Current first name
+                        {% elif langue == "ar" %}الاسم الشخصي الحالي
+                        {% endif %}
+                    </th>
+                    <th>
+                        {% if langue == "fr" %}Nouveau nom
+                        {% elif langue == "en" %}New last name
+                        {% elif langue == "ar" %}الاسم العائلي الجديد
+                        {% endif %}
+                    </th>
+                    <th>
+                        {% if langue == "fr" %}Nouveau prénom
+                        {% elif langue == "en" %}New first name
+                        {% elif langue == "ar" %}الاسم الشخصي الجديد
+                        {% endif %}
+                    </th>
+                    <th>
+                        {% if langue == "fr" %}Actions
+                        {% elif langue == "en" %}Actions
+                        {% elif langue == "ar" %}الإجراءات
+                        {% endif %}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for i in changement_nom_prernom %}
+                <tr>
+                    <td class="name-cell">{{i.nom_avant}}</td>
+                    <td class="name-cell">{{i.prenom_avant}}</td>
+                    <td class="name-cell">
+                        <div class="change-cell">
+                            <i class="fas fa-arrow-right arrow-icon"></i>
+                            {{i.nom_apr}}
+                        </div>
+                    </td>
+                    <td class="name-cell">
+                        <div class="change-cell">
+                            <i class="fas fa-arrow-right arrow-icon"></i>
+                            {{i.prenom_apr}}
+                        </div>
+                    </td>
+                    <td class="actions-cell">
+                        <div class="action-buttons">
+                            <form method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="quelchoix" value="{{i.id}}">
+                                <input type="hidden" name="quelform" value="accepter_changement">
+                                <button type="submit" class="action-btn accept-btn">
+                                    <i class="fas fa-check"></i> 
+                                    {% if langue == "fr" %}Accepter
+                                    {% elif langue == "en" %}Accept
+                                    {% elif langue == "ar" %}قبول
+                                    {% endif %}
+                                </button>
+                            </form>
+                            <form method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="quelchoix" value="{{i.id}}">
+                                <input type="hidden" name="quelform" value="refuser_changement">
+                                <button type="submit" class="action-btn refuse-btn">
+                                    <i class="fas fa-times"></i> 
+                                    {% if langue == "fr" %}Refuser
+                                    {% elif langue == "en" %}Refuse
+                                    {% elif langue == "ar" %}رفض
+                                    {% endif %}
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="empty-message">
+            <i class="fas fa-inbox"></i>
+            <h2>
+                {% if langue == "fr" %}Aucune demande
+                {% elif langue == "en" %}No requests
+                {% elif langue == "ar" %}لا توجد طلبات
+                {% endif %}
+            </h2>
+            <p>
+                {% if langue == "fr" %}Aucune demande de changement en attente.
+                {% elif langue == "en" %}No pending change requests.
+                {% elif langue == "ar" %}لا توجد طلبات تغيير قيد الانتظار.
+                {% endif %}
+            </p>
+        </div>
+        {% endif %}
+
+    {% else %}
+        <div class="access-message">
+            <i class="fas fa-user-shield"></i>
+            <h1>
+                {% if langue == "fr" %}Accès réservé
+                {% elif langue == "en" %}Restricted access
+                {% elif langue == "ar" %}وصول مقيد
+                {% endif %}
+            </h1>
+            <p>
+                {% if langue == "fr" %}Cette interface est réservée aux administrateurs pour gérer les demandes de modification des informations personnelles.
+                {% elif langue == "en" %}This interface is reserved for administrators to manage personal information change requests.
+                {% elif langue == "ar" %}هذه الواجهة مخصصة للمسؤولين لإدارة طلبات تعديل المعلومات الشخصية.
+                {% endif %}
+            </p>
+        </div>
+    {% endif %}
+{% else %}
+    <div class="access-message">
+        <i class="fas fa-lock"></i>
+        <h1>
+            {% if langue == "fr" %}Connexion requise
+            {% elif langue == "en" %}Login required
+            {% elif langue == "ar" %}مطلوب تسجيل الدخول
+            {% endif %}
+        </h1>
+        <p>
+            {% if langue == "fr" %}Veuillez vous connecter pour accéder à cette page.
+            {% elif langue == "en" %}Please log in to access this page.
+            {% elif langue == "ar" %}يرجى تسجيل الدخول للوصول إلى هذه الصفحة.
+            {% endif %}
+        </p>
+    </div>
+{% endif %}
+</div>
+
+{% endblock body01 %}
