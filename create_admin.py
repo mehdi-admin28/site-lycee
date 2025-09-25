@@ -1,4 +1,4 @@
-
+'''
 import os
 import django
 
@@ -15,3 +15,4 @@ if not User.objects.filter(username="admin").exists():
     print("✅ Superuser créé avec succès !")
 else:
     print("⚠️ Le superuser existe déjà.")
+'''
