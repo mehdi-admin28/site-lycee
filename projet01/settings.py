@@ -200,7 +200,7 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': '_djc8usswc',
+    'CLOUD_NAME': 'djc8usswc',
     'API_KEY': '936944947458791',
     'API_SECRET': 'tDMaS6_OEFysWwtXd1BdYvwQPy4'
 }
