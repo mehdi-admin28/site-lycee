@@ -10,10 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 import dj_database_url
-
 import os
-
 from pathlib import Path
+# --- Configuration Cloudinary ---
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -41,6 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app01',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 MIDDLEWARE = [
@@ -139,10 +144,10 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
 # media pour l image que j ajoute ici : 
 
-
+'''
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-
+'''
 
 
 
@@ -191,3 +196,13 @@ CACHES = {
 }
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'Rootmehdi',
+    'API_KEY': '936944947458791',
+    'API_SECRET': 'tDMaS6_OEFysWwtXd1BdYvwQPy4'
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
