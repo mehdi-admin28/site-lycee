@@ -121,7 +121,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+# static images c est moi pas django donc peux supprimer
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
 #ana li zdt hada f taht (en bah)
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
@@ -142,9 +144,7 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# static images c est moi pas django donc peux supprimer
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / "static"]
+
 
 '''
 # settings.py
