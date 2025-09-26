@@ -51,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # ✅ ici
 ]
 
 ROOT_URLCONF = 'projet01.urls'
@@ -170,6 +171,7 @@ LOGGING = {
 }
 '''
 
+
 '''
 # settings.py
 CACHES = {
@@ -186,3 +188,5 @@ CACHES = {
         'LOCATION':  os.path.join(BASE_DIR, 'cache'),
     }
 }
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
