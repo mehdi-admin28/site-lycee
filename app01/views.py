@@ -14,7 +14,8 @@ import time
 '''from django.db.models import Prefetch'''
 from django.http import HttpResponse
 from django.core.files.storage import default_storage
-
+from django.conf import settings
+import os
 
 
 # Variables globales supprimées - elles seront chargées via le cache ou des requêtes optimisées
@@ -26,12 +27,55 @@ redy = "bloque"
 dm_pub312 = 0
 
 
-def test_storage(request):
-    # On affiche la classe ET l’emplacement racine utilisé
-    storage_class = str(default_storage.__class__)
-    storage_location = getattr(default_storage, 'location', 'Aucun attribut location')
-    return HttpResponse(f"📦 Storage utilisé : {storage_class}<br>📁 Location : {storage_location}")
 
+
+def test_storage(request):
+    try:
+        from django.core.files.storage import default_storage
+        storage_module = getattr(default_storage.__class__, "__module__", "n/a")
+        storage_name = getattr(default_storage.__class__, "__name__", "n/a")
+        storage_repr = repr(default_storage)
+        storage_location = getattr(default_storage, "location", "Aucun attribut location")
+    except Exception as e:
+        storage_module = "ERR: " + str(e)
+        storage_name = "ERR"
+        storage_repr = ""
+        storage_location = "ERR"
+
+    # vérifier présence des variables d'environnement (sans afficher les secrets)
+    env_keys = {
+        "CLOUDINARY_URL": bool(os.environ.get("CLOUDINARY_URL")),
+        "CLOUDINARY_CLOUD_NAME": bool(os.environ.get("CLOUDINARY_CLOUD_NAME")),
+        "CLOUDINARY_API_KEY": bool(os.environ.get("CLOUDINARY_API_KEY")),
+        "CLOUDINARY_API_SECRET": bool(os.environ.get("CLOUDINARY_API_SECRET")),
+    }
+
+    # vérifier import des paquets
+    try:
+        import cloudinary
+        cloudinary_info = getattr(cloudinary, "__version__", "cloudinary (version inconnue)")
+    except Exception as e:
+        cloudinary_info = f"ImportError: {e}"
+
+    try:
+        import django_cloudinary_storage
+        dc_storage = getattr(django_cloudinary_storage, "__version__", "django_cloudinary_storage (version inconnue)")
+    except Exception as e:
+        dc_storage = f"ImportError: {e}"
+
+    default_fs_setting = getattr(settings, "DEFAULT_FILE_STORAGE", "(non défini)")
+
+    text = (
+        f"storage_module: {storage_module}\n"
+        f"storage_name: {storage_name}\n"
+        f"storage_repr: {storage_repr}\n"
+        f"storage_location: {storage_location}\n\n"
+        f"default_file_storage setting: {default_fs_setting}\n\n"
+        f"env keys present: {env_keys}\n\n"
+        f"cloudinary package: {cloudinary_info}\n"
+        f"django_cloudinary_storage package: {dc_storage}\n"
+    )
+    return HttpResponse(f"<pre>{text}</pre>")
 
 def get_cached_data(key, queryset, timeout=300):
     """Helper function to get cached data or set it if not exists"""
