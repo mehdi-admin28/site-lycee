@@ -1031,8 +1031,7 @@ def certificat_admin0(request):
         x0x = request.user.profile.badge
     
     # Chargement avec cache
-    all_certificats = get_cached_data('all_certificats', 
-        certificat.objects.all()
+    all_certificats = certificat.objects.all()
     
     if not all_certificats:
         a = "oui"
@@ -1068,7 +1067,7 @@ def certificat_admin0(request):
             nomjjj = "oui"
     
     return render(request, 'certificat_admin.html', {
-        'certificat': all_certificats,
+        'certificat': certificat.objects.all(),
         'vide': a,
         'is_auth': request.user.is_authenticated,
         'is_admin': x0x,
