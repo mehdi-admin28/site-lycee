@@ -60,6 +60,8 @@
             {% elif langue == "ar" %}جدول جديد
             {% endif %}
         </button>
+
+        <div id="bcjjbkksx54254" style="margin:0;padding:0;"></div>
         
         <!-- Formulaire modal -->
         <form id="form_emplois_temps">
@@ -106,6 +108,7 @@
 
         <!-- JavaScript ORIGINAL (inchangé) -->
         <script>
+        const bcjjbkksx54254 = document.getElementById('bcjjbkksx54254');
         const btntemps = document.getElementById('btntemps');
         const form_emplois_temps = document.getElementById('form_emplois_temps');
         const inp_time_avant = document.getElementById('inp_time_avant');
@@ -197,7 +200,7 @@
         </button></td><td><button class="btn_ajou_heure"><i class="fa-solid fa-plus"></i>
         </button></td>
         </tr>`;
-        document.body.appendChild(t);
+        bcjjbkksx54254.appendChild(t);
         let form_emplois_kaka = document.createElement('form');
         form_emplois_kaka.method="POST";
         form_emplois_kaka.className="form_emplois";
@@ -228,7 +231,7 @@
                 {% endif %}
             </p>
             {% endif %}`;
-        document.body.insertBefore(form_emplois_kaka,t);
+        bcjjbkksx54254.insertBefore(form_emplois_kaka,t);
         attacherEvenementFormEmplois(form_emplois_kaka);
 
         const btnsuppr_jour = document.querySelectorAll('.btnsuppr_jour');
@@ -345,7 +348,7 @@
         });
 
         suppr_heure.forEach(x=>{
-            let y = x.closest('table').closest('tr');
+            let y = x.closest('table');
             x.addEventListener("click",()=>{
                 y.remove();
             });

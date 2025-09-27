@@ -142,12 +142,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SESSION_COOKIE_AGE = 60*60*24*30
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
-# media pour l image que j ajoute ici : 
 
-'''
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
-'''
 
 
 
