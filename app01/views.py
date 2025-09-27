@@ -1032,7 +1032,7 @@ def certificat_admin0(request):
     
     # Chargement avec cache
     all_certificats = get_cached_data('all_certificats', 
-        certificat.objects.all())
+        certificat.objects.all()
     
     if not all_certificats:
         a = "oui"
