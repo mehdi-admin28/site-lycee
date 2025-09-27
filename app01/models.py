@@ -53,9 +53,9 @@ class certificat(models.Model):
     prenom = models.CharField(max_length=25)
     heure = models.CharField(max_length=40)
     motif = models.TextField()
-    dcr = models.CharField(max_length=50) 
+    dcr = models.CharField(max_length=50)
     
-    
+
 class pub0(models.Model):
     nom_complet = models.CharField(max_length=23)
     pub = models.ImageField()
