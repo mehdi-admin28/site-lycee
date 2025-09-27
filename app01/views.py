@@ -12,6 +12,10 @@ from django.core.paginator import Paginator
 from django.core.cache import cache
 import time
 '''from django.db.models import Prefetch'''
+from django.http import HttpResponse
+from django.core.files.storage import default_storage
+
+
 
 # Variables globales supprimées - elles seront chargées via le cache ou des requêtes optimisées
 
@@ -20,6 +24,11 @@ contact_chance = 0
 redx = "bloque"
 redy = "bloque"
 dm_pub312 = 0
+
+
+def test_storage(request):
+    
+    return HttpResponse(str(default_storage.__class__))
 
 
 def get_cached_data(key, queryset, timeout=300):

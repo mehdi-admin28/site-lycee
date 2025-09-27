@@ -26,5 +26,8 @@ urlpatterns = [
     path('contact_admin/',views.contact_admin,name='contact_admin_name'),
     path('documentation/',views.documentation ,name='documentation_name'),
     path('Messagerie/',views.messagerie,name='messagerie_name'),
+    
+    path("test-storage/", views.test_storage),
+
 ]
   
