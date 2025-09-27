@@ -1107,11 +1107,11 @@ def certificat0(request):
         ap_abs = request.POST.get('ap_abs')
         motif = request.POST.get('motif')
         
-        x = slct_jour + " : de " + av_abs + " a " + ap_abs
+        x = f"{slct_jour} de {av_abs} a {ap_abs}"
         
         certif_exists = certificat.objects.filter(
-            nom=request.user.last_name,
-            prenom=request.user.first_name,
+            nom=str(request.user.last_name),
+            prenom=str(request.user.first_name),
             heure=x,
             motif=motif
         ).exists()

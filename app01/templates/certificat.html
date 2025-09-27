@@ -10,13 +10,9 @@
 {% block body01 %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-
-
 <div class="certif-container">
 
 {% if redy == "bloque" %}
-
-
 
 {% if is_auth %}
     <div class="certif-form">
@@ -261,28 +257,27 @@
     </div>
 {% endif %}
 {% elif redy == "debloque" %}
-<div class="access-message">
-    <i class="fas fa-file-circle-xmark"></i>
-    <h1>
-        {% if langue == "fr" %}Page de demande de certificat d’absence bloquée
-        {% elif langue == "en" %}Absence certificate request page blocked
-        {% elif langue == "ar" %}تم حظر صفحة طلب شهادة الغياب
-        {% endif %}
-    </h1>
-    <p>
-        {% if langue == "fr" %}L'administrateur a bloqué l'accès à cette page.
-        {% elif langue == "en" %}The administrator has blocked access to this page.
-        {% elif langue == "ar" %}قام المسؤول بحظر الوصول إلى هذه الصفحة.
-        {% endif %}
-    </p>
-    <p>
-        {% if langue == "fr" %}Cette page permet normalement de demander un certificat d’absence en ligne.
-        {% elif langue == "en" %}This page normally allows you to request an absence certificate online.
-        {% elif langue == "ar" %}تتيح هذه الصفحة عادةً طلب شهادة غياب عبر الإنترنت.
-        {% endif %}
-    </p>
-</div>
-
+    <div class="access-message">
+        <i class="fas fa-file-circle-xmark"></i>
+        <h1>
+            {% if langue == "fr" %}Page de demande de certificat d’absence bloquée
+            {% elif langue == "en" %}Absence certificate request page blocked
+            {% elif langue == "ar" %}تم حظر صفحة طلب شهادة الغياب
+            {% endif %}
+        </h1>
+        <p>
+            {% if langue == "fr" %}L'administrateur a bloqué l'accès à cette page.
+            {% elif langue == "en" %}The administrator has blocked access to this page.
+            {% elif langue == "ar" %}قام المسؤول بحظر الوصول إلى هذه الصفحة.
+            {% endif %}
+        </p>
+        <p>
+            {% if langue == "fr" %}Cette page permet normalement de demander un certificat d’absence en ligne.
+            {% elif langue == "en" %}This page normally allows you to request an absence certificate online.
+            {% elif langue == "ar" %}تتيح هذه الصفحة عادةً طلب شهادة غياب عبر الإنترنت.
+            {% endif %}
+        </p>
+    </div>
 {% endif %}
 </div>
 
