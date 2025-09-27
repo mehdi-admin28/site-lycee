@@ -32,7 +32,7 @@ def get_cached_data(key, queryset, timeout=300):
 
 
 def langue_fonction(request):
-    langue = "ar"
+    langue = "en"
     form = request.POST.get('quelform')
     '''
         if form == "languefr":
@@ -1118,12 +1118,11 @@ def certificat0(request):
         
         if not certif_exists:
             certificat.objects.create(
-                nom=request.user.last_name,
-                prenom=request.user.first_name,
+                nom=str(request.user.last_name),
+                prenom=str(request.user.first_name),
                 heure=x,
                 motif=motif
             )
-            cache.delete('all_certificats')
             z = "envoyer"
             return redirect('certificat_name')
         else:
