@@ -1110,21 +1110,21 @@ def certificat0(request):
         x = f"{slct_jour} de {av_abs} a {ap_abs}"
         
         certif_exists = certificat.objects.filter(
-            nom=str(request.user.last_name),
-            prenom=str(request.user.first_name),
+            nom= f"{request.user.last_name}",
+            prenom= f"{request.user.first_name}",
             heure=x,
             motif=motif
         ).exists()
         
         if not certif_exists:
             certificat.objects.create(
-                nom=str(request.user.last_name),
-                prenom=str(request.user.first_name),
+                nom= f"{request.user.last_name}",
+                prenom= f"{request.user.first_name}",
                 heure=x,
                 motif=motif
             )
             z = "envoyer"
-            return redirect('certificat_name')
+            
         else:
             z = "certif deja la"
             
