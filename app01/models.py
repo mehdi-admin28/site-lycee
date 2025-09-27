@@ -51,7 +51,7 @@ class emplous_temps(models.Model):
 class certificat(models.Model):
     nom = models.CharField(max_length=25)
     prenom = models.CharField(max_length=25)
-    heure = models.CharField(max_length=20)
+    heure = models.CharField(max_length=40)
     motif = models.TextField()
     dcr = models.TextField()
     
