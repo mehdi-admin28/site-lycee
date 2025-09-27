@@ -27,8 +27,10 @@ dm_pub312 = 0
 
 
 def test_storage(request):
-    
-    return HttpResponse(str(default_storage.__class__))
+    # On affiche la classe ET l’emplacement racine utilisé
+    storage_class = str(default_storage.__class__)
+    storage_location = getattr(default_storage, 'location', 'Aucun attribut location')
+    return HttpResponse(f"📦 Storage utilisé : {storage_class}<br>📁 Location : {storage_location}")
 
 
 def get_cached_data(key, queryset, timeout=300):
