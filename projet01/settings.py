@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'app01',
     'cloudinary',
     'cloudinary_storage',
+    
 ]
 
 MIDDLEWARE = [
@@ -196,8 +197,8 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'djc8usswc',
-    'API_KEY': '936944947458791',
-    'API_SECRET': 'tDMaS6_OEFysWwtXd1BdYvwQPy4'
+    'API_KEY': '383245593466648',
+    'API_SECRET': 'Bo0ohJ9b2mz_COtcPgxjXqJUp0k',
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
