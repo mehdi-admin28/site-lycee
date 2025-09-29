@@ -1,6 +1,5 @@
 {
   "static": {
     "/static/": "staticfiles/",
-    "extra_directories": ["media"]
   }
 }
