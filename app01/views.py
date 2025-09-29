@@ -27,19 +27,24 @@ redy = "bloque"
 dm_pub312 = 0
 
 def galeryj(request):
-    return render(request ,'galery.html',{'is_auth':request.user.is_authenticated})
+    langue = langue_fonction(request)
+    return render(request ,'galery.html',{'is_auth':request.user.is_authenticated,
+                                          'langue':langue,})
 
 
 def condition(request):
-    return render(request ,'condition.html')
+    langue = langue_fonction(request)
+    return render(request ,'condition.html' ,{'langue':langue,})
 
 
 def politique(request):
-    return render(request ,'politique.html')
+    langue = langue_fonction(request)
+    return render(request ,'politique.html' ,{'langue':langue,})
 
 
 def mention(request):
-    return render(request ,'mention.html')
+    langue = langue_fonction(request)
+    return render(request ,'mention.html' ,{'langue':langue,})
 
 
 def test_storage(request):
