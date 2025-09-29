@@ -1,0 +1,266 @@
+{% extends "base01.html" %}
+
+{% block title01 %}
+Conditions d'utilisation - Lycée Sidi Ali Lebhar
+{% endblock title01 %}
+
+{% block body01 %}
+<body class="bg-gray-50 font-sans">
+    <style>
+        .rtl {
+            direction: rtl;
+            text-align: right;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .tab-btn {
+            transition: all 0.3s ease;
+        }
+        .tab-btn:hover {
+            transform: translateY(-2px);
+        }
+        .tab-btn.active {
+            border-bottom: 3px solid #3b82f6;
+        }
+        .highlight-box {
+            transition: all 0.3s ease;
+        }
+        .highlight-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+    </style>
+    <div class="min-h-screen flex flex-col">
+
+        <!-- Main Content -->
+        <main class="flex-grow container mx-auto px-4 py-8">
+            <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+                <!-- Page Title -->
+                <div class="bg-gradient-to-r from-blue-500 to-blue-700 p-6 text-white">
+                    <h2 class="text-3xl font-bold"><i class="fas fa-file-contract mr-3"></i>Conditions d'utilisation</h2>
+                    <p class="mt-2 opacity-90">Dernière mise à jour: 15 juin 2023</p>
+                </div>
+
+                <!-- Language Tabs -->
+                <div class="border-b border-gray-200">
+                    <div class="flex flex-wrap justify-center md:justify-start">
+                        <button onclick="switchTab('fr')" class="tab-btn active px-6 py-3 font-medium text-blue-600 border-b-2 border-blue-600 rounded-t-lg">
+                            <i class="fas fa-language mr-2"></i>Français
+                        </button>
+                        <button onclick="switchTab('ar')" class="tab-btn px-6 py-3 font-medium text-gray-500 hover:text-gray-600 hover:border-gray-300">
+                            <i class="fas fa-language mr-2"></i>العربية
+                        </button>
+                        <button onclick="switchTab('en')" class="tab-btn px-6 py-3 font-medium text-gray-500 hover:text-gray-600 hover:border-gray-300">
+                            <i class="fas fa-language mr-2"></i>English
+                        </button>
+                    </div>
+                </div>
+
+                <!-- French Content -->
+                <div id="fr-content" class="tab-content active p-6 md:p-8">
+                    <div class="highlight-box bg-gray-50 p-6 rounded-lg mb-6 border border-gray-200">
+                        <h3 class="text-xl font-semibold text-blue-700 mb-3"><i class="fas fa-bullseye mr-2"></i>Objectifs du site</h3>
+                        <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                            <li>Fournir une plateforme de communication entre l'administration, les enseignants, les élèves et les parents</li>
+                            <li>Diffuser les informations importantes concernant la vie scolaire</li>
+                            <li>Faciliter l'accès aux ressources pédagogiques</li>
+                            <li>Promouvoir les activités culturelles et sportives du lycée</li>
+                        </ul>
+                    </div>
+
+                    <div class="highlight-box bg-gray-50 p-6 rounded-lg mb-6 border border-gray-200">
+                        <h3 class="text-xl font-semibold text-blue-700 mb-3"><i class="fas fa-gavel mr-2"></i>Règles d'utilisation</h3>
+                        <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                            <li>L'accès au site est réservé aux membres de la communauté scolaire</li>
+                            <li>Chaque utilisateur doit se connecter avec ses identifiants personnels</li>
+                            <li>Il est interdit de partager son compte avec des tiers</li>
+                            <li>Le contenu publié doit respecter les valeurs éducatives et morales</li>
+                            <li>Toute utilisation abusive peut entraîner la suspension du compte</li>
+                        </ul>
+                    </div>
+
+                    <div class="highlight-box bg-gray-50 p-6 rounded-lg mb-6 border border-gray-200">
+                        <h3 class="text-xl font-semibold text-blue-700 mb-3"><i class="fas fa-users mr-2"></i>Respect des utilisateurs</h3>
+                        <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                            <li>Tous les utilisateurs doivent être traités avec respect et courtoisie</li>
+                            <li>Les commentaires discriminatoires ou offensants sont strictement interdits</li>
+                            <li>La vie privée des autres utilisateurs doit être respectée</li>
+                            <li>Toute forme de harcèlement sera sanctionnée</li>
+                        </ul>
+                    </div>
+
+                    <div class="highlight-box bg-gray-50 p-6 rounded-lg mb-6 border border-gray-200">
+                        <h3 class="text-xl font-semibold text-blue-700 mb-3"><i class="fas fa-edit mr-2"></i>Modifications du contenu</h3>
+                        <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                            <li>L'administration se réserve le droit de modifier ou supprimer tout contenu inapproprié</li>
+                            <li>Les utilisateurs peuvent signaler du contenu problématique via le formulaire de contact</li>
+                            <li>Les modifications majeures des conditions seront communiquées par email</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                        <p class="text-blue-800"><i class="fas fa-info-circle mr-2"></i>Ces conditions d'utilisation ont été mises à jour le <span class="font-semibold">15 juin 2023</span>.</p>
+                    </div>
+                </div>
+
+                <!-- Arabic Content -->
+                <div id="ar-content" class="tab-content p-6 md:p-8 rtl">
+                    <div class="highlight-box bg-gray-50 p-6 rounded-lg mb-6 border border-gray-200">
+                        <h3 class="text-xl font-semibold text-blue-700 mb-3"><i class="fas fa-bullseye mr-2"></i>أهداف الموقع</h3>
+                        <ul class="list-disc pr-6 space-y-2 text-gray-700">
+                            <li>توفير منصة للتواصل بين الإدارة والمعلمين والطلاب وأولياء الأمور</li>
+                            <li>نشر المعلومات المهمة المتعلقة بالحياة المدرسية</li>
+                            <li>تسهيل الوصول إلى الموارد التعليمية</li>
+                            <li>تعزيز الأنشطة الثقافية والرياضية في المدرسة</li>
+                        </ul>
+                    </div>
+
+                    <div class="highlight-box bg-gray-50 p-6 rounded-lg mb-6 border border-gray-200">
+                        <h3 class="text-xl font-semibold text-blue-700 mb-3"><i class="fas fa-gavel mr-2"></i>قواعد الاستخدام</h3>
+                        <ul class="list-disc pr-6 space-y-2 text-gray-700">
+                            <li>الوصول إلى الموقع مخصص لأعضاء المجتمع المدرسي</li>
+                            <li>يجب على كل مستخدم تسجيل الدخول باستخدام بيانات الاعتماد الشخصية</li>
+                            <li>يمنع مشاركة الحساب مع أطراف ثالثة</li>
+                            <li>يجب أن يحترم المحتوى المنشور القيم التربوية والأخلاقية</li>
+                            <li>أي استخدام غير لائق قد يؤدي إلى تعليق الحساب</li>
+                        </ul>
+                    </div>
+
+                    <div class="highlight-box bg-gray-50 p-6 rounded-lg mb-6 border border-gray-200">
+                        <h3 class="text-xl font-semibold text-blue-700 mb-3"><i class="fas fa-users mr-2"></i>احترام المستخدمين</h3>
+                        <ul class="list-disc pr-6 space-y-2 text-gray-700">
+                            <li>يجب معاملة جميع المستخدمين باحترام ولباقة</li>
+                            <li>التعليقات التمييزية أو المسيئة ممنوعة منعاً باتاً</li>
+                            <li>يجب احترام خصوصية المستخدمين الآخرين</li>
+                            <li>سيتم معاقبة أي شكل من أشكال التحرش</li>
+                        </ul>
+                    </div>
+
+                    <div class="highlight-box bg-gray-50 p-6 rounded-lg mb-6 border border-gray-200">
+                        <h3 class="text-xl font-semibold text-blue-700 mb-3"><i class="fas fa-edit mr-2"></i>تعديلات المحتوى</h3>
+                        <ul class="list-disc pr-6 space-y-2 text-gray-700">
+                            <li>تحتفظ الإدارة بالحق في تعديل أو حذف أي محتوى غير مناسب</li>
+                            <li>يمكن للمستخدمين الإبلاغ عن المحتوى المشبوه عبر نموذج الاتصال</li>
+                            <li>سيتم إبلاغ التعديلات الرئيسية للشروط عبر البريد الإلكتروني</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                        <p class="text-blue-800"><i class="fas fa-info-circle mr-2"></i>تم تحديث شروط الاستخدام هذه في <span class="font-semibold">15 يونيو 2023</span>.</p>
+                    </div>
+                </div>
+
+                <!-- English Content -->
+                <div id="en-content" class="tab-content p-6 md:p-8">
+                    <div class="highlight-box bg-gray-50 p-6 rounded-lg mb-6 border border-gray-200">
+                        <h3 class="text-xl font-semibold text-blue-700 mb-3"><i class="fas fa-bullseye mr-2"></i>Website Objectives</h3>
+                        <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                            <li>Provide a communication platform between administration, teachers, students and parents</li>
+                            <li>Disseminate important information regarding school life</li>
+                            <li>Facilitate access to educational resources</li>
+                            <li>Promote the cultural and sports activities of the high school</li>
+                        </ul>
+                    </div>
+
+                    <div class="highlight-box bg-gray-50 p-6 rounded-lg mb-6 border border-gray-200">
+                        <h3 class="text-xl font-semibold text-blue-700 mb-3"><i class="fas fa-gavel mr-2"></i>Usage Rules</h3>
+                        <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                            <li>Access to the site is reserved for members of the school community</li>
+                            <li>Each user must log in with their personal credentials</li>
+                            <li>Sharing your account with third parties is prohibited</li>
+                            <li>Published content must respect educational and moral values</li>
+                            <li>Any abusive use may result in account suspension</li>
+                        </ul>
+                    </div>
+
+                    <div class="highlight-box bg-gray-50 p-6 rounded-lg mb-6 border border-gray-200">
+                        <h3 class="text-xl font-semibold text-blue-700 mb-3"><i class="fas fa-users mr-2"></i>User Respect</h3>
+                        <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                            <li>All users must be treated with respect and courtesy</li>
+                            <li>Discriminatory or offensive comments are strictly prohibited</li>
+                            <li>The privacy of other users must be respected</li>
+                            <li>Any form of harassment will be sanctioned</li>
+                        </ul>
+                    </div>
+
+                    <div class="highlight-box bg-gray-50 p-6 rounded-lg mb-6 border border-gray-200">
+                        <h3 class="text-xl font-semibold text-blue-700 mb-3"><i class="fas fa-edit mr-2"></i>Content Modifications</h3>
+                        <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                            <li>The administration reserves the right to modify or delete any inappropriate content</li>
+                            <li>Users can report problematic content via the contact form</li>
+                            <li>Major changes to the terms will be communicated by email</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                        <p class="text-blue-800"><i class="fas fa-info-circle mr-2"></i>These terms of use were updated on <span class="font-semibold">June 15, 2023</span>.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-white py-8">
+            <div class="container mx-auto px-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-4">Lycée Sidi Ali Lebhar</h3>
+                        <p class="text-gray-300">Établissement d'enseignement secondaire qualifiant</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-4">Contact</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li><i class="fas fa-map-marker-alt mr-2"></i> Rue Principale, Ville</li>
+                            <li><i class="fas fa-phone mr-2"></i> +212 5 00 00 00 00</li>
+                            <li><i class="fas fa-envelope mr-2"></i> contact@lycee-sial.com</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-4">Liens utiles</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li><a href="#" class="hover:text-white transition">Ministère de l'Éducation</a></li>
+                            <li><a href="#" class="hover:text-white transition">Portail scolaire</a></li>
+                            <li><a href="#" class="hover:text-white transition">Ressources pédagogiques</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400">
+                    <p>&copy; 2023 Lycée Sidi Ali Lebhar. Tous droits réservés.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        function switchTab(lang) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active', 'text-blue-600', 'border-blue-600');
+                btn.classList.add('text-gray-500', 'hover:text-gray-600', 'hover:border-gray-300');
+            });
+            
+            // Show selected tab content
+            document.getElementById(lang + '-content').classList.add('active');
+            
+            // Add active class to clicked button
+            event.currentTarget.classList.add('active', 'text-blue-600', 'border-blue-600');
+            event.currentTarget.classList.remove('text-gray-500', 'hover:text-gray-600', 'hover:border-gray-300');
+        }
+    </script>
+</body>
+
+{% endblock body01 %}

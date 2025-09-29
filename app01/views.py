@@ -26,7 +26,20 @@ redx = "bloque"
 redy = "bloque"
 dm_pub312 = 0
 
+def galery(request):
+    return render(request ,'galery.html',{'is_auth':request.user.is_authenticated})
 
+
+def condition(request):
+    return render(request ,'condition.html')
+
+
+def politique(request):
+    return render(request ,'politique.html')
+
+
+def mention(request):
+    return render(request ,'mention.html')
 
 
 def test_storage(request):
@@ -76,9 +89,6 @@ def test_storage(request):
         f"django_cloudinary_storage package: {dc_storage}\n"
     )
     return HttpResponse(f"<pre>{text}</pre>")
-
-def galery(request):
-    return render(request ,'galery.html',{'is_auth':request.user.is_authenticated})
 
 
 def get_cached_data(key, queryset, timeout=300):

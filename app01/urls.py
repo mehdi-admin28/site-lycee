@@ -29,6 +29,9 @@ urlpatterns = [
     
     path("test-storage/", views.test_storage),
     path("Gallery/", views.galery ,name='gallery_name'),
-
+    
+    path("condition/", views.condition ,name='condition_name'),
+    path("mention/", views.mention ,name='mention_name'),
+    path("politique/", views.politique ,name='politique_name'),
 ]
   

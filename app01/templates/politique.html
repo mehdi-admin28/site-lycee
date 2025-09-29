@@ -1,0 +1,200 @@
+{% extends "base01.html" %}
+
+{% block title01 %}
+Politique de Confidentialité - Lycée Sidi Ali Lebhar
+{% endblock title01 %}
+
+{% block body01 %}
+
+<body class="bg-gray-50 min-h-screen font-sans">
+    <style>
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .rtl-text {
+            direction: rtl;
+            text-align: right;
+        }
+        .language-btn.active {
+            transform: scale(1.05);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .policy-container {
+            transition: all 0.3s ease;
+        }
+    </style>
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-indigo-800 mb-2">Lycée Sidi Ali Lebhar - Béjaïa</h1>
+            <p class="text-gray-600">Politique de Confidentialité</p>
+        </header>
+
+        <!-- Language Selector -->
+        <div class="flex justify-center mb-8 space-x-4">
+            <button onclick="showLanguage('fr')" id="fr-btn" class="language-btn active px-6 py-2 rounded-full bg-indigo-600 text-white hover:bg-indigo-700 transition-all duration-300 flex items-center">
+                <i class="fas fa-language mr-2"></i> Français
+            </button>
+            <button onclick="showLanguage('ar')" id="ar-btn" class="language-btn px-6 py-2 rounded-full bg-indigo-100 text-indigo-800 hover:bg-indigo-200 transition-all duration-300 flex items-center">
+                <i class="fas fa-language mr-2"></i> العربية
+            </button>
+            <button onclick="showLanguage('en')" id="en-btn" class="language-btn px-6 py-2 rounded-full bg-indigo-100 text-indigo-800 hover:bg-indigo-200 transition-all duration-300 flex items-center">
+                <i class="fas fa-language mr-2"></i> English
+            </button>
+        </div>
+
+        <!-- French Version -->
+        <div id="fr-content" class="policy-container fade-in bg-white rounded-lg shadow-lg p-6 md:p-8 max-w-4xl mx-auto">
+            <h2 class="text-2xl font-bold text-indigo-700 mb-6">Politique de Confidentialité</h2>
+            
+            <div class="space-y-6">
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">1. Collecte des Données</h3>
+                    <p class="text-gray-600">Le Lycée Sidi Ali Lebhar - Béjaïa s'engage à ne collecter aucune donnée personnelle sans le consentement explicite de l'utilisateur. Toute collecte de données est effectuée de manière transparente et dans le respect des lois en vigueur.</p>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">2. Utilisation des Cookies</h3>
+                    <p class="text-gray-600">Notre site peut utiliser des cookies techniques strictement nécessaires au bon fonctionnement de la plateforme. Ces cookies ne nécessitent pas de consentement préalable et ne sont pas utilisés à des fins de tracking ou de publicité.</p>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">3. Partage des Données</h3>
+                    <p class="text-gray-600">Aucune donnée personnelle collectée n'est transmise à des tiers, sauf obligation légale ou nécessité technique (hébergeur du site). Les données sont traitées exclusivement dans le cadre des services proposés par notre établissement scolaire.</p>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">4. Sécurité des Données</h3>
+                    <p class="text-gray-600">En cas d'utilisation de formulaires sur notre site, nous mettons en œuvre des mesures techniques et organisationnelles appropriées pour protéger vos données contre tout accès non autorisé, perte ou altération.</p>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">5. Contact</h3>
+                    <p class="text-gray-600">Pour toute question relative à cette politique de confidentialité ou à la protection de vos données, vous pouvez nous contacter à l'adresse suivante :</p>
+                    <p class="mt-2 text-indigo-600"><i class="fas fa-envelope mr-2"></i> contact@lycee-sidialilebhar.dz</p>
+                    <p class="mt-1 text-indigo-600"><i class="fas fa-phone mr-2"></i> +213 XXX XX XX XX</p>
+                </div>
+            </div>
+            
+            <div class="mt-8 pt-6 border-t border-gray-200">
+                <p class="text-gray-500 text-sm">Dernière mise à jour : 15 juin 2023</p>
+            </div>
+        </div>
+
+        <!-- Arabic Version -->
+        <div id="ar-content" class="policy-container hidden bg-white rounded-lg shadow-lg p-6 md:p-8 max-w-4xl mx-auto rtl-text">
+            <h2 class="text-2xl font-bold text-indigo-700 mb-6">سياسة الخصوصية</h2>
+            
+            <div class="space-y-6">
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">1. جمع البيانات</h3>
+                    <p class="text-gray-600">تلتزم ثانوية سيدي علي البحار - بجاية بعدم جمع أي بيانات شخصية دون موافقة صريحة من المستخدم. يتم جمع البيانات بطريقة شفافة مع احترام القوانين المعمول بها.</p>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">2. استخدام الكوكيز</h3>
+                    <p class="text-gray-600">قد يستخدم موقعنا كوكيز تقنية ضرورية لعمل المنصة بشكل صحيح. هذه الكوكيز لا تتطلب موافقة مسبقة ولا تستخدم لأغراض التتبع أو الإعلان.</p>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">3. مشاركة البيانات</h3>
+                    <p class="text-gray-600">لا يتم نقل أي بيانات شخصية تم جمعها إلى أطراف ثالثة، إلا في حالة الالتزام القانوني أو الضرورة التقنية (مزود خدمة الاستضافة). يتم معالجة البيانات حصرا في إطار الخدمات المقدمة من مؤسستنا التعليمية.</p>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">4. أمان البيانات</h3>
+                    <p class="text-gray-600">في حالة استخدام النماذج على موقعنا، ننفذ تدابير تقنية وتنظيمية مناسبة لحماية بياناتك من أي وصول غير مصرح به أو فقدان أو تلف.</p>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">5. الاتصال</h3>
+                    <p class="text-gray-600">لأي استفسار بخصوص سياسة الخصوصية هذه أو حماية بياناتك، يمكنك الاتصال بنا على العنوان التالي:</p>
+                    <p class="mt-2 text-indigo-600"><i class="fas fa-envelope ml-2"></i> contact@lycee-sidialilebhar.dz</p>
+                    <p class="mt-1 text-indigo-600"><i class="fas fa-phone ml-2"></i> +213 XXX XX XX XX</p>
+                </div>
+            </div>
+            
+            <div class="mt-8 pt-6 border-t border-gray-200">
+                <p class="text-gray-500 text-sm">آخر تحديث: 15 يونيو 2023</p>
+            </div>
+        </div>
+
+        <!-- English Version -->
+        <div id="en-content" class="policy-container hidden bg-white rounded-lg shadow-lg p-6 md:p-8 max-w-4xl mx-auto">
+            <h2 class="text-2xl font-bold text-indigo-700 mb-6">Privacy Policy</h2>
+            
+            <div class="space-y-6">
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">1. Data Collection</h3>
+                    <p class="text-gray-600">Sidi Ali Lebhar High School - Béjaïa is committed to not collecting any personal data without the explicit consent of the user. Any data collection is carried out transparently and in compliance with applicable laws.</p>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">2. Use of Cookies</h3>
+                    <p class="text-gray-600">Our website may use strictly necessary technical cookies for the proper functioning of the platform. These cookies do not require prior consent and are not used for tracking or advertising purposes.</p>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">3. Data Sharing</h3>
+                    <p class="text-gray-600">No collected personal data is shared with third parties, except for legal obligations or technical necessity (website hosting). Data is processed exclusively within the framework of services offered by our educational institution.</p>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">4. Data Security</h3>
+                    <p class="text-gray-600">In case of using forms on our website, we implement appropriate technical and organizational measures to protect your data against unauthorized access, loss, or alteration.</p>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">5. Contact</h3>
+                    <p class="text-gray-600">For any questions regarding this privacy policy or the protection of your data, you can contact us at:</p>
+                    <p class="mt-2 text-indigo-600"><i class="fas fa-envelope mr-2"></i> contact@lycee-sidialilebhar.dz</p>
+                    <p class="mt-1 text-indigo-600"><i class="fas fa-phone mr-2"></i> +213 XXX XX XX XX</p>
+                </div>
+            </div>
+            
+            <div class="mt-8 pt-6 border-t border-gray-200">
+                <p class="text-gray-500 text-sm">Last updated: June 15, 2023</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showLanguage(lang) {
+            // Hide all content divs
+            document.querySelectorAll('.policy-container').forEach(div => {
+                div.classList.add('hidden');
+                div.classList.remove('fade-in');
+            });
+            
+            // Show selected content
+            const selectedDiv = document.getElementById(lang + '-content');
+            selectedDiv.classList.remove('hidden');
+            setTimeout(() => {
+                selectedDiv.classList.add('fade-in');
+            }, 10);
+            
+            // Update active button
+            document.querySelectorAll('.language-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.classList.remove('bg-indigo-600', 'text-white');
+                btn.classList.add('bg-indigo-100', 'text-indigo-800');
+            });
+            
+            const activeBtn = document.getElementById(lang + '-btn');
+            activeBtn.classList.add('active', 'bg-indigo-600', 'text-white');
+            activeBtn.classList.remove('bg-indigo-100', 'text-indigo-800');
+            
+            // Change HTML direction for Arabic
+            if (lang === 'ar') {
+                document.documentElement.dir = 'rtl';
+            } else {
+                document.documentElement.dir = 'ltr';
+            }
+        }
+    </script>
+</body>
+{% endblock body01 %}
