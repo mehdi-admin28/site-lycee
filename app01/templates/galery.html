@@ -1,0 +1,315 @@
+{% extends "base01.html" %}
+
+
+{% block title01 %}High School Memories Gallery{% endblock title01 %}
+
+
+{% block body01 %}
+<body class="bg-gray-50 font-sans">
+
+
+<style>
+        .gallery-item {
+            transition: all 0.3s ease;
+        }
+        .gallery-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        .filter-active {
+            background-color: #4f46e5;
+            color: white;
+        }
+        .modal {
+            transition: opacity 0.3s ease;
+        }
+    </style>
+
+
+
+    <!-- Hero Section -->
+    <div class="bg-indigo-600 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl font-bold mb-4">
+                {% if langue == "fr" %}
+                    Nos Souvenirs d'École
+                {% elif langue == "en" %}
+                    Our School Memories
+                {% elif langue == "ar" %}
+                    ذكريات مدرستنا
+                {% endif %}
+            </h1>
+            <p class="text-xl mb-8">
+                {% if langue == "fr" %}
+                    Revivez les meilleurs moments de notre parcours au lycée
+                {% elif langue == "en" %}
+                    Relive the best moments from our high school journey
+                {% elif langue == "ar" %}
+                    عش أفضل اللحظات من رحلتنا في المدرسة الثانوية
+                {% endif %}
+            </p>
+            
+            <!-- Search Bar -->
+            <div class="max-w-md mx-auto relative">
+                <div class="flex items-center bg-white rounded-lg overflow-hidden px-4 py-2">
+                    <i data-feather="search" class="text-gray-400"></i>
+                    <input type="text" 
+                           placeholder="{% if langue == 'fr' %}Rechercher des photos...{% elif langue == 'en' %}Search photos...{% elif langue == 'ar' %}ابحث عن الصور...{% endif %}" 
+                           class="ml-2 w-full focus:outline-none text-gray-800">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="bg-white py-6 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap justify-center gap-2">
+                <button class="filter-btn px-4 py-2 rounded-full border border-gray-300 hover:bg-indigo-100" data-filter="all">
+                    {% if langue == "fr" %}Tout{% elif langue == "en" %}All{% elif langue == "ar" %}الكل{% endif %}
+                </button>
+                <button class="filter-btn px-4 py-2 rounded-full border border-gray-300 hover:bg-indigo-100" data-filter="2023">
+                    {% if langue == "fr" %}Promotion 2023{% elif langue == "en" %}Class of 2023{% elif langue == "ar" %}دفعة 2023{% endif %}
+                </button>
+                <button class="filter-btn px-4 py-2 rounded-full border border-gray-300 hover:bg-indigo-100" data-filter="2022">
+                    {% if langue == "fr" %}Promotion 2022{% elif langue == "en" %}Class of 2022{% elif langue == "ar" %}دفعة 2022{% endif %}
+                </button>
+                <button class="filter-btn px-4 py-2 rounded-full border border-gray-300 hover:bg-indigo-100" data-filter="sports">
+                    {% if langue == "fr" %}Sports{% elif langue == "en" %}Sports{% elif langue == "ar" %}الرياضة{% endif %}
+                </button>
+                <button class="filter-btn px-4 py-2 rounded-full border border-gray-300 hover:bg-indigo-100" data-filter="events">
+                    {% if langue == "fr" %}Événements{% elif langue == "en" %}Events{% elif langue == "ar" %}الفعاليات{% endif %}
+                </button>
+                <button class="filter-btn px-4 py-2 rounded-full border border-gray-300 hover:bg-indigo-100" data-filter="graduation">
+                    {% if langue == "fr" %}Remise des diplômes{% elif langue == "en" %}Graduation{% elif langue == "ar" %}التخرج{% endif %}
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gallery Grid -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <!-- Gallery Items -->
+            <div class="gallery-item rounded-lg overflow-hidden shadow-md cursor-pointer" data-category="2023 events">
+                <img src="{% static 'images/1.jpg' %}" alt="{% if langue == 'fr' %}Événement scolaire{% elif langue == 'en' %}School event{% elif langue == 'ar' %}حدث مدرسي{% endif %}" class="w-full h-64 object-cover" loading="lazy">
+                <div class="p-4 bg-white">
+                    <h3 class="font-medium text-gray-900">
+                        {% if langue == "fr" %}Photo 0{% elif langue == "en" %}Picture 0{% elif langue == "ar" %}صورة 0{% endif %}
+                    </h3>
+                    <p class="text-sm text-gray-500">
+                        {% if langue == "fr" %}15 mars 2023{% elif langue == "en" %}March 15, 2023{% elif langue == "ar" %}15 مارس 2023{% endif %}
+                    </p>
+                </div>
+            </div>
+            
+            <div class="gallery-item rounded-lg overflow-hidden shadow-md cursor-pointer" data-category="2022 sports">
+                <img src="{% static 'images/2.png' %}" alt="{% if langue == 'fr' %}Match de basketball{% elif langue == 'en' %}Basketball game{% elif langue == 'ar' %}مباراة كرة السلة{% endif %}" class="w-full h-64 object-cover" loading="lazy">
+                <div class="p-4 bg-white">
+                    <h3 class="font-medium text-gray-900">
+                        {% if langue == "fr" %}Photo 1{% elif langue == "en" %}Picture 1{% elif langue == "ar" %}صورة 1{% endif %}
+                    </h3>
+                    <p class="text-sm text-gray-500">
+                        {% if langue == "fr" %}8 novembre 2022{% elif langue == "en" %}November 8, 2022{% elif langue == "ar" %}8 نوفمبر 2022{% endif %}
+                    </p>
+                </div>
+            </div>
+            
+            <div class="gallery-item rounded-lg overflow-hidden shadow-md cursor-pointer" data-category="2023 graduation">
+                <img src="{% static 'images/3.png' %}" alt="{% if langue == 'fr' %}Cérémonie de remise des diplômes{% elif langue == 'en' %}Graduation ceremony{% elif langue == 'ar' %}حفل التخرج{% endif %}" class="w-full h-64 object-cover" loading="lazy">
+                <div class="p-4 bg-white">
+                    <h3 class="font-medium text-gray-900">
+                        {% if langue == "fr" %}Photo 2{% elif langue == "en" %}Picture 2{% elif langue == "ar" %}صورة 2{% endif %}
+                    </h3>
+                    <p class="text-sm text-gray-500">
+                        {% if langue == "fr" %}5 juin 2023{% elif langue == "en" %}June 5, 2023{% elif langue == "ar" %}5 يونيو 2023{% endif %}
+                    </p>
+                </div>
+            </div>
+            
+            <div class="gallery-item rounded-lg overflow-hidden shadow-md cursor-pointer" data-category="2022 events">
+                <img src="{% static 'images/4.jpg' %}" alt="{% if langue == 'fr' %}Concert de musique{% elif langue == 'en' %}Music concert{% elif langue == 'ar' %}حفل موسيقي{% endif %}" class="w-full h-64 object-cover" loading="lazy">
+                <div class="p-4 bg-white">
+                    <h3 class="font-medium text-gray-900">
+                        {% if langue == "fr" %}Photo 3{% elif langue == "en" %}Picture 3{% elif langue == "ar" %}صورة 3{% endif %}
+                    </h3>
+                    <p class="text-sm text-gray-500">
+                        {% if langue == "fr" %}22 avril 2022{% elif langue == "en" %}April 22, 2022{% elif langue == "ar" %}22 أبريل 2022{% endif %}
+                    </p>
+                </div>
+            </div>
+            
+            <div class="gallery-item rounded-lg overflow-hidden shadow-md cursor-pointer" data-category="2023 sports">
+                <img src="{% static 'images/5.jpg' %}" alt="{% if langue == 'fr' %}Équipe de football{% elif langue == 'en' %}Soccer team{% elif langue == 'ar' %}فريق كرة القدم{% endif %}" class="w-full h-64 object-cover" loading="lazy">
+                <div class="p-4 bg-white">
+                    <h3 class="font-medium text-gray-900">
+                        {% if langue == "fr" %}Photo 4{% elif langue == "en" %}Picture 4{% elif langue == "ar" %}صورة 4{% endif %}
+                    </h3>
+                    <p class="text-sm text-gray-500">
+                        {% if langue == "fr" %}12 octobre 2023{% elif langue == "en" %}October 12, 2023{% elif langue == "ar" %}12 أكتوبر 2023{% endif %}
+                    </p>
+                </div>
+            </div>
+            
+            <div class="gallery-item rounded-lg overflow-hidden shadow-md cursor-pointer" data-category="2022 events">
+                <img src="{% static 'images/photo1.png' %}" alt="{% if langue == 'fr' %}Club de théâtre{% elif langue == 'en' %}Drama club{% elif langue == 'ar' %}نادي المسرح{% endif %}" class="w-full h-64 object-cover" loading="lazy">
+                <div class="p-4 bg-white">
+                    <h3 class="font-medium text-gray-900">
+                        {% if langue == "fr" %}Photo 5{% elif langue == "en" %}Picture 5{% elif langue == "ar" %}صورة 5{% endif %}
+                    </h3>
+                    <p class="text-sm text-gray-500">
+                        {% if langue == "fr" %}3 décembre 2022{% elif langue == "en" %}December 3, 2022{% elif langue == "ar" %}3 ديسمبر 2022{% endif %}
+                    </p>
+                </div>
+            </div>
+            
+            <div class="gallery-item rounded-lg overflow-hidden shadow-md cursor-pointer" data-category="2023 graduation">
+                <img src="{% static 'images/photo2.jpg' %}" alt="{% if langue == 'fr' %}Fête de remise des diplômes{% elif langue == 'en' %}Graduation party{% elif langue == 'ar' %}حفلة التخرج{% endif %}" class="w-full h-64 object-cover" loading="lazy">
+                <div class="p-4 bg-white">
+                    <h3 class="font-medium text-gray-900">
+                        {% if langue == "fr" %}Photo 6{% elif langue == "en" %}Picture 6{% elif langue == "ar" %}صورة 6{% endif %}
+                    </h3>
+                    <p class="text-sm text-gray-500">
+                        {% if langue == "fr" %}6 juin 2023{% elif langue == "en" %}June 6, 2023{% elif langue == "ar" %}6 يونيو 2023{% endif %}
+                    </p>
+                </div>
+            </div>
+            
+            <div class="gallery-item rounded-lg overflow-hidden shadow-md cursor-pointer" data-category="2022 sports">
+                <img src="{% static 'images/photo3.jpg' %}" alt="{% if langue == 'fr' %}Compétition d'athlétisme{% elif langue == 'en' %}Track meet{% elif langue == 'ar' %}مسابقة ألعاب القوى{% endif %}" class="w-full h-64 object-cover" loading="lazy">
+                <div class="p-4 bg-white"> 
+                    <h3 class="font-medium text-gray-900">
+                        {% if langue == "fr" %}Photo 7{% elif langue == "en" %}Picture 7{% elif langue == "ar" %}صورة 7{% endif %}
+                    </h3>
+                    <p class="text-sm text-gray-500">
+                        {% if langue == "fr" %}18 mai 2022{% elif langue == "en" %}May 18, 2022{% elif langue == "ar" %}18 مايو 2022{% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lightbox Modal -->
+    <div class="modal fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center opacity-0 pointer-events-none">
+        <div class="relative max-w-4xl w-full bg-white rounded-lg overflow-hidden">
+            <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+                <i data-feather="x" class="w-8 h-8"></i>
+            </button>
+            <div class="p-4">
+                <img id="modal-image" src="" alt="" class="w-full max-h-[70vh] object-contain">
+                <div class="mt-4">
+                    <h3 id="modal-title" class="text-xl font-bold"></h3>
+                    <p id="modal-date" class="text-gray-600"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ici met ton Footer -->
+    
+
+
+
+
+    <script>
+        // Initialize Feather Icons
+        feather.replace();
+        
+        // Filter functionality
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Update active button
+                filterButtons.forEach(btn => btn.classList.remove('filter-active', 'bg-indigo-600', 'text-white'));
+                button.classList.add('filter-active', 'bg-indigo-600', 'text-white');
+                
+                const filterValue = button.getAttribute('data-filter');
+                
+                // Filter items
+                galleryItems.forEach(item => {
+                    if (filterValue === 'all' || item.getAttribute('data-category').includes(filterValue)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+        
+        // Lightbox functionality
+        const modal = document.querySelector('.modal');
+        const modalImage = document.getElementById('modal-image');
+        const modalTitle = document.getElementById('modal-title');
+        const modalDate = document.getElementById('modal-date');
+        
+        galleryItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const imgSrc = item.querySelector('img').getAttribute('src');
+                const title = item.querySelector('h3').textContent;
+                const date = item.querySelector('p').textContent;
+                
+                modalImage.setAttribute('src', imgSrc);
+                modalImage.setAttribute('alt', title);
+                modalTitle.textContent = title;
+                modalDate.textContent = date;
+                
+                modal.classList.remove('pointer-events-none', 'opacity-0');
+                modal.classList.add('opacity-100');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        
+        // Close modal
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal || e.target.closest('button')) {
+                modal.classList.add('pointer-events-none', 'opacity-0');
+                modal.classList.remove('opacity-100');
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        // Search functionality
+        const searchInput = document.querySelector('input[type="text"]');
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                
+                galleryItems.forEach(item => {
+                    const title = item.querySelector('h3').textContent.toLowerCase();
+                    const date = item.querySelector('p').textContent.toLowerCase();
+                    
+                    if (title.includes(searchTerm) || date.includes(searchTerm)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        }
+        
+        // Lazy loading for images (enhanced)
+        if ('IntersectionObserver' in window) {
+            const lazyImageObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        const lazyImage = entry.target;
+                        if (lazyImage.dataset.src) {
+                            lazyImage.src = lazyImage.dataset.src;
+                            lazyImageObserver.unobserve(lazyImage);
+                        }
+                    }
+                });
+            });
+            
+            document.querySelectorAll('img[loading="lazy"]').forEach((img) => {
+                if (img.dataset.src) {
+                    lazyImageObserver.observe(img);
+                }
+            });
+        }
+    </script>
+</body>
+
+{% endblock body01 %}

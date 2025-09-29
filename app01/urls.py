@@ -28,6 +28,7 @@ urlpatterns = [
     path('Messagerie/',views.messagerie,name='messagerie_name'),
     
     path("test-storage/", views.test_storage),
+    path("Gallery/", views.galery ,name='gallery_name'),
 
 ]
   

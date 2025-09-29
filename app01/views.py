@@ -77,6 +77,10 @@ def test_storage(request):
     )
     return HttpResponse(f"<pre>{text}</pre>")
 
+def galery(request):
+    return render(request ,'galery.html',{'is_auth':request.user.is_authenticated})
+
+
 def get_cached_data(key, queryset, timeout=300):
     """Helper function to get cached data or set it if not exists"""
     data = cache.get(key)
