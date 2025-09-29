@@ -26,7 +26,7 @@ redx = "bloque"
 redy = "bloque"
 dm_pub312 = 0
 
-def galery(request):
+def galeryj(request):
     return render(request ,'galery.html',{'is_auth':request.user.is_authenticated})
 
 
