@@ -1,0 +1,496 @@
+{% extends "base01.html" %}
+
+{% block title01 %}
+    {% if langue == "fr" %}Aper&ccedil;u fili&egrave;re
+        {% elif langue == "en" %}Overview branch
+        {% elif langue == "ar" %}لمحة الشعبة
+    {% endif %}
+{% endblock title01 %}
+
+{% block body01 %}    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1E40AF',
+                        secondary: '#1E3A8A',
+                        accent: '#3B82F6',
+                    },
+                    fontFamily: {
+                        poppins: ['Poppins', 'sans-serif'],
+                        {% if langue == "ar" %}
+                        cairo: ['Cairo', 'sans-serif'],
+                        {% endif %}
+                    },
+                }
+            }
+        }
+
+
+        const langue = "{{ langue }}";
+        document.addEventListener("DOMContentLoaded", () => {
+            const fontClass = (langue === "ar") ? "font-cairo" : "font-poppins";
+            document.body.className = `${fontClass} bg-gray-50`;
+        });
+    </script>
+    <style>
+        {% if langue == "ar" %}
+        body {
+            font-family: 'Cairo', sans-serif;
+            direction: rtl;
+        }
+        {% endif %}
+        
+        .filiere-card {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .filiere-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+    </style>
+
+<!--<body class="{% if langue == 'ar' %}font-cairo{% else %}font-poppins{% endif %} bg-gray-50">-->
+
+    <main class="container mx-auto px-4 py-12">
+        <section class="mb-12 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-primary mb-4">
+                {% if langue == "fr" %}
+                Nos Filières d'Excellence
+                {% elif langue == "en" %}
+                Our Departments of Excellence
+                {% elif langue == "ar" %}
+                شعبنا المتميزة
+                {% endif %}
+            </h2>
+            <p class="text-gray-600 max-w-3xl mx-auto">
+                {% if langue == "fr" %}
+                Découvrez les différentes filières proposées par notre établissement, conçues pour répondre aux aspirations de chaque élève et préparer leur avenir professionnel.
+                {% elif langue == "en" %}
+                Discover the various departments offered by our institution, designed to meet each student's aspirations and prepare their professional future.
+                {% elif langue == "ar" %}
+                اكتشف مختلف الشعب التي تقدمها مؤسستنا، المصممة لتلبية طموحات كل طالب وإعداد مستقبلهم المهني.
+                {% endif %}
+            </p>
+        </section>
+
+        <section class="mb-8">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+                <div class="relative w-full md:w-1/2">
+                    <input type="text" id="searchInput" 
+                           placeholder="{% if langue == 'fr' %}Rechercher une filière...{% elif langue == 'en' %}Search for a department...{% elif langue == 'ar' %}ابحث عن شعبة...{% endif %}" 
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 absolute {% if langue == 'ar' %}left-3{% else %}right-3{% endif %} top-2.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </div>
+                <div class="w-full md:w-auto">
+                    <select id="sortSelect" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent">
+                        <option value="name-asc">
+                            {% if langue == "fr" %}Trier par nom (A-Z){% elif langue == "en" %}Sort by name (A-Z){% elif langue == "ar" %}ترتيب حسب الاسم (أ-ي){% endif %}
+                        </option>
+                        <option value="name-desc">
+                            {% if langue == "fr" %}Trier par nom (Z-A){% elif langue == "en" %}Sort by name (Z-A){% elif langue == "ar" %}ترتيب حسب الاسم (ي-أ){% endif %}
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <section id="filieresContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Filière Tronc Commun Sciences -->
+            <div class="filiere-card bg-white rounded-lg overflow-hidden border border-gray-100">
+                <div class="bg-gradient-to-r from-blue-600 to-blue-800 p-6 text-white">
+                    <h3 class="text-xl font-bold">
+                        {% if langue == "fr" %}
+                        Tronc Commun Sciences et Technologies
+                        {% elif langue == "en" %}
+                        Common Core Science and Technology
+                        {% elif langue == "ar" %}
+                        الجذع المشترك علوم وتكنولوجيا
+                        {% endif %}
+                    </h3>
+                    <p class="text-blue-100 mt-2">
+                        {% if langue == "fr" %}
+                        Formation axée sur les mathématiques, physique-chimie et sciences de la vie
+                        {% elif langue == "en" %}
+                        Training focused on mathematics, physics-chemistry and life sciences
+                        {% elif langue == "ar" %}
+                        تكوين يركز على الرياضيات والفيزياء-الكيمياء وعلوم الحياة
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="p-6">
+                    <button class="accordion-btn flex justify-between items-center w-full text-left font-medium text-primary">
+                        <span>
+                            {% if langue == "fr" %}Classes disponibles{% elif langue == "en" %}Available classes{% elif langue == "ar" %}الأقسام المتاحة{% endif %}
+                        </span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div class="accordion-content">
+                        <ul class="mt-4 space-y-2">
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-accent rounded-full {% if langue == 'ar' %}ml-2{% else %}mr-2{% endif %}"></span>
+                                <span>1TCST 1</span>
+                            </li>
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-accent rounded-full {% if langue == 'ar' %}ml-2{% else %}mr-2{% endif %}"></span>
+                                <span>1TCST 2</span>
+                            </li>
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-accent rounded-full {% if langue == 'ar' %}ml-2{% else %}mr-2{% endif %}"></span>
+                                <span>1TCST 3</span>
+                            </li>
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-accent rounded-full {% if langue == 'ar' %}ml-2{% else %}mr-2{% endif %}"></span>
+                                <span>1TCST 4</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filière Tronc Commun Littéraire -->
+            <div class="filiere-card bg-white rounded-lg overflow-hidden border border-gray-100">
+                <div class="bg-gradient-to-r from-purple-600 to-purple-800 p-6 text-white">
+                    <h3 class="text-xl font-bold">
+                        {% if langue == "fr" %}
+                        Tronc Commun de Littérature
+                        {% elif langue == "en" %}
+                        Common Core Literature
+                        {% elif langue == "ar" %}
+                        الجذع المشترك آداب
+                        {% endif %}
+                    </h3>
+                    <p class="text-purple-100 mt-2">
+                        {% if langue == "fr" %}
+                        Approfondissement en langues et littérature arabe
+                        {% elif langue == "en" %}
+                        In-depth study of languages and Arabic literature
+                        {% elif langue == "ar" %}
+                        تعمق في اللغات والأدب العربي
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="p-6">
+                    <button class="accordion-btn flex justify-between items-center w-full text-left font-medium text-primary">
+                        <span>
+                            {% if langue == "fr" %}Classes disponibles{% elif langue == "en" %}Available classes{% elif langue == "ar" %}الأقسام المتاحة{% endif %}
+                        </span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div class="accordion-content">
+                        <ul class="mt-4 space-y-2">
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-accent rounded-full {% if langue == 'ar' %}ml-2{% else %}mr-2{% endif %}"></span>
+                                <span>1LT1</span>
+                            </li>
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-accent rounded-full {% if langue == 'ar' %}ml-2{% else %}mr-2{% endif %}"></span>
+                                <span>1LT2</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filière Économique -->
+            <div class="filiere-card bg-white rounded-lg overflow-hidden border border-gray-100">
+                <div class="bg-gradient-to-r from-green-600 to-green-800 p-6 text-white">
+                    <h3 class="text-xl font-bold">
+                        {% if langue == "fr" %}
+                        Filière Économique
+                        {% elif langue == "en" %}
+                        Economics Department
+                        {% elif langue == "ar" %}
+                        شعبة التسيير والاقتصاد
+                        {% endif %}
+                    </h3>
+                    <p class="text-green-100 mt-2">
+                        {% if langue == "fr" %}
+                        Étude des mécanismes économiques et gestion d'entreprise
+                        {% elif langue == "en" %}
+                        Study of economic mechanisms and business management
+                        {% elif langue == "ar" %}
+                        دراسة الآليات الاقتصادية وإدارة الأعمال
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="p-6">
+                    <button class="accordion-btn flex justify-between items-center w-full text-left font-medium text-primary">
+                        <span>
+                            {% if langue == "fr" %}Classes disponibles{% elif langue == "en" %}Available classes{% elif langue == "ar" %}الأقسام المتاحة{% endif %}
+                        </span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div class="accordion-content">
+                        <ul class="mt-4 space-y-2">
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-accent rounded-full {% if langue == 'ar' %}ml-2{% else %}mr-2{% endif %}"></span>
+                                <span>2GE1</span>
+                            </li>
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-accent rounded-full {% if langue == 'ar' %}ml-2{% else %}mr-2{% endif %}"></span>
+                                <span>3GE1</span>
+                            </li>
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-accent rounded-full {% if langue == 'ar' %}ml-2{% else %}mr-2{% endif %}"></span>
+                                <span>3GE2</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filière Technique -->
+            <div class="filiere-card bg-white rounded-lg overflow-hidden border border-gray-100">
+                <div class="bg-gradient-to-r from-red-600 to-red-800 p-6 text-white">
+                    <h3 class="text-xl font-bold">
+                        {% if langue == "fr" %}
+                        Filière Technique
+                        {% elif langue == "en" %}
+                        Technical Department
+                        {% elif langue == "ar" %}
+                        شعبة تقني رياضي
+                        {% endif %}
+                    </h3>
+                    <p class="text-red-100 mt-2">
+                        {% if langue == "fr" %}
+                        Formation pratique en électronique, mathématique et physique
+                        {% elif langue == "en" %}
+                        Practical training in electronics, mathematics and physics
+                        {% elif langue == "ar" %}
+                        تكوين عملي في الإلكترونيات والرياضيات والفيزياء
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="p-6">
+                    <button class="accordion-btn flex justify-between items-center w-full text-left font-medium text-primary">
+                        <span>
+                            {% if langue == "fr" %}Classes disponibles{% elif langue == "en" %}Available classes{% elif langue == "ar" %}الأقسام المتاحة{% endif %}
+                        </span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div class="accordion-content">
+                        <ul class="mt-4 space-y-2">
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-accent rounded-full {% if langue == 'ar' %}ml-2{% else %}mr-2{% endif %}"></span>
+                                <span>2MT1</span>
+                            </li>
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-accent rounded-full {% if langue == 'ar' %}ml-2{% else %}mr-2{% endif %}"></span>
+                                <span>3MT1</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filière Mathématique -->
+            <div class="filiere-card bg-white rounded-lg overflow-hidden border border-gray-100">
+                <div class="bg-gradient-to-r from-yellow-600 to-yellow-800 p-6 text-white">
+                    <h3 class="text-xl font-bold">
+                        {% if langue == "fr" %}
+                        Filière Mathématique
+                        {% elif langue == "en" %}
+                        Mathematics Department
+                        {% elif langue == "ar" %}
+                        شعبة الرياضيات
+                        {% endif %}
+                    </h3>
+                    <p class="text-yellow-100 mt-2">
+                        {% if langue == "fr" %}
+                        Approfondissement des mathématiques pures et appliquées, avec un enseignement renforcé en physique-chimie pour former le raisonnement scientifique.
+                        {% elif langue == "en" %}
+                        In-depth study of pure and applied mathematics, with enhanced physics-chemistry teaching to develop scientific reasoning.
+                        {% elif langue == "ar" %}
+                        تعمق في الرياضيات البحتة والتطبيقية، مع تعليم معزز في الفيزياء-الكيمياء لتطوير التفكير العلمي.
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="p-6">
+                    <button class="accordion-btn flex justify-between items-center w-full text-left font-medium text-primary">
+                        <span>
+                            {% if langue == "fr" %}Classes disponibles{% elif langue == "en" %}Available classes{% elif langue == "ar" %}الأقسام المتاحة{% endif %}
+                        </span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div class="accordion-content">
+                        <ul class="mt-4 space-y-2">
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-accent rounded-full {% if langue == 'ar' %}ml-2{% else %}mr-2{% endif %}"></span>
+                                <span>2M1</span>
+                            </li>
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-accent rounded-full {% if langue == 'ar' %}ml-2{% else %}mr-2{% endif %}"></span>
+                                <span>3M1</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filière Langues Étrangères -->
+            <div class="filiere-card bg-white rounded-lg overflow-hidden border border-gray-100">
+                <div class="bg-gradient-to-r from-indigo-600 to-indigo-800 p-6 text-white">
+                    <h3 class="text-xl font-bold">
+                        {% if langue == "fr" %}
+                        Filière Langues Étrangères
+                        {% elif langue == "en" %}
+                        Foreign Languages Department
+                        {% elif langue == "ar" %}
+                        شعبة اللغات الأجنبية
+                        {% endif %}
+                    </h3>
+                    <p class="text-indigo-100 mt-2">
+                        {% if langue == "fr" %}
+                        Maîtrise des langues française, anglaise et espagnole, axée sur la communication, la littérature et la culture internationales.
+                        {% elif langue == "en" %}
+                        Mastery of French, English and Spanish languages, focused on communication, literature and international culture.
+                        {% elif langue == "ar" %}
+                        إتقان اللغات الفرنسية والإنجليزية والإسبانية، مع التركيز على التواصل والأدب والثقافة الدولية.
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="p-6">
+                    <button class="accordion-btn flex justify-between items-center w-full text-left font-medium text-primary">
+                        <span>
+                            {% if langue == "fr" %}Classes disponibles{% elif langue == "en" %}Available classes{% elif langue == "ar" %}الأقسام المتاحة{% endif %}
+                        </span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div class="accordion-content">
+                        <ul class="mt-4 space-y-2">
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-accent rounded-full {% if langue == 'ar' %}ml-2{% else %}mr-2{% endif %}"></span>
+                                <span>2LE1</span>
+                            </li>
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-accent rounded-full {% if langue == 'ar' %}ml-2{% else %}mr-2{% endif %}"></span>
+                                <span>3LE1</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filière Littérature et Philosophie -->
+            <div class="filiere-card bg-white rounded-lg overflow-hidden border border-gray-100">
+                <div class="bg-gradient-to-r from-pink-600 to-pink-800 p-6 text-white">
+                    <h3 class="text-xl font-bold">
+                        {% if langue == "fr" %}
+                        Filière Littérature et Philosophie
+                        {% elif langue == "en" %}
+                        Literature and Philosophy Department
+                        {% elif langue == "ar" %}
+                        شعبة الآداب والفلسفة
+                        {% endif %}
+                    </h3>
+                    <p class="text-pink-100 mt-2">
+                        {% if langue == "fr" %}
+                        Approfondissement de la culture générale, de l'analyse littéraire et de la réflexion philosophique pour aiguiser l'esprit critique et l'expression.
+                        {% elif langue == "en" %}
+                        In-depth study of general culture, literary analysis and philosophical reflection to sharpen critical thinking and expression.
+                        {% elif langue == "ar" %}
+                        تعمق في الثقافة العامة والتحليل الأدبي والتفكير الفلسفي لشحذ التفكير النقدي والتعبير.
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="p-6">
+                    <button class="accordion-btn flex justify-between items-center w-full text-left font-medium text-primary">
+                        <span>
+                            {% if langue == "fr" %}Classes disponibles{% elif langue == "en" %}Available classes{% elif langue == "ar" %}الأقسام المتاحة{% endif %}
+                        </span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div class="accordion-content">
+                        <ul class="mt-4 space-y-2">
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-accent rounded-full {% if langue == 'ar' %}ml-2{% else %}mr-2{% endif %}"></span>
+                                <span>2LPH1</span>
+                            </li>
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-accent rounded-full {% if langue == 'ar' %}ml-2{% else %}mr-2{% endif %}"></span>
+                                <span>3LPH1</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Accordéon fonctionnel
+        document.querySelectorAll('.accordion-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                const icon = button.querySelector('svg');
+                
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                    icon.style.transform = 'rotate(0deg)';
+                } else {
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                    icon.style.transform = 'rotate(180deg)';
+                }
+            });
+        });
+
+        // Fonction de recherche
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const filieres = document.querySelectorAll('.filiere-card');
+            
+            filieres.forEach(filiere => {
+                const title = filiere.querySelector('h3').textContent.toLowerCase();
+                const description = filiere.querySelector('p').textContent.toLowerCase();
+                if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                    filiere.style.display = 'block';
+                } else {
+                    filiere.style.display = 'none';
+                }
+            });
+        });
+
+        // Fonction de tri
+        document.getElementById('sortSelect').addEventListener('change', function() {
+            const container = document.getElementById('filieresContainer');
+            const filieres = Array.from(document.querySelectorAll('.filiere-card'));
+            
+            filieres.sort((a, b) => {
+                const titleA = a.querySelector('h3').textContent;
+                const titleB = b.querySelector('h3').textContent;
+                
+                if (this.value === 'name-asc') {
+                    return titleA.localeCompare(titleB);
+                } else {
+                    return titleB.localeCompare(titleA);
+                }
+            });
+            
+            filieres.forEach(filiere => container.appendChild(filiere));
+        });
+    </script>
+{% endblock body01 %}

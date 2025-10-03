@@ -13,6 +13,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <script src="https://cdn.tailwindcss.com"></script>
+
+    {% if langue == "ar" %}
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    {% endif %}
+
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
 </head>
 <body>
 
@@ -3335,6 +3343,7 @@
             appearance: none;
             -webkit-appearance: none;
             -moz-appearance: none;
+            border:1px azure solid;
         }
 
         .slctlangue010::-ms-expand {
@@ -4981,9 +4990,9 @@
                 {% endif %}
             </a>
             <a href="http://lyceesal.onrender.com/Table_time/" >
-                {% if langue == "fr" %}Création Emplois du Temps
-                {% elif langue == "en" %}Timetable Creation
-                {% elif langue == "ar" %}إنشاء الجداول الزمنية
+                {% if langue == "fr" %}Publication Emplois du Temps
+                {% elif langue == "en" %}Timetable Posting
+                {% elif langue == "ar" %}نشر الجداول الزمنية
                 {% endif %}
             </a>
             
@@ -5010,7 +5019,7 @@
             </a>
 
             
-            <div class="btnnav01"><i class="fa-solid fa-angle-down"></i></div>
+            <div class="btnnav01"><i class="fa-solid fa-angle-down" style="color:azure;"></i></div>
     </div>
         
 
@@ -5023,10 +5032,6 @@
                 {% endif %}
        </h3>
 
-                
-
-
-        
 
         <div class="divnavnrml">
             <a href="http://lyceesal.onrender.com" >
@@ -5048,9 +5053,9 @@
                 {% endif %}
             </a>  
             <a href="http://lyceesal.onrender.com/Certificat/" >
-                {% if langue == "fr" %}Demande Certificat Absence
-                {% elif langue == "en" %}Request Absence Certificate
-                {% elif langue == "ar" %}طلب شهادة غياب
+                {% if langue == "fr" %}Autorisation d'Absence
+                {% elif langue == "en" %}Absence authorization
+                {% elif langue == "ar" %}طلب ادن غياب
                 {% endif %}
             </a>
             <a href="http://lyceesal.onrender.com/Pub/" >
@@ -5230,14 +5235,22 @@
                 {% endif %}
             </h3>
             <ul>
-                <li>1ST</li>
-                <li>1LT</li>
-                <li>2M/3M</li>
-                <li>2SE/3SE</li>
-                <li>2MT/3MT</li>
-                <li>2GE/3GE</li>
-                <li>2LE/3LE</li>
-                <li>2LPH/3LPH</li>
+                <a href="http://lyceesal.onrender.com/filiere/">
+                <li>1ST</li></a>
+                <a href="http://lyceesal.onrender.com/filiere/">
+                <li>1LT</li></a>
+                <a href="http://lyceesal.onrender.com/filiere/">
+                <li>2M/3M</li></a>
+                <a href="http://lyceesal.onrender.com/filiere/">
+                <li>2SE/3SE</li></a>
+                <a href="http://lyceesal.onrender.com/filiere/">
+                <li>2MT/3MT</li></a>
+                <a href="http://lyceesal.onrender.com/filiere/">
+                <li>2GE/3GE</li></a>
+                <a href="http://lyceesal.onrender.com/filiere/">
+                <li>2LE/3LE</li></a>
+                <a href="http://lyceesal.onrender.com/filiere/">
+                <li>2LPH/3LPH</li></a>
             </ul>
         </div>
 

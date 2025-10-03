@@ -1,9 +1,9 @@
 {% extends "base01.html" %}
 
 {% block title01 %}
-    {% if langue == "fr" %}Demande de certificat reçu
-    {% elif langue == "en" %}Certificate Request Received
-    {% elif langue == "ar" %}تم استلام طلب الشهادة
+    {% if langue == "fr" %}Demande d'autorisation reçu
+    {% elif langue == "en" %} Request authorization Received
+    {% elif langue == "ar" %}تم استلام طلب الادن
     {% endif %}
 {% endblock title01 %}
 
@@ -19,14 +19,14 @@
             <div class="certif-message">
                 <i class="fas fa-folder-open"></i>
                 <h1>
-                    {% if langue == "fr" %}Aucune demande de certificat
-                    {% elif langue == "en" %}No certificate request
+                    {% if langue == "fr" %}Aucune demande d'autorisation
+                    {% elif langue == "en" %}No authorization request
                     {% elif langue == "ar" %}لا توجد طلبات شهادات
                     {% endif %}
                 </h1>
                 <p>
-                    {% if langue == "fr" %}Il n'y a actuellement aucune demande de certificat d'absence.
-                    {% elif langue == "en" %}There are currently no absence certificate requests.
+                    {% if langue == "fr" %}Il n'y a actuellement aucune demande d'autorisation d'absence.
+                    {% elif langue == "en" %}There are currently no absence authorization requests.
                     {% elif langue == "ar" %}لا توجد حالياً أي طلبات للحصول على شهادات غياب.
                     {% endif %}
                 </p>

@@ -47,6 +47,11 @@ def mention(request):
     return render(request ,'mention.html' ,{'langue':langue,})
 
 
+def filiere(request):
+    langue = langue_fonction(request)
+    return ruder(request,'filiere.html',{'langue':langue,})
+
+
 def test_storage(request):
     try:
         from django.core.files.storage import default_storage

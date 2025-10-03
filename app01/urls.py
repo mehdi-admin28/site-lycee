@@ -33,5 +33,7 @@ urlpatterns = [
     path("condition/", views.condition ,name='condition_name'),
     path("mention/", views.mention ,name='mention_name'),
     path("politique/", views.politique ,name='politique_name'),
+    
+    path("filiere/", views.filiere ,name='filiere'),
 ]
   
