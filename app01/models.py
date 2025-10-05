@@ -58,7 +58,7 @@ class certificat(models.Model):
 
 class pub0(models.Model):
     nom_complet = models.CharField(max_length=23)
-    pub = models.ImageField()
+    pub = models.ImageField(max_length=255)
     message = models.TextField()
     dcr = models.CharField(max_length=3,default="non")
     
@@ -84,7 +84,7 @@ class Groupe(models.Model):
     
 class Message(models.Model):
     text = models.TextField()
-    image = models.ImageField(blank=True, null=True)
+    image = models.ImageField(blank=True, null=True, max_length=255)
     sender = models.ForeignKey(User, on_delete=models.CASCADE)
     date_creation = models.DateTimeField(auto_now_add=True)
     groupe = models.ForeignKey(Groupe, on_delete=models.CASCADE, related_name="messages")
