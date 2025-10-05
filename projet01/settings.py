@@ -81,7 +81,7 @@ DATABASES = {
         'NAME': 'lyceesal$default',       # ← Nom de la base (ex: mehdi$default)
         'USER': 'lyceesal',               # ← Ton nom d’utilisateur (ex: mehdi)
         'PASSWORD': 'impossible0',  # ← Mot de passe MySQL
-        'HOST': 'ton_nom.mysql.pythonanywhere-services.com',  # ← hôte affiché dans l’onglet
+        'HOST': 'lyceesal.mysql.pythonanywhere-services.com',  # ← hôte affiché dans l’onglet
         'PORT': '3306',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
