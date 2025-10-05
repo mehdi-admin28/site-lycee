@@ -12,10 +12,6 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import dj_database_url
 import os
 from pathlib import Path
-# --- Configuration Cloudinary ---
-import cloudinary
-import cloudinary.uploader
-import cloudinary.api
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -31,7 +27,7 @@ SECRET_KEY = 'django-insecure-!g$ozig7)jk#ne)^&x=6+h*_=lv1ct#e8z0ms)i-h1rbyjnxng
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['.onrender.com','127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['.onrender.com','127.0.0.1', 'localhost', 'lyceesal.pythonanywhere.com']
 
 
 # Application definition
@@ -44,9 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app01',
-    'cloudinary',
-    'cloudinary_storage',
-    
 ]
 
 MIDDLEWARE = [
@@ -57,7 +50,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # ✅ ici
 ]
 
 ROOT_URLCONF = 'projet01.urls'
@@ -143,8 +135,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SESSION_COOKIE_AGE = 60*60*24*30
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
-
-
+# media local (option fiable pour un petit site sur plan gratuit)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'   # ou '/home/yourusername/yourproject/media'
+# et utiliser le storage file system par défaut :
+DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
 
 '''
@@ -190,16 +185,3 @@ CACHES = {
         'LOCATION':  os.path.join(BASE_DIR, 'cache'),
     }
 }
-
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
-
-
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'djc8usswc',
-    'API_KEY': '383245593466648',
-    'API_SECRET': 'Bo0ohJ9b2mz_COtcPgxjXqJUp0k',
-}
-
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
