@@ -18,15 +18,15 @@ class Profile(models.Model):
     
 
 class Filiere01(models.Model):
-    filiere = models.TextField(unique=True, default="Suppr_Error")
+    filiere = models.CharField(unique=True, default="Suppr_Error",max_length=110)
     
     
 class classe01(models.Model):
-    classe = models.TextField(unique=True, default="Suppr_Error")
+    classe = models.CharField(unique=True, default="Suppr_Error",max_length=110)
     
     
 class Matiere(models.Model):
-    matiere = models.TextField(default="pas de matiere !")
+    matiere = models.CharField(default="pas de matiere !",max_length=110)
     
 
 class changement_nom_prernom(models.Model):
