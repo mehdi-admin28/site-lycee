@@ -49,7 +49,7 @@ def mention(request):
 
 def filiere(request):
     langue = langue_fonction(request)
-    return ruder(request,'filiere.html',{'langue':langue,})
+    return render(request,'filiere.html',{'langue':langue,})
 
 
 def test_storage(request):
@@ -324,7 +324,7 @@ def table_users(request):
                     user = User.objects.create_user(username=username_eleve, password=mdp_eleve, last_name=ln, first_name=fn)
                     user.profile.classe = cl
                     user.profile.badge = "eleve"
-                    user.profile.password = mdp_eleve
+                    user.profile.password0 = mdp_eleve
                     user.profile.save()
                     # Invalider le cache après modification
                     cache.delete('all_users')
@@ -356,7 +356,7 @@ def table_users(request):
                 if not user0:
                     user = User.objects.create_user(username=username_prof, password=mdp_prof, last_name=ln, first_name=fn)
                     user.profile.badge = "prof"
-                    user.profile.password = mdp_prof
+                    user.profile.password0 = mdp_prof
                     user.profile.matiere = mtr_selected
                     user.profile.save()
                     cache.delete('all_users')
@@ -387,7 +387,7 @@ def table_users(request):
                 if not user0:
                     user = User.objects.create_user(username=username_adm, password=mdp_adm, first_name=fn, last_name=ln)
                     user.profile.badge = "admin"
-                    user.profile.password = mdp_adm
+                    user.profile.password0 = mdp_adm
                     user.profile.save()
                     cache.delete('all_users')
                 else:
@@ -402,12 +402,12 @@ def table_users(request):
             
         elif form == "securiser admin":
             for i in User.objects.filter(profile__badge="admin"):
-                i.profile.password = "security"
+                i.profile.password0 = "security"
                 i.profile.save()
                 
         elif form == "securiser":
             for i in User.objects.all():
-                i.profile.password = "security"
+                i.profile.password0 = "security"
                 i.profile.save()
             
     nomjjj = ""
@@ -557,7 +557,7 @@ def settings_admin(request):
             for mtr in liste_matiere:
                 tgpg += f"============<( 💎 PROF - {mtr} 💎 )>================\n\n"
                 for i_un in User.objects.filter(profile__badge="prof",profile__matiere=mtr):
-                    x = i_un.profile.password
+                    x = i_un.profile.password0
                     y = i_un.username
                     
                     if sur == False:
@@ -573,7 +573,7 @@ def settings_admin(request):
             for mtr in liste_classe:
                 tgpg += f"===========<( 💎 ELEVE - {mtr} 💎 )>===========\n\n"
                 for i_deux in User.objects.filter(profile__badge="eleve",profile__classe=mtr):
-                    x = i_deux.profile.password
+                    x = i_deux.profile.password0
                     y = i_deux.username
                     
                     if sur == False:
@@ -652,7 +652,7 @@ def sign_in_many(request):
                             user0 = User.objects.create_user(username=t, first_name=y, last_name=x, password=p)
                             user0.profile.badge = "eleve"
                             user0.profile.classe = z
-                            user0.profile.password = p
+                            user0.profile.password0 = p
                             user0.profile.save()
                         cache.delete('all_users')
             except:
@@ -687,7 +687,7 @@ def sign_in_many(request):
                             user0 = User.objects.create_user(username=t, first_name=y, last_name=x, password=p)
                             user0.profile.badge = "prof"
                             user0.profile.matiere = z
-                            user0.profile.password = p
+                            user0.profile.password0 = p
                             user0.profile.save()
                         cache.delete('all_users')
                         cache.delete('prof_users')

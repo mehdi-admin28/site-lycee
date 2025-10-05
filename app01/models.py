@@ -6,7 +6,7 @@ import os
 class Profile(models.Model):
     badge = models.CharField(max_length=14,default="pas de badge !")
     classe = models.TextField(default="pas de classe !")
-    password = models.TextField(default="pas de mot de passe !")
+    password0 = models.TextField(default="pas de mot de passe !")
     matiere = models.TextField(default="pas de classe !")
     heure_de_reception = models.TextField(default=" Null (not defined yet) ")
     
