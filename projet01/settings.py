@@ -86,8 +86,8 @@ DATABASES = {
         'HOST': 'lyceesal.mysql.pythonanywhere-services.com',  # ← hôte affiché dans l’onglet
         'PORT': '3306',
         'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        },
+            'charset': 'utf8mb4',
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",},
     }
 }
 '''
